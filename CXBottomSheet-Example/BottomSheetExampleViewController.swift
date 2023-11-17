@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CXBottomSheet
 
 class BottomSheetExampleViewController: UIViewController {
     
