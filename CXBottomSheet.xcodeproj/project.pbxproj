@@ -20,6 +20,11 @@
 		C4AC38F92B072928009AF23B /* CXBottomSheetStop.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC38F82B072928009AF23B /* CXBottomSheetStop.swift */; };
 		C4AC38FB2B072A5E009AF23B /* CXBottomSheetContentProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC38FA2B072A5E009AF23B /* CXBottomSheetContentProtocol.swift */; };
 		C4AC38FE2B073270009AF23B /* CXBottomSheetScrollContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC38FD2B073270009AF23B /* CXBottomSheetScrollContext.swift */; };
+		C4AC39002B073A79009AF23B /* CXBottomSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC38FF2B073A79009AF23B /* CXBottomSheetController.swift */; };
+		C4AC39062B073DEB009AF23B /* CXBottomSheetDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC39052B073DEB009AF23B /* CXBottomSheetDelegate.swift */; };
+		C4AC39082B07B2E2009AF23B /* CXBottomSheetStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC39072B07B2E2009AF23B /* CXBottomSheetStyle.swift */; };
+		C4AC390A2B07C7BC009AF23B /* CXBottomSheetDefaultStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC39092B07C7BC009AF23B /* CXBottomSheetDefaultStyle.swift */; };
+		C4AC390D2B07CF17009AF23B /* CXBottomSheetInternalStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC390C2B07CF17009AF23B /* CXBottomSheetInternalStyle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +53,11 @@
 		C4AC38F82B072928009AF23B /* CXBottomSheetStop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CXBottomSheetStop.swift; sourceTree = "<group>"; };
 		C4AC38FA2B072A5E009AF23B /* CXBottomSheetContentProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CXBottomSheetContentProtocol.swift; sourceTree = "<group>"; };
 		C4AC38FD2B073270009AF23B /* CXBottomSheetScrollContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CXBottomSheetScrollContext.swift; sourceTree = "<group>"; };
+		C4AC38FF2B073A79009AF23B /* CXBottomSheetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CXBottomSheetController.swift; sourceTree = "<group>"; };
+		C4AC39052B073DEB009AF23B /* CXBottomSheetDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CXBottomSheetDelegate.swift; sourceTree = "<group>"; };
+		C4AC39072B07B2E2009AF23B /* CXBottomSheetStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CXBottomSheetStyle.swift; sourceTree = "<group>"; };
+		C4AC39092B07C7BC009AF23B /* CXBottomSheetDefaultStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CXBottomSheetDefaultStyle.swift; sourceTree = "<group>"; };
+		C4AC390C2B07CF17009AF23B /* CXBottomSheetInternalStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CXBottomSheetInternalStyle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,10 +110,12 @@
 		C4A7DBBA2B0722E5001E4A90 /* CXBottomSheet */ = {
 			isa = PBXGroup;
 			children = (
+				C4AC390B2B07CF09009AF23B /* Styles */,
 				C4AC38FC2B07325B009AF23B /* Core */,
 				C4AC38F52B072838009AF23B /* Protocols */,
 				C4A7DBBB2B0722E5001E4A90 /* CXBottomSheet.h */,
 				C4A7DBBC2B0722E5001E4A90 /* CXBottomSheet.docc */,
+				C4AC38FF2B073A79009AF23B /* CXBottomSheetController.swift */,
 			);
 			path = CXBottomSheet;
 			sourceTree = "<group>";
@@ -134,6 +146,7 @@
 				C4AC38F62B072870009AF23B /* CXBottomSheetProtocol.swift */,
 				C4AC38F82B072928009AF23B /* CXBottomSheetStop.swift */,
 				C4AC38FA2B072A5E009AF23B /* CXBottomSheetContentProtocol.swift */,
+				C4AC39052B073DEB009AF23B /* CXBottomSheetDelegate.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -144,6 +157,16 @@
 				C4AC38FD2B073270009AF23B /* CXBottomSheetScrollContext.swift */,
 			);
 			path = Core;
+			sourceTree = "<group>";
+		};
+		C4AC390B2B07CF09009AF23B /* Styles */ = {
+			isa = PBXGroup;
+			children = (
+				C4AC39072B07B2E2009AF23B /* CXBottomSheetStyle.swift */,
+				C4AC39092B07C7BC009AF23B /* CXBottomSheetDefaultStyle.swift */,
+				C4AC390C2B07CF17009AF23B /* CXBottomSheetInternalStyle.swift */,
+			);
+			path = Styles;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -293,8 +316,13 @@
 			files = (
 				C4AC38FE2B073270009AF23B /* CXBottomSheetScrollContext.swift in Sources */,
 				C4A7DBBD2B0722E5001E4A90 /* CXBottomSheet.docc in Sources */,
+				C4AC39062B073DEB009AF23B /* CXBottomSheetDelegate.swift in Sources */,
 				C4AC38F92B072928009AF23B /* CXBottomSheetStop.swift in Sources */,
+				C4AC39002B073A79009AF23B /* CXBottomSheetController.swift in Sources */,
+				C4AC390D2B07CF17009AF23B /* CXBottomSheetInternalStyle.swift in Sources */,
+				C4AC390A2B07C7BC009AF23B /* CXBottomSheetDefaultStyle.swift in Sources */,
 				C4AC38F72B072870009AF23B /* CXBottomSheetProtocol.swift in Sources */,
+				C4AC39082B07B2E2009AF23B /* CXBottomSheetStyle.swift in Sources */,
 				C4AC38FB2B072A5E009AF23B /* CXBottomSheetContentProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

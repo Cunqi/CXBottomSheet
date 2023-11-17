@@ -14,7 +14,6 @@ import UIKit
 public protocol CXBottomSheetProtocol: UIViewController, UIScrollViewDelegate {
 
     // MARK: - Properties
-
     
     /// Bottom sheet current stop position
     var currentStop: CXBottomSheetStop { get }
@@ -31,6 +30,9 @@ public protocol CXBottomSheetProtocol: UIViewController, UIScrollViewDelegate {
     /// If bottom sheet is currently visible, a bottom sheet is considered
     /// visible only if `currentStop` is not `closed`
     var isVisible: Bool { get }
+    
+    /// Delegate of handling bottom sheet display and behaviors
+    var delegate: CXBottomSheetDelegate? { get }
 
     // MARK: - Public methods
     

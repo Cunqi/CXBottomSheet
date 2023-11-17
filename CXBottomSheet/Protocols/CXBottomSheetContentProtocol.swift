@@ -21,7 +21,7 @@ public protocol CXBottomSheetContentProtocol: UIViewController {
     /// As bottom sheet content, sometimes it needs to react with bottom sheet stop change, this
     /// delegate method provides a place to let content handle such changes.
     /// - Parameters:
-    ///   - bottomSheet: an instance of `CXBottomSheetProtocol`
+    ///   - bottomSheet: bottom sheet which sends out the stop change
     ///   - fromStop: the previous bottom sheet stop
     ///   - toStop: the current bottom sheet stop
     func bottomSheet(didMove bottomSheet: CXBottomSheetProtocol,
