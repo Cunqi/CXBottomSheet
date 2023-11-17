@@ -190,7 +190,7 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
         NSLayoutConstraint.activate([topPositionConstraint])
     }
 
-    private func animateStopChange(to stop: CXBottomSheetStop) {
+    private func animateStopChange(to stop: CXBottomSheetStop, isBouncingBack: Bool = false) {
         let finalHeight = stop.makeHeight(with: availableHeight)
         let shadowOpacity: Float = CXBottomSheetStop.closed.value == finalHeight ? 0 : 1
         UIView.animate(
@@ -199,18 +199,31 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
             usingSpringWithDamping: style.internal.springDamping,
             initialSpringVelocity: style.internal.initialSpringVelocity,
             animations: { [weak self] in
-                self?.currentHeight = finalHeight
-                self?.view.layer.shadowOpacity = shadowOpacity
-                self?.view.superview?.layoutIfNeeded()
+                guard let self = self else {
+                    return
+                }
+                self.currentHeight = finalHeight
+                self.view.layer.shadowOpacity = shadowOpacity
+                self.delegate?.bottomSheet(animateAlongWith: self, fromStop: self.currentStop, toStop: stop)
+                self.view.superview?.layoutIfNeeded()
             }, completion: { [weak self] isFinished in
                 if isFinished {
-                    self?.updateCurrentStop(to: stop)
+                    self?.completeAnimation(to: stop, isBouncingBack: isBouncingBack)
                 }
             })
     }
-
-    private func panBottomSheet(to stop: CXBottomSheetStop) {
-        animateStopChange(to: stop)
+    
+    private func completeAnimation(to stop: CXBottomSheetStop, isBouncingBack: Bool) {
+        guard isBouncingBack else {
+            updateCurrentStop(to: stop)
+            return
+        }
+        
+        if currentStop == maxStop {
+            delegate?.bottomSheet(didBounceBack: self, toMaxStop: currentStop)
+        } else if currentStop == minStop {
+            delegate?.bottomSheet(didBounceBack: self, toMinStop: currentStop)
+        }
     }
 
     @objc
@@ -231,8 +244,9 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
             scrollContext.updateYPosition(with: currentYPosition)
             currentHeight = scrollContext.makeFinalPanPosition()
         case .ended:
+            let isBouncingBack = scrollContext.isBouncingBack(with: currentHeight)
             let targetStop = scrollContext.fetchClosetStop(with: currentHeight) ?? currentStop
-            panBottomSheet(to: targetStop)
+            animateStopChange(to: targetStop, isBouncingBack: isBouncingBack)
         default:
             break
         }

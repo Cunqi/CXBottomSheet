@@ -54,4 +54,12 @@ extension BottomSheetExampleViewController: CXBottomSheetDelegate {
     func bottomSheet(availableHeightFor bottomSheet: CXBottomSheet.CXBottomSheetProtocol) -> CGFloat {
         return view.bounds.height
     }
+    
+    func bottomSheet(didBounceBack bottomSheet: CXBottomSheetProtocol, toMaxStop stop: CXBottomSheetStop) {
+        print("[BottomSheet] Bounce back to max stop \(stop)")
+    }
+    
+    func bottomSheet(didBounceBack bottomSheet: CXBottomSheetProtocol, toMinStop stop: CXBottomSheetStop) {
+        print("[BottomSheet] Bounce back to min stop \(stop)")
+    }
 }

@@ -137,6 +137,10 @@ class CXBottomSheetScrollContext {
             return finalHeight
         }
     }
+    
+    func isBouncingBack(with height: CGFloat) -> Bool {
+        return height > (maxHeight ?? height) || height < (minHeight ?? height)
+    }
 
     func updateYPosition(with yPosition: CGFloat) {
         self.yPosition = yPosition
