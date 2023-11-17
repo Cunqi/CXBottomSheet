@@ -29,7 +29,7 @@ public class CXBottomSheetDefaultStyle: CXBottomSheetStyle, CXBottomSheetInterna
     
     let shadowFrameHeight: CGFloat = 24.0
     
-    let gripBarSize: CGSize = CGSize(width: 64.0, height: 4.0)
+    let gripBarSize: CGSize = CGSize(width: 48.0, height: 4.0)
     
     let gripBarVerticalPadding: CGFloat = 8.0
     

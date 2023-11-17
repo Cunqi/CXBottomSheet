@@ -25,6 +25,9 @@
 		C4AC39082B07B2E2009AF23B /* CXBottomSheetStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC39072B07B2E2009AF23B /* CXBottomSheetStyle.swift */; };
 		C4AC390A2B07C7BC009AF23B /* CXBottomSheetDefaultStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC39092B07C7BC009AF23B /* CXBottomSheetDefaultStyle.swift */; };
 		C4AC390D2B07CF17009AF23B /* CXBottomSheetInternalStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC390C2B07CF17009AF23B /* CXBottomSheetInternalStyle.swift */; };
+		C4AC390F2B07D8E4009AF23B /* CXBottomSheet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4A7DBB82B0722E5001E4A90 /* CXBottomSheet.framework */; };
+		C4AC39102B07D8E4009AF23B /* CXBottomSheet.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C4A7DBB82B0722E5001E4A90 /* CXBottomSheet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C4AC39152B07E2D6009AF23B /* BottomSheetExampleSimpleContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC39142B07E2D6009AF23B /* BottomSheetExampleSimpleContentViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,7 +38,28 @@
 			remoteGlobalIDString = C4A7DBB72B0722E5001E4A90;
 			remoteInfo = CXBottomSheet;
 		};
+		C4AC39112B07D8E4009AF23B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C4A7DBAF2B0722E5001E4A90 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C4A7DBB72B0722E5001E4A90;
+			remoteInfo = CXBottomSheet;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C4AC39132B07D8E4009AF23B /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C4AC39102B07D8E4009AF23B /* CXBottomSheet.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		C4A7DBB82B0722E5001E4A90 /* CXBottomSheet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CXBottomSheet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -58,6 +82,7 @@
 		C4AC39072B07B2E2009AF23B /* CXBottomSheetStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CXBottomSheetStyle.swift; sourceTree = "<group>"; };
 		C4AC39092B07C7BC009AF23B /* CXBottomSheetDefaultStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CXBottomSheetDefaultStyle.swift; sourceTree = "<group>"; };
 		C4AC390C2B07CF17009AF23B /* CXBottomSheetInternalStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CXBottomSheetInternalStyle.swift; sourceTree = "<group>"; };
+		C4AC39142B07E2D6009AF23B /* BottomSheetExampleSimpleContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetExampleSimpleContentViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4AC390F2B07D8E4009AF23B /* CXBottomSheet.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,6 +120,7 @@
 				C4A7DBC62B0722E5001E4A90 /* CXBottomSheetTests */,
 				C4AC38E02B072503009AF23B /* CXBottomSheet-Example */,
 				C4A7DBB92B0722E5001E4A90 /* Products */,
+				C4AC390E2B07D8E4009AF23B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -136,6 +163,7 @@
 				C4AC38EA2B072504009AF23B /* Assets.xcassets */,
 				C4AC38EC2B072504009AF23B /* LaunchScreen.storyboard */,
 				C4AC38EF2B072504009AF23B /* Info.plist */,
+				C4AC39142B07E2D6009AF23B /* BottomSheetExampleSimpleContentViewController.swift */,
 			);
 			path = "CXBottomSheet-Example";
 			sourceTree = "<group>";
@@ -167,6 +195,13 @@
 				C4AC390C2B07CF17009AF23B /* CXBottomSheetInternalStyle.swift */,
 			);
 			path = Styles;
+			sourceTree = "<group>";
+		};
+		C4AC390E2B07D8E4009AF23B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -229,10 +264,12 @@
 				C4AC38DB2B072503009AF23B /* Sources */,
 				C4AC38DC2B072503009AF23B /* Frameworks */,
 				C4AC38DD2B072503009AF23B /* Resources */,
+				C4AC39132B07D8E4009AF23B /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C4AC39122B07D8E4009AF23B /* PBXTargetDependency */,
 			);
 			name = "CXBottomSheet-Example";
 			productName = "CXBottomSheet-Example";
@@ -340,6 +377,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4AC38F42B07266B009AF23B /* BottomSheetExampleViewController.swift in Sources */,
+				C4AC39152B07E2D6009AF23B /* BottomSheetExampleSimpleContentViewController.swift in Sources */,
 				C4AC38E22B072503009AF23B /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -351,6 +389,11 @@
 			isa = PBXTargetDependency;
 			target = C4A7DBB72B0722E5001E4A90 /* CXBottomSheet */;
 			targetProxy = C4A7DBC42B0722E5001E4A90 /* PBXContainerItemProxy */;
+		};
+		C4AC39122B07D8E4009AF23B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C4A7DBB72B0722E5001E4A90 /* CXBottomSheet */;
+			targetProxy = C4AC39112B07D8E4009AF23B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

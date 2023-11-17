@@ -89,9 +89,12 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
         contentController.isNavigationBarHidden ? 0 : contentController.navigationBar.frame.height
     }
     
+    private var gripBarHeight: CGFloat {
+        style.isGripBarHidden ? 0 : style.internal.gripBarSize.height + 2 * style.internal.gripBarVerticalPadding
+    }
+    
     private var topBarHeight: CGFloat {
-        let gripBarHeight = style.isGripBarHidden ? 0 : style.internal.gripBarSize.height
-        return gripBarHeight + navigationBarHeight
+        gripBarHeight + navigationBarHeight
     }
 
     // MARK: - Initializer
@@ -146,6 +149,7 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
     // MARK: - Private methods
 
     private func stylize() {
+        view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         view.layer.cornerRadius = style.cornerRadius
         view.backgroundColor = style.backgroundColor
@@ -179,9 +183,11 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
         }
         
         contentController.view.snp.makeConstraints { make in
-            make.top.equalTo(gripBar.snp.bottom).inset(style.isGripBarHidden ? 0 : style.internal.gripBarVerticalPadding)
+            make.top.equalTo(view).inset(gripBarHeight)
             make.leading.trailing.bottom.equalTo(view)
         }
+        
+        NSLayoutConstraint.activate([topPositionConstraint])
     }
 
     private func animateStopChange(to stop: CXBottomSheetStop) {

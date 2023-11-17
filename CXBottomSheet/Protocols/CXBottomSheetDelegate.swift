@@ -25,7 +25,7 @@ public protocol CXBottomSheetDelegate: AnyObject {
 
 // MARK: - Optional methods
 
-extension CXBottomSheetDelegate {
+public extension CXBottomSheetDelegate {
     func bottomSheet(didMove bottomSheet: CXBottomSheetProtocol, fromStop: CXBottomSheetStop, toStop: CXBottomSheetStop) {}
     
     /// Ask delegate to handle any UI updates along with bottom sheet animation
