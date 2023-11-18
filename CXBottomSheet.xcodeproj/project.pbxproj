@@ -159,11 +159,11 @@
 			isa = PBXGroup;
 			children = (
 				C4AC38F32B07266B009AF23B /* BottomSheetExampleViewController.swift */,
+				C4AC39142B07E2D6009AF23B /* BottomSheetExampleSimpleContentViewController.swift */,
 				C4AC38E12B072503009AF23B /* AppDelegate.swift */,
 				C4AC38EA2B072504009AF23B /* Assets.xcassets */,
 				C4AC38EC2B072504009AF23B /* LaunchScreen.storyboard */,
 				C4AC38EF2B072504009AF23B /* Info.plist */,
-				C4AC39142B07E2D6009AF23B /* BottomSheetExampleSimpleContentViewController.swift */,
 			);
 			path = "CXBottomSheet-Example";
 			sourceTree = "<group>";

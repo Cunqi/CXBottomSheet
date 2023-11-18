@@ -23,7 +23,6 @@ class BottomSheetExampleSimpleContentViewController: UIViewController, CXBottomS
     }
     
     func bottomSheet(didMove bottomSheet: CXBottomSheetProtocol, fromStop: CXBottomSheetStop, toStop: CXBottomSheetStop) {
-        print("View size \(view.bounds)")
     }
     
 }
