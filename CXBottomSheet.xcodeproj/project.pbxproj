@@ -15,7 +15,7 @@
 		C4AC38E22B072503009AF23B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC38E12B072503009AF23B /* AppDelegate.swift */; };
 		C4AC38EB2B072504009AF23B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4AC38EA2B072504009AF23B /* Assets.xcassets */; };
 		C4AC38EE2B072504009AF23B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4AC38EC2B072504009AF23B /* LaunchScreen.storyboard */; };
-		C4AC38F42B07266B009AF23B /* BottomSheetExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC38F32B07266B009AF23B /* BottomSheetExampleViewController.swift */; };
+		C4AC38F42B07266B009AF23B /* BottomSheetExampleContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC38F32B07266B009AF23B /* BottomSheetExampleContainerViewController.swift */; };
 		C4AC38F72B072870009AF23B /* CXBottomSheetProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC38F62B072870009AF23B /* CXBottomSheetProtocol.swift */; };
 		C4AC38F92B072928009AF23B /* CXBottomSheetStop.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC38F82B072928009AF23B /* CXBottomSheetStop.swift */; };
 		C4AC38FB2B072A5E009AF23B /* CXBottomSheetContentProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC38FA2B072A5E009AF23B /* CXBottomSheetContentProtocol.swift */; };
@@ -28,6 +28,7 @@
 		C4AC390F2B07D8E4009AF23B /* CXBottomSheet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4A7DBB82B0722E5001E4A90 /* CXBottomSheet.framework */; };
 		C4AC39102B07D8E4009AF23B /* CXBottomSheet.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C4A7DBB82B0722E5001E4A90 /* CXBottomSheet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C4AC39152B07E2D6009AF23B /* BottomSheetExampleSimpleContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC39142B07E2D6009AF23B /* BottomSheetExampleSimpleContentViewController.swift */; };
+		C4AC39172B092505009AF23B /* BottomSheetExampleListContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC39162B092505009AF23B /* BottomSheetExampleListContentViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,7 +73,7 @@
 		C4AC38EA2B072504009AF23B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C4AC38ED2B072504009AF23B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C4AC38EF2B072504009AF23B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C4AC38F32B07266B009AF23B /* BottomSheetExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetExampleViewController.swift; sourceTree = "<group>"; };
+		C4AC38F32B07266B009AF23B /* BottomSheetExampleContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetExampleContainerViewController.swift; sourceTree = "<group>"; };
 		C4AC38F62B072870009AF23B /* CXBottomSheetProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CXBottomSheetProtocol.swift; sourceTree = "<group>"; };
 		C4AC38F82B072928009AF23B /* CXBottomSheetStop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CXBottomSheetStop.swift; sourceTree = "<group>"; };
 		C4AC38FA2B072A5E009AF23B /* CXBottomSheetContentProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CXBottomSheetContentProtocol.swift; sourceTree = "<group>"; };
@@ -83,6 +84,7 @@
 		C4AC39092B07C7BC009AF23B /* CXBottomSheetDefaultStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CXBottomSheetDefaultStyle.swift; sourceTree = "<group>"; };
 		C4AC390C2B07CF17009AF23B /* CXBottomSheetInternalStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CXBottomSheetInternalStyle.swift; sourceTree = "<group>"; };
 		C4AC39142B07E2D6009AF23B /* BottomSheetExampleSimpleContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetExampleSimpleContentViewController.swift; sourceTree = "<group>"; };
+		C4AC39162B092505009AF23B /* BottomSheetExampleListContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetExampleListContentViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,8 +160,9 @@
 		C4AC38E02B072503009AF23B /* CXBottomSheet-Example */ = {
 			isa = PBXGroup;
 			children = (
-				C4AC38F32B07266B009AF23B /* BottomSheetExampleViewController.swift */,
+				C4AC38F32B07266B009AF23B /* BottomSheetExampleContainerViewController.swift */,
 				C4AC39142B07E2D6009AF23B /* BottomSheetExampleSimpleContentViewController.swift */,
+				C4AC39162B092505009AF23B /* BottomSheetExampleListContentViewController.swift */,
 				C4AC38E12B072503009AF23B /* AppDelegate.swift */,
 				C4AC38EA2B072504009AF23B /* Assets.xcassets */,
 				C4AC38EC2B072504009AF23B /* LaunchScreen.storyboard */,
@@ -376,7 +379,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C4AC38F42B07266B009AF23B /* BottomSheetExampleViewController.swift in Sources */,
+				C4AC39172B092505009AF23B /* BottomSheetExampleListContentViewController.swift in Sources */,
+				C4AC38F42B07266B009AF23B /* BottomSheetExampleContainerViewController.swift in Sources */,
 				C4AC39152B07E2D6009AF23B /* BottomSheetExampleSimpleContentViewController.swift in Sources */,
 				C4AC38E22B072503009AF23B /* AppDelegate.swift in Sources */,
 			);

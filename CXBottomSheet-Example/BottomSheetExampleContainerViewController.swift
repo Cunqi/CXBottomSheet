@@ -1,5 +1,5 @@
 //
-//  BottomSheetExampleViewController.swift
+//  BottomSheetExampleContainerViewController.swift
 //  CXBottomSheet-Example
 //
 //  Created by Cunqi Xiao on 11/16/23.
@@ -8,7 +8,7 @@
 import UIKit
 import CXBottomSheet
 
-class BottomSheetExampleViewController: UIViewController {
+class BottomSheetExampleContainerViewController: UIViewController {
     
     // MARK: - Properties
     
@@ -50,7 +50,7 @@ class BottomSheetExampleViewController: UIViewController {
     }
 }
 
-extension BottomSheetExampleViewController: CXBottomSheetDelegate {
+extension BottomSheetExampleContainerViewController: CXBottomSheetDelegate {
     func bottomSheet(availableHeightFor bottomSheet: CXBottomSheet.CXBottomSheetProtocol) -> CGFloat {
         return view.bounds.height
     }
