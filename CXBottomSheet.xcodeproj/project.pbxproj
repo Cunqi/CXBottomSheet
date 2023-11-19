@@ -29,6 +29,9 @@
 		C4AC39102B07D8E4009AF23B /* CXBottomSheet.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C4A7DBB82B0722E5001E4A90 /* CXBottomSheet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C4AC39152B07E2D6009AF23B /* BottomSheetExampleSimpleContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC39142B07E2D6009AF23B /* BottomSheetExampleSimpleContentViewController.swift */; };
 		C4AC39172B092505009AF23B /* BottomSheetExampleListContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC39162B092505009AF23B /* BottomSheetExampleListContentViewController.swift */; };
+		C4AC39192B0AB885009AF23B /* BottomSheetExampleIntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC39182B0AB885009AF23B /* BottomSheetExampleIntroViewController.swift */; };
+		C4AC391C2B0AB8EA009AF23B /* BottomSheetExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC391B2B0AB8EA009AF23B /* BottomSheetExample.swift */; };
+		C4AC391E2B0ABF6C009AF23B /* BottomSheetExampleSimpleExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC391D2B0ABF6C009AF23B /* BottomSheetExampleSimpleExampleViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +88,9 @@
 		C4AC390C2B07CF17009AF23B /* CXBottomSheetInternalStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CXBottomSheetInternalStyle.swift; sourceTree = "<group>"; };
 		C4AC39142B07E2D6009AF23B /* BottomSheetExampleSimpleContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetExampleSimpleContentViewController.swift; sourceTree = "<group>"; };
 		C4AC39162B092505009AF23B /* BottomSheetExampleListContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetExampleListContentViewController.swift; sourceTree = "<group>"; };
+		C4AC39182B0AB885009AF23B /* BottomSheetExampleIntroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetExampleIntroViewController.swift; sourceTree = "<group>"; };
+		C4AC391B2B0AB8EA009AF23B /* BottomSheetExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetExample.swift; sourceTree = "<group>"; };
+		C4AC391D2B0ABF6C009AF23B /* BottomSheetExampleSimpleExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetExampleSimpleExampleViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +166,9 @@
 		C4AC38E02B072503009AF23B /* CXBottomSheet-Example */ = {
 			isa = PBXGroup;
 			children = (
+				C4AC391A2B0AB8D8009AF23B /* Models */,
+				C4AC39182B0AB885009AF23B /* BottomSheetExampleIntroViewController.swift */,
+				C4AC391D2B0ABF6C009AF23B /* BottomSheetExampleSimpleExampleViewController.swift */,
 				C4AC38F32B07266B009AF23B /* BottomSheetExampleContainerViewController.swift */,
 				C4AC39142B07E2D6009AF23B /* BottomSheetExampleSimpleContentViewController.swift */,
 				C4AC39162B092505009AF23B /* BottomSheetExampleListContentViewController.swift */,
@@ -205,6 +214,14 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C4AC391A2B0AB8D8009AF23B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C4AC391B2B0AB8EA009AF23B /* BottomSheetExample.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -380,8 +397,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4AC39172B092505009AF23B /* BottomSheetExampleListContentViewController.swift in Sources */,
+				C4AC39192B0AB885009AF23B /* BottomSheetExampleIntroViewController.swift in Sources */,
 				C4AC38F42B07266B009AF23B /* BottomSheetExampleContainerViewController.swift in Sources */,
+				C4AC391C2B0AB8EA009AF23B /* BottomSheetExample.swift in Sources */,
 				C4AC39152B07E2D6009AF23B /* BottomSheetExampleSimpleContentViewController.swift in Sources */,
+				C4AC391E2B0ABF6C009AF23B /* BottomSheetExampleSimpleExampleViewController.swift in Sources */,
 				C4AC38E22B072503009AF23B /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

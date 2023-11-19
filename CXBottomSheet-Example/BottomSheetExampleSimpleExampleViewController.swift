@@ -1,29 +1,25 @@
 //
-//  BottomSheetExampleContainerViewController.swift
+//  BottomSheetExampleSimpleExampleViewController.swift
 //  CXBottomSheet-Example
 //
-//  Created by Cunqi Xiao on 11/16/23.
+//  Created by Cunqi Xiao on 11/19/23.
 //
 
 import UIKit
 import CXBottomSheet
 
-class BottomSheetExampleContainerViewController: UIViewController {
+class BottomSheetExampleSimpleExampleViewController: UIViewController {
     
     // MARK: - Properties
     
     private lazy var bottomSheet: CXBottomSheetController = {
-        let stops: [CXBottomSheetStop] = [.percentage(0.15), .percentage(0.45), .fullyExpanded]
+        let stops: [CXBottomSheetStop] = [.percentage(0.15), .percentage(0.45), .percentage(0.8)]
         let bottomSheet = CXBottomSheetController(stops: stops, delegate: self)
         return bottomSheet
     }()
     
     private lazy var simpleBottomSheetContent: CXBottomSheetContentProtocol = {
         return BottomSheetExampleSimpleContentViewController()
-    }()
-    
-    private lazy var listBottomSheetContent: CXBottomSheetContentProtocol = {
-        return BottomSheetExampleListContentViewController()
     }()
     
     // MARK: - Lifecycle
@@ -33,11 +29,7 @@ class BottomSheetExampleContainerViewController: UIViewController {
         
         setupViewsAndLayoutConstraints()
         
-        bottomSheet.setupContent(listBottomSheetContent)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        bottomSheet.setupContent(simpleBottomSheetContent)
         bottomSheet.move(to: bottomSheet.minStop)
     }
     
@@ -54,16 +46,9 @@ class BottomSheetExampleContainerViewController: UIViewController {
     }
 }
 
-extension BottomSheetExampleContainerViewController: CXBottomSheetDelegate {
+extension BottomSheetExampleSimpleExampleViewController: CXBottomSheetDelegate {
     func bottomSheet(availableHeightFor bottomSheet: CXBottomSheet.CXBottomSheetProtocol) -> CGFloat {
         return view.bounds.height
     }
-    
-    func bottomSheet(didBounceBack bottomSheet: CXBottomSheetProtocol, toMaxStop stop: CXBottomSheetStop) {
-        print("[BottomSheet] Bounce back to max stop \(stop)")
-    }
-    
-    func bottomSheet(didBounceBack bottomSheet: CXBottomSheetProtocol, toMinStop stop: CXBottomSheetStop) {
-        print("[BottomSheet] Bounce back to min stop \(stop)")
-    }
 }
+

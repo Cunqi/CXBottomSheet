@@ -45,6 +45,7 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = style.internal.gripBarSize.height / 2.0
         view.backgroundColor = style.internal.gripBarColor
+        view.isHidden = style.isGripBarHidden
         return view
     }()
 
@@ -283,7 +284,7 @@ extension CXBottomSheetController: UIGestureRecognizerDelegate {
         guard let panGestureRecognizer = otherGestureRecognizer as? UIPanGestureRecognizer else {
             return false
         }
-        return panGestureRecognizer.view is UICollectionView
+        return panGestureRecognizer.view is UIScrollView
     }
 }
 
