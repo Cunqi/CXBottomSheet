@@ -14,7 +14,10 @@ class BottomSheetExampleSimpleExampleViewController: UIViewController {
     
     private lazy var bottomSheet: CXBottomSheetController = {
         let stops: [CXBottomSheetStop] = [.percentage(0.15), .percentage(0.45), .percentage(0.8)]
-        let bottomSheet = CXBottomSheetController(stops: stops, delegate: self)
+        let bottomSheet = CXBottomSheetController(
+            stops: stops,
+            content: simpleBottomSheetContent, 
+            delegate: self)
         return bottomSheet
     }()
     
@@ -30,7 +33,7 @@ class BottomSheetExampleSimpleExampleViewController: UIViewController {
         setupViewsAndLayoutConstraints()
         
         bottomSheet.setupContent(simpleBottomSheetContent)
-        bottomSheet.move(to: bottomSheet.minStop)
+        bottomSheet.move(to: bottomSheet.minStop, animated: false)
     }
     
     // MARK: - Private methods

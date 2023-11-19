@@ -38,7 +38,7 @@ class BottomSheetExampleContainerViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        bottomSheet.move(to: bottomSheet.minStop)
+        bottomSheet.move(to: bottomSheet.minStop, animated: true)
     }
     
     // MARK: - Private methods

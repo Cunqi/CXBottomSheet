@@ -57,6 +57,7 @@ public protocol CXBottomSheetProtocol: UIViewController, UIScrollViewDelegate {
 
     /// Move bottom sheet to a given stop
     /// - Parameter stop: A stop we want the bottom sheet to move to
-    func move(to stop: CXBottomSheetStop?)
+    /// - Parameter animated: Enable animation for bottom sheet movement
+    func move(to stop: CXBottomSheetStop?, animated: Bool)
 }
 
