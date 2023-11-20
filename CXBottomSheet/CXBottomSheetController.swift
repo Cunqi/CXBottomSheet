@@ -42,11 +42,9 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
 
     // MARK: - Private lazy properties
     
-    private lazy var gripBar: UIView = {
-        let view = UIView()
+    private lazy var gripBar: CXBottomSheetGripBar = {
+        let view = CXBottomSheetGripBar(with: style.internal)
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = style.internal.gripBarSize.height / 2.0
-        view.backgroundColor = style.internal.gripBarColor
         view.isHidden = style.isGripBarHidden
         return view
     }()
@@ -174,13 +172,13 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
         contentController.didMove(toParent: self)
         
         gripBar.snp.makeConstraints { make in
-            make.size.equalTo(style.isGripBarHidden ? .zero : style.internal.gripBarSize)
-            make.top.equalTo(view).inset(style.isGripBarHidden ? 0 : style.internal.gripBarVerticalPadding)
-            make.centerX.equalTo(view)
+            make.top.leading.trailing.equalTo(view)
+            make.height.equalTo(view).priority(.high)
+            make.height.lessThanOrEqualTo(gripBarHeight).priority(.required)
         }
         
         contentController.view.snp.makeConstraints { make in
-            make.top.equalTo(view).inset(gripBarHeight)
+            make.top.equalTo(gripBar.snp.bottom)
             make.leading.trailing.bottom.equalTo(view)
         }
         

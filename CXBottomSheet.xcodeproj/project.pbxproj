@@ -33,6 +33,7 @@
 		C4AC391C2B0AB8EA009AF23B /* BottomSheetExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC391B2B0AB8EA009AF23B /* BottomSheetExample.swift */; };
 		C4AC391E2B0ABF6C009AF23B /* BottomSheetExampleSimpleExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC391D2B0ABF6C009AF23B /* BottomSheetExampleSimpleExampleViewController.swift */; };
 		C4AC39222B0ACD59009AF23B /* CXBottomSheetContentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC39212B0ACD59009AF23B /* CXBottomSheetContentController.swift */; };
+		C4AC39242B0AD2C5009AF23B /* CXBottomSheetGripBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC39232B0AD2C5009AF23B /* CXBottomSheetGripBar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +94,7 @@
 		C4AC391B2B0AB8EA009AF23B /* BottomSheetExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetExample.swift; sourceTree = "<group>"; };
 		C4AC391D2B0ABF6C009AF23B /* BottomSheetExampleSimpleExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetExampleSimpleExampleViewController.swift; sourceTree = "<group>"; };
 		C4AC39212B0ACD59009AF23B /* CXBottomSheetContentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CXBottomSheetContentController.swift; sourceTree = "<group>"; };
+		C4AC39232B0AD2C5009AF23B /* CXBottomSheetGripBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CXBottomSheetGripBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +200,7 @@
 			children = (
 				C4AC38FD2B073270009AF23B /* CXBottomSheetScrollContext.swift */,
 				C4AC39212B0ACD59009AF23B /* CXBottomSheetContentController.swift */,
+				C4AC39232B0AD2C5009AF23B /* CXBottomSheetGripBar.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -382,6 +385,7 @@
 				C4AC390D2B07CF17009AF23B /* CXBottomSheetInternalStyle.swift in Sources */,
 				C4AC390A2B07C7BC009AF23B /* CXBottomSheetDefaultStyle.swift in Sources */,
 				C4AC39222B0ACD59009AF23B /* CXBottomSheetContentController.swift in Sources */,
+				C4AC39242B0AD2C5009AF23B /* CXBottomSheetGripBar.swift in Sources */,
 				C4AC38F72B072870009AF23B /* CXBottomSheetProtocol.swift in Sources */,
 				C4AC39082B07B2E2009AF23B /* CXBottomSheetStyle.swift in Sources */,
 				C4AC38FB2B072A5E009AF23B /* CXBottomSheetContentProtocol.swift in Sources */,

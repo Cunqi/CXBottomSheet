@@ -31,8 +31,6 @@ class BottomSheetExampleSimpleExampleViewController: UIViewController {
         view.backgroundColor = .white
         
         setupViewsAndLayoutConstraints()
-        
-        bottomSheet.setupContent(simpleBottomSheetContent)
         bottomSheet.move(to: bottomSheet.minStop, animated: false)
     }
     
