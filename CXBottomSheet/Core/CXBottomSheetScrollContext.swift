@@ -16,7 +16,7 @@ class CXBottomSheetScrollContext {
     // MARK: - Constants
     
     /// Bounce factor was used to mimic a bounce animation
-    private static let bounceFactor = 0.066
+    private static let bounceFactor = 0.02
 
     // MARK: - Properties
     

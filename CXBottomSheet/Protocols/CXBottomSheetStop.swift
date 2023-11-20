@@ -67,7 +67,7 @@ public class CXBottomSheetStop {
     public func makeHeight(with availableHeight: CGFloat) -> CGFloat {
         switch type {
         case .fixed:
-            return value
+            return min(value, availableHeight)
         case .percentage:
             return value * availableHeight
         }

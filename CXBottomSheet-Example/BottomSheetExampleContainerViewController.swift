@@ -49,10 +49,12 @@ class BottomSheetExampleContainerViewController: UIViewController {
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         
         setupViewsAndLayoutConstraints()
-        bottomSheet.move(to: bottomSheet.minStop, animated: false)
+        if let minStop = bottomSheet.minStop {
+            bottomSheet.move(to: minStop, animated: false)
+        }
     }
     
     // MARK: - Private methods
