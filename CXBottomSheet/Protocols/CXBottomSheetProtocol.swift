@@ -15,21 +15,33 @@ public protocol CXBottomSheetProtocol: UIViewController, UIScrollViewDelegate {
 
     // MARK: - Properties
     
-    /// Bottom sheet current stop position
-    var currentStop: CXBottomSheetStop { get }
-
     /// All stops that bottom sheet currently supports
     var stops: [CXBottomSheetStop] { get }
+    
+    /// Bottom sheet current stop position
+    var currentStop: CXBottomSheetStop { get }
+    
+    /// Bottom sheet current stop height
+    var currentStopHeight: CGFloat { get }
 
     /// The stop which currently has highest height
     var maxStop: CXBottomSheetStop? { get }
+    
+    /// Bottom sheet max stop height
+    var maxStopHeight: CGFloat { get }
 
     /// The stop which currently has lowest height
     var minStop: CXBottomSheetStop? { get }
     
+    /// Bottom sheet min stop height
+    var minStopHeight: CGFloat { get }
+    
     /// If bottom sheet is currently visible, a bottom sheet is considered
     /// visible only if `currentStop` is not `closed`
     var isVisible: Bool { get }
+    
+    /// Flag if bottom sheet is able to response any user interactions
+    var isUserInteractionEnabled: Bool { get set }
     
     /// Delegate of handling bottom sheet display and behaviors
     var delegate: CXBottomSheetDelegate? { get }

@@ -17,7 +17,8 @@ class BottomSheetExampleIntroViewController: UITableViewController {
     
     private let examples: [BottomSheetExample] = [
         .simpleContentExample,
-        .listContentExample
+        .listContentExample,
+        .slackInputContentExample
     ]
     
     // MARK: - Lifecycles
@@ -54,9 +55,21 @@ class BottomSheetExampleIntroViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let example = examples[indexPath.row]
-        let viewController = example.destinationMaker()
-        viewController.title = example.name
-        navigationController?.pushViewController(viewController, animated: true)
+        
+        if example == .slackInputContentExample {
+            let containerViewController = BottomSheetExampleSlackInputContainerViewController(
+                content: example.contentMaker(),
+                introduction: example.introducation)
+            containerViewController.title = example.name
+            navigationController?.pushViewController(containerViewController, animated: true)
+            return
+        }
+        
+        let containerViewController = BottomSheetExampleContainerViewController(
+            content: example.contentMaker(), 
+            introduction: example.introducation)
+        containerViewController.title = example.name
+        navigationController?.pushViewController(containerViewController, animated: true)
     }
     
     // MARK: - Private methods
