@@ -66,5 +66,5 @@ public extension CXBottomSheetStop {
 
     static let closed: CXBottomSheetStop = .fixed(0)
     
-    static let fullyExpanded: CXBottomSheetStop = .percentage(0.9)
+    static let fullyExpanded: CXBottomSheetStop = .percentage(0.8)
 }

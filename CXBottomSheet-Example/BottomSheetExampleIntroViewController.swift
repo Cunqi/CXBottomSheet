@@ -16,7 +16,8 @@ class BottomSheetExampleIntroViewController: UITableViewController {
     // MARK: - Private properties
     
     private let examples: [BottomSheetExample] = [
-        .simpleContentExample
+        .simpleContentExample,
+        .listContentExample
     ]
     
     // MARK: - Lifecycles

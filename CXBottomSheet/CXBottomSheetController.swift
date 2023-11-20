@@ -101,6 +101,7 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
         self.delegate = delegate
         self.contentController = CXBottomSheetContentController(with: content)
         super.init(nibName: nil, bundle: nil)
+        content?.bottomSheet = self
     }
 
     required init?(coder aDecoder: NSCoder) {

@@ -29,4 +29,8 @@ extension BottomSheetExample {
     static let simpleContentExample = BottomSheetExample(name: "Simple content") {
         BottomSheetExampleSimpleExampleViewController()
     }
+    
+    static let listContentExample = BottomSheetExample(name: "List content") {
+        BottomSheetExampleListExampleViewController()
+    }
 }

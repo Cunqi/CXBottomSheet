@@ -8,18 +8,17 @@
 import UIKit
 import CXBottomSheet
 
-class BottomSheetExampleContainerViewController: UIViewController {
+class BottomSheetExampleListExampleViewController: UIViewController {
     
     // MARK: - Properties
     
     private lazy var bottomSheet: CXBottomSheetController = {
         let stops: [CXBottomSheetStop] = [.percentage(0.15), .percentage(0.45), .fullyExpanded]
-        let bottomSheet = CXBottomSheetController(stops: stops, delegate: self)
+        let bottomSheet = CXBottomSheetController(
+            stops: stops,
+            content: listBottomSheetContent,
+            delegate: self)
         return bottomSheet
-    }()
-    
-    private lazy var simpleBottomSheetContent: CXBottomSheetContentProtocol = {
-        return BottomSheetExampleSimpleContentViewController()
     }()
     
     private lazy var listBottomSheetContent: CXBottomSheetContentProtocol = {
@@ -32,13 +31,7 @@ class BottomSheetExampleContainerViewController: UIViewController {
         view.backgroundColor = .white
         
         setupViewsAndLayoutConstraints()
-        
-        bottomSheet.setupContent(listBottomSheetContent)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        bottomSheet.move(to: bottomSheet.minStop, animated: true)
+        bottomSheet.move(to: bottomSheet.minStop, animated: false)
     }
     
     // MARK: - Private methods
@@ -54,7 +47,7 @@ class BottomSheetExampleContainerViewController: UIViewController {
     }
 }
 
-extension BottomSheetExampleContainerViewController: CXBottomSheetDelegate {
+extension BottomSheetExampleListExampleViewController: CXBottomSheetDelegate {
     func bottomSheet(availableHeightFor bottomSheet: CXBottomSheet.CXBottomSheetProtocol) -> CGFloat {
         return view.bounds.height
     }

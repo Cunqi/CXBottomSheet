@@ -13,7 +13,7 @@ class BottomSheetExampleSimpleExampleViewController: UIViewController {
     // MARK: - Properties
     
     private lazy var bottomSheet: CXBottomSheetController = {
-        let stops: [CXBottomSheetStop] = [.percentage(0.15), .percentage(0.45), .percentage(0.8)]
+        let stops: [CXBottomSheetStop] = [.percentage(0.15), .percentage(0.45), .fullyExpanded]
         let bottomSheet = CXBottomSheetController(
             stops: stops,
             content: simpleBottomSheetContent, 

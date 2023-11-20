@@ -42,6 +42,10 @@ class BottomSheetExampleListContentViewController: UIViewController, CXBottomShe
     // MARK: - Internal methods
     
     func bottomSheet(didMove bottomSheet: CXBottomSheetProtocol, fromStop: CXBottomSheetStop, toStop: CXBottomSheetStop) {
+        tableView.isScrollEnabled = toStop == .fullyExpanded
+        if fromStop == .fullyExpanded {
+            tableView.setContentOffset(.zero, animated: true)
+        }
     }
     
     // MARK: - Private methods
