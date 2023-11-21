@@ -38,7 +38,7 @@ extension BottomSheetExample: Equatable {
 
 extension BottomSheetExample {
     static let simpleContentExample = BottomSheetExample(
-        name: "Simple content",
+        name: "Simple Example",
         introduction: """
         The demo shows how to create and use a basic bottom sheet by setting up stops, content and delegate,
         after that you can display the bottom sheet without animation, you should see bottom sheet right after
@@ -48,7 +48,7 @@ extension BottomSheetExample {
     }
     
     static let listContentExample = BottomSheetExample(
-        name: "List content",
+        name: "List Example",
         introduction: """
         This demo shows how the bottom sheet interact with list content, only one interaction plan has been provided,
         You can only interact with bottom sheet when it is fully expanded, otherwise, any scrolling gesture will directly
@@ -61,7 +61,7 @@ extension BottomSheetExample {
     }
     
     static let popupMessageExample = BottomSheetExample(
-        name: "Popup message",
+        name: "Popup Example",
         introduction: """
         This demo shows two main features, 1) how to update bottom sheet height in real time, this demo calculate text
         height and update the stops accordingly. 2) how to deal with available height changes to make sure bottom sheet
@@ -71,11 +71,20 @@ extension BottomSheetExample {
         }
     
     static let slackMessageExample = BottomSheetExample(
-        name: "Slack message",
+        name: "Slack Example",
         introduction: """
         This demo is similar to `Popup message` example, but this demo mainly focus on setting up initial content and interact
         with bottom sheet without using some hiddenTextView hack. it also shows how to interact with keyboard hide/show
         """) {
             return BottomSheetExampleSlackMessageContentViewController()
+        }
+    
+    static let mapExample = BottomSheetExample(
+        name: "Map Example",
+        introduction: """
+        This demo shows how to interact with map, mainly forcus on data folow between
+        host and content, and how the bottom sheet response to those changes
+        """) {
+            return BottomSheetExampleMapContentViewController()
         }
 }

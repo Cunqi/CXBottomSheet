@@ -19,7 +19,8 @@ class BottomSheetExampleIntroViewController: UITableViewController {
         .simpleContentExample,
         .listContentExample,
         .popupMessageExample,
-        .slackMessageExample
+        .slackMessageExample,
+        .mapExample
     ]
     
     // MARK: - Lifecycles
@@ -68,6 +69,11 @@ class BottomSheetExampleIntroViewController: UITableViewController {
                 content: example.contentMaker(),
                 introduction: example.introducation)
             containerViewController.title = example.name
+            navigationController?.pushViewController(containerViewController, animated: true)
+        } else if example == .mapExample {
+          let containerViewController = BottomSheetExampleMapContainerViewController(
+            content: example.contentMaker(),
+            introduction: example.introducation)
             navigationController?.pushViewController(containerViewController, animated: true)
         } else {
             let containerViewController = BottomSheetExampleContainerViewController(
