@@ -56,7 +56,7 @@ extension BottomSheetExampleSlackInputContentViewController: UITextViewDelegate 
     func textViewDidChange(_ textView: UITextView) {
         let size = textView.sizeThatFits(CGSize(width: view.bounds.width, height: .greatestFiniteMagnitude))
         let currentStop = bottomSheet?.makeBottomSheetStop(contentHeight: max(Self.minimumContentHeight, size.height))
-        let stops = [currentStop, .percentage(0.2, isUpperBound: true)].compactMap { $0 }
+        let stops = [currentStop, .percentage(0.5, isUpperBound: true)].compactMap { $0 }
         bottomSheet?.updateStops(stops, immediatelyMoveTo: nil)
         if let currentStop = currentStop {
             bottomSheet?.move(to: currentStop, animated: true)  // Filter out duplicates
