@@ -35,6 +35,7 @@
 		C4AC39242B0AD2C5009AF23B /* CXBottomSheetGripBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC39232B0AD2C5009AF23B /* CXBottomSheetGripBar.swift */; };
 		C4AC39272B0AF4E5009AF23B /* BottomSheetExampleSlackInputContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC39262B0AF4E5009AF23B /* BottomSheetExampleSlackInputContentViewController.swift */; };
 		C4AC39292B0AF526009AF23B /* BottomSheetExampleSlackInputContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC39282B0AF526009AF23B /* BottomSheetExampleSlackInputContainerViewController.swift */; };
+		C4AC392B2B0C6F32009AF23B /* CXBottomSheetCoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC392A2B0C6F32009AF23B /* CXBottomSheetCoordinatorProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +98,7 @@
 		C4AC39232B0AD2C5009AF23B /* CXBottomSheetGripBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CXBottomSheetGripBar.swift; sourceTree = "<group>"; };
 		C4AC39262B0AF4E5009AF23B /* BottomSheetExampleSlackInputContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetExampleSlackInputContentViewController.swift; sourceTree = "<group>"; };
 		C4AC39282B0AF526009AF23B /* BottomSheetExampleSlackInputContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetExampleSlackInputContainerViewController.swift; sourceTree = "<group>"; };
+		C4AC392A2B0C6F32009AF23B /* CXBottomSheetCoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CXBottomSheetCoordinatorProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,6 +194,7 @@
 				C4AC38F82B072928009AF23B /* CXBottomSheetStop.swift */,
 				C4AC38FA2B072A5E009AF23B /* CXBottomSheetContentProtocol.swift */,
 				C4AC39052B073DEB009AF23B /* CXBottomSheetDelegate.swift */,
+				C4AC392A2B0C6F32009AF23B /* CXBottomSheetCoordinatorProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -395,6 +398,7 @@
 				C4AC39002B073A79009AF23B /* CXBottomSheetController.swift in Sources */,
 				C4AC390D2B07CF17009AF23B /* CXBottomSheetInternalStyle.swift in Sources */,
 				C4AC390A2B07C7BC009AF23B /* CXBottomSheetDefaultStyle.swift in Sources */,
+				C4AC392B2B0C6F32009AF23B /* CXBottomSheetCoordinatorProtocol.swift in Sources */,
 				C4AC39222B0ACD59009AF23B /* CXBottomSheetContentController.swift in Sources */,
 				C4AC39242B0AD2C5009AF23B /* CXBottomSheetGripBar.swift in Sources */,
 				C4AC38F72B072870009AF23B /* CXBottomSheetProtocol.swift in Sources */,
