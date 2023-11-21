@@ -73,7 +73,7 @@ public extension CXBottomSheetDefaultStyle {
         
         public private(set) var cornerRadius: CGFloat = 16.0
         
-        public private(set) var scrollSensitiveLevel: CXBottomSheetScrollSensitiveLevel = .ultra
+        public private(set) var scrollSensitiveLevel: CXBottomSheetScrollSensitiveLevel = .medium
         
         // MARK: - Public methods
         
