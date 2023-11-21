@@ -37,6 +37,7 @@
 		C4AC39292B0AF526009AF23B /* BottomSheetExampleSlackInputContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC39282B0AF526009AF23B /* BottomSheetExampleSlackInputContainerViewController.swift */; };
 		C4AC392B2B0C6F32009AF23B /* CXBottomSheetCoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC392A2B0C6F32009AF23B /* CXBottomSheetCoordinatorProtocol.swift */; };
 		C4AC392D2B0CFB98009AF23B /* CXBottomSheetInteractableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC392C2B0CFB98009AF23B /* CXBottomSheetInteractableProtocol.swift */; };
+		C4AC392F2B0D0E61009AF23B /* CXBottomSheetScrollSensitiveLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC392E2B0D0E61009AF23B /* CXBottomSheetScrollSensitiveLevel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +102,7 @@
 		C4AC39282B0AF526009AF23B /* BottomSheetExampleSlackInputContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetExampleSlackInputContainerViewController.swift; sourceTree = "<group>"; };
 		C4AC392A2B0C6F32009AF23B /* CXBottomSheetCoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CXBottomSheetCoordinatorProtocol.swift; sourceTree = "<group>"; };
 		C4AC392C2B0CFB98009AF23B /* CXBottomSheetInteractableProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CXBottomSheetInteractableProtocol.swift; sourceTree = "<group>"; };
+		C4AC392E2B0D0E61009AF23B /* CXBottomSheetScrollSensitiveLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CXBottomSheetScrollSensitiveLevel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -218,6 +220,7 @@
 				C4AC39072B07B2E2009AF23B /* CXBottomSheetStyle.swift */,
 				C4AC39092B07C7BC009AF23B /* CXBottomSheetDefaultStyle.swift */,
 				C4AC390C2B07CF17009AF23B /* CXBottomSheetInternalStyle.swift */,
+				C4AC392E2B0D0E61009AF23B /* CXBottomSheetScrollSensitiveLevel.swift */,
 			);
 			path = Styles;
 			sourceTree = "<group>";
@@ -396,6 +399,7 @@
 			files = (
 				C4AC38FE2B073270009AF23B /* CXBottomSheetScrollContext.swift in Sources */,
 				C4AC392D2B0CFB98009AF23B /* CXBottomSheetInteractableProtocol.swift in Sources */,
+				C4AC392F2B0D0E61009AF23B /* CXBottomSheetScrollSensitiveLevel.swift in Sources */,
 				C4A7DBBD2B0722E5001E4A90 /* CXBottomSheet.docc in Sources */,
 				C4AC39062B073DEB009AF23B /* CXBottomSheetDelegate.swift in Sources */,
 				C4AC38F92B072928009AF23B /* CXBottomSheetStop.swift in Sources */,

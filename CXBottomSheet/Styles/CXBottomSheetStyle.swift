@@ -22,6 +22,9 @@ public protocol CXBottomSheetStyle {
     /// Corner radius for top two corners (minXMinY, maxXMinY)
     var cornerRadius: CGFloat { get }
     
+    /// Thershold for the scrolling distence before move to next stop
+    var scrollSensitiveLevel: CXBottomSheetScrollSensitiveLevel { get }
+    
 }
 
 public protocol CXBottomSheetStyleBuilder: CXBottomSheetStyle {

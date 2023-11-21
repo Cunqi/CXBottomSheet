@@ -38,6 +38,8 @@ class CXBottomSheetScrollContext {
     var minHeight: CGFloat? {
         return sortedStops.first?.makeHeight(with: availableHeight)
     }
+    
+    // MARK: - Private properties
 
     /// When panning height exceeds maximum height or lower than minimum height
     /// A bounce offset should be applied to the height change for a damping effect
@@ -63,9 +65,23 @@ class CXBottomSheetScrollContext {
     /// Indicate start Y Position
     private var startYPosition: CGFloat = 0
 
-    /// Indicate the real time distance while panning
+    /// Indicate the real time distance while panning,
+    /// positive value represents panning up
+    /// negative value represents panning down
     private var pannedDelta: CGFloat {
         return startYPosition - yPosition
+    }
+    
+    private var isPanningUp: Bool {
+        return pannedDelta >= 0
+    }
+    
+    private let scrollSensitiveLevel: CXBottomSheetScrollSensitiveLevel
+    
+    // MARK: - Initializer
+    
+    init(scrollSensitiveLevel: CXBottomSheetScrollSensitiveLevel) {
+        self.scrollSensitiveLevel = scrollSensitiveLevel
     }
 
     // MARK: - Internal methods
@@ -95,9 +111,7 @@ class CXBottomSheetScrollContext {
         self.startYPosition = startYPosition
         self.currentHeight = currentHeight
         self.availableHeight = availableHeight
-        self.sortedStops = stops.sorted(by: {
-            $0.makeHeight(with: availableHeight) < $1.makeHeight(with: availableHeight)
-        })
+        self.sortedStops = stops.sorted(by: { CXBottomSheetStop.compare(lhs: $0, rhs: $1, with: availableHeight) == .orderedAscending })
     }
     
     /// Find the stop that has the minimum delta value with given height
@@ -113,12 +127,18 @@ class CXBottomSheetScrollContext {
             let nextStop = sortedStops[index + 1]
             let stopHeight = stop.makeHeight(with: availableHeight)
             let nextStopHeight = nextStop.makeHeight(with: availableHeight)
-            let middleStopHeight = (stopHeight + nextStopHeight) / 2.0
-
-            if targetHeight <= middleStopHeight {
-                return stop
-            } else if targetHeight > middleStopHeight && targetHeight < nextStopHeight {
-                return nextStop
+            let deltaThreshold = (nextStopHeight - stopHeight) * scrollSensitiveLevel
+            
+            guard targetHeight <= nextStopHeight else {
+                continue
+            }
+            
+            if isPanningUp {
+                let heightThreshold = stopHeight + deltaThreshold
+                return targetHeight >= heightThreshold ? nextStop : stop
+            } else {
+                let heightThreshold = nextStopHeight - deltaThreshold
+                return targetHeight <= heightThreshold ? stop : nextStop
             }
         }
         return sortedStops.last

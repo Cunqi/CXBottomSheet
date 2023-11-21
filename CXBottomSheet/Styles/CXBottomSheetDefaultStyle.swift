@@ -19,6 +19,8 @@ public class CXBottomSheetDefaultStyle: CXBottomSheetStyle, CXBottomSheetInterna
     
     public let cornerRadius: CGFloat
     
+    public let scrollSensitiveLevel: CXBottomSheetScrollSensitiveLevel
+    
     // MARK: - Internal properties
     
     let shadowColor: CGColor = UIColor.systemGray.cgColor
@@ -54,6 +56,7 @@ public class CXBottomSheetDefaultStyle: CXBottomSheetStyle, CXBottomSheetInterna
         self.isShadowEnabled = builder.isShadowEnabled
         self.backgroundColor = builder.backgroundColor
         self.cornerRadius = builder.cornerRadius
+        self.scrollSensitiveLevel = builder.scrollSensitiveLevel
     }
 }
 
@@ -69,6 +72,8 @@ public extension CXBottomSheetDefaultStyle {
         public private(set) var backgroundColor: UIColor = .systemBackground
         
         public private(set) var cornerRadius: CGFloat = 16.0
+        
+        public private(set) var scrollSensitiveLevel: CXBottomSheetScrollSensitiveLevel = .ultra
         
         // MARK: - Public methods
         
@@ -89,6 +94,11 @@ public extension CXBottomSheetDefaultStyle {
         
         public func setCornerRadius(_ value: CGFloat) -> Self {
             cornerRadius = value
+            return self
+        }
+        
+        public func setScrollSensitiveLevel(_ value: CXBottomSheetScrollSensitiveLevel) -> Self {
+            scrollSensitiveLevel = min(1, max(0, value))
             return self
         }
         

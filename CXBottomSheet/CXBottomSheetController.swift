@@ -57,7 +57,7 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
     
     // MARK: - Private properties
     
-    private let scrollContext = CXBottomSheetScrollContext()
+    private let scrollContext: CXBottomSheetScrollContext
     private let contentController: CXBottomSheetContentController
     private let style: CXBottomSheetStyle
     
@@ -114,6 +114,7 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
                 style: CXBottomSheetStyle = CXBottomSheetDefaultStyle(),
                 delegate: CXBottomSheetDelegate) {
         self.style = style
+        self.scrollContext = CXBottomSheetScrollContext(scrollSensitiveLevel: style.scrollSensitiveLevel)
         self.delegate = delegate
         self.contentController = CXBottomSheetContentController(with: content)
         super.init(nibName: nil, bundle: nil)
