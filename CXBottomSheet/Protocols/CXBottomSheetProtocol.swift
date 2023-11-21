@@ -22,14 +22,23 @@ public protocol CXBottomSheetProtocol: UIViewController, UIScrollViewDelegate {
     var currentStop: CXBottomSheetStop { get }
 
     /// The stop which currently has highest height
-    var maxStop: CXBottomSheetStop? { get }
+    var maxStop: CXBottomSheetStop { get }
 
     /// The stop which currently has lowest height
-    var minStop: CXBottomSheetStop? { get }
+    var minStop: CXBottomSheetStop { get }
     
     /// If bottom sheet is currently visible, a bottom sheet is considered
     /// visible only if `currentStop` is not `closed`
     var isVisible: Bool { get }
+    
+    /// Bottom sheet can be considered as closed only if `currentStop` is `closed`
+    var isClosed: Bool { get }
+    
+    /// If bottom sheet stops at the `maxStop`
+    var reachedMaxStop: Bool { get }
+    
+    /// If bottom sheet stops at the `minStop`
+    var reachedMinStop: Bool { get }
     
     /// Flag if bottom sheet is able to response any user interactions
     var isUserInteractionEnabled: Bool { get set }
@@ -53,8 +62,9 @@ public protocol CXBottomSheetProtocol: UIViewController, UIScrollViewDelegate {
     
     /// Craete a `fixed` stop with extra bottom sheet space included (e.g. grip view from bottom sheet)
     /// - Parameter contentHeight: height of content
+    /// - Parameter isUpperBound: if the stop is upper bound stop
     /// - Returns: adjusted stop contains extra height for bottom sheet
-    func makeBottomSheetStop(contentHeight: CGFloat) -> CXBottomSheetStop
+    func makeBottomSheetStop(contentHeight: CGFloat, isUpperBound: Bool) -> CXBottomSheetStop
     
     /// Update bottom sheet stops then optionally move to a given stop immediately
     /// - Parameters:

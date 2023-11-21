@@ -64,9 +64,7 @@ class BottomSheetExampleSlackInputContainerViewController: UIViewController {
         view.backgroundColor = .systemBackground
         
         setupViewsAndLayoutConstraints()
-        if let minStop = bottomSheet.minStop {
-            bottomSheet.move(to: minStop, animated: false)
-        }
+        bottomSheet.move(to: bottomSheet.minStop, animated: false)
         
         NotificationCenter.default.addObserver(
             self,
@@ -111,7 +109,7 @@ class BottomSheetExampleSlackInputContainerViewController: UIViewController {
     
     @objc
     private func didTapActionButton() {
-        let initialStop = bottomSheet.makeBottomSheetStop(contentHeight: 48.0)
+        let initialStop = bottomSheet.makeBottomSheetStop(contentHeight: 48.0, isUpperBound: false)
         bottomSheet.setupContent(content)
         bottomSheet.updateStops([initialStop, .percentage(0.5, isUpperBound: true)], immediatelyMoveTo: nil)
         hiddenTextField.becomeFirstResponder()
@@ -139,10 +137,8 @@ extension BottomSheetExampleSlackInputContainerViewController {
               let keyboardCurve = UIView.AnimationCurve(rawValue: keyboardAnimationCurve) else {
             return
         }
-        if let minStop = bottomSheet.minStop {
-            let animator = UIViewPropertyAnimator(duration: keyboardAnimationDuration, curve: keyboardCurve)
-            bottomSheet.move(to: minStop, animator: animator)
-        }
+        let animator = UIViewPropertyAnimator(duration: keyboardAnimationDuration, curve: keyboardCurve)
+        bottomSheet.move(to: bottomSheet.minStop, animator: animator)
     }
     
     @objc

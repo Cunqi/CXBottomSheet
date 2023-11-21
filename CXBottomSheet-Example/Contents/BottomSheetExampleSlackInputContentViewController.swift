@@ -46,7 +46,7 @@ class BottomSheetExampleSlackInputContentViewController: UIViewController, CXBot
     // MARK: - Internal methods
     
     func bottomSheet(didMove bottomSheet: CXBottomSheet.CXBottomSheetProtocol, fromStop: CXBottomSheet.CXBottomSheetStop, toStop: CXBottomSheet.CXBottomSheetStop) {
-        textView.isScrollEnabled = toStop == bottomSheet.maxStop
+        textView.isScrollEnabled = bottomSheet.reachedMaxStop
     }
 }
 
@@ -55,9 +55,9 @@ class BottomSheetExampleSlackInputContentViewController: UIViewController, CXBot
 extension BottomSheetExampleSlackInputContentViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         let size = textView.sizeThatFits(CGSize(width: view.bounds.width, height: .greatestFiniteMagnitude))
-        let currentStop = bottomSheet?.makeBottomSheetStop(contentHeight: max(Self.minimumContentHeight, size.height))
+        let currentStop = bottomSheet?.makeBottomSheetStop(contentHeight: max(Self.minimumContentHeight, size.height), isUpperBound: false)
         let stops = [currentStop, .percentage(0.5, isUpperBound: true)].compactMap { $0 }
-        let isExpanded = bottomSheet?.maxStop == bottomSheet?.currentStop
+        let isExpanded = bottomSheet?.reachedMaxStop ?? false
         bottomSheet?.updateStops(stops, immediatelyMoveTo: nil)
         if let currentStop = currentStop, !isExpanded {
             bottomSheet?.move(to: currentStop, animated: true)  // Filter out duplicates
