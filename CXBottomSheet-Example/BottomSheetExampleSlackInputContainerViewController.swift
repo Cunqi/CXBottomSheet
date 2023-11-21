@@ -113,7 +113,7 @@ class BottomSheetExampleSlackInputContainerViewController: UIViewController {
     private func didTapActionButton() {
         let initialStop = bottomSheet.makeBottomSheetStop(contentHeight: 48.0)
         bottomSheet.setupContent(content)
-        bottomSheet.updateStops([initialStop], immediatelyMoveTo: nil)
+        bottomSheet.updateStops([initialStop, .percentage(0.5, isUpperBound: true)], immediatelyMoveTo: nil)
         hiddenTextField.becomeFirstResponder()
     }
 }
