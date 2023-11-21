@@ -38,14 +38,15 @@ class BottomSheetExampleSlackInputContentViewController: UIViewController, CXBot
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        textView.becomeFirstResponder()
+    }
+    
     // MARK: - Internal methods
     
     func bottomSheet(didMove bottomSheet: CXBottomSheet.CXBottomSheetProtocol, fromStop: CXBottomSheet.CXBottomSheetStop, toStop: CXBottomSheet.CXBottomSheetStop) {
-//        bottomSheet.isUserInteractionEnabled = toStop != bottomSheet.maxStop
         textView.isScrollEnabled = toStop == bottomSheet.maxStop
-        if toStop != .closed {
-            textView.becomeFirstResponder()
-        }
     }
 }
 

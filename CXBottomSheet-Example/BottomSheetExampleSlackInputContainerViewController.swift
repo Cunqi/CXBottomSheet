@@ -34,6 +34,12 @@ class BottomSheetExampleSlackInputContainerViewController: UIViewController {
         return bottomSheet
     }()
     
+    private lazy var hiddenTextField: UITextField = {
+        let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }()
+    
     private let content: CXBottomSheetContentProtocol
     
     private let introduction: String?
@@ -78,7 +84,7 @@ class BottomSheetExampleSlackInputContainerViewController: UIViewController {
     // MARK: - Private methods
     
     private func setupViewsAndLayoutConstraints() {
-        [introductionLabel, actionButton, bottomSheet.view].forEach { view.addSubview($0) }
+        [introductionLabel, actionButton, bottomSheet.view, hiddenTextField].forEach { view.addSubview($0) }
         addChild(bottomSheet)
         bottomSheet.didMove(toParent: self)
         
@@ -96,13 +102,19 @@ class BottomSheetExampleSlackInputContainerViewController: UIViewController {
             make.leading.trailing.equalTo(view.safeAreaLayoutGuide)
             make.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
         }
+        
+        hiddenTextField.snp.makeConstraints { make in
+            make.size.equalTo(CGSize(width: 1, height: 1))
+            make.leading.top.equalTo(view)
+        }
     }
     
     @objc
     private func didTapActionButton() {
         let initialStop = bottomSheet.makeBottomSheetStop(contentHeight: 48.0)
         bottomSheet.setupContent(content)
-        bottomSheet.updateStops([initialStop], immediatelyMoveTo: initialStop)
+        bottomSheet.updateStops([initialStop], immediatelyMoveTo: nil)
+        hiddenTextField.becomeFirstResponder()
     }
 }
 
@@ -115,7 +127,6 @@ extension BottomSheetExampleSlackInputContainerViewController: CXBottomSheetDele
 }
 
 extension BottomSheetExampleSlackInputContainerViewController {
-    
     @objc
     private func keyboardWillShow(notification: Notification) {
         guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
@@ -123,6 +134,15 @@ extension BottomSheetExampleSlackInputContainerViewController {
         }
         keyboardHeight = keyboardFrame.cgRectValue.height
         
+        guard let keyboardAnimationDuration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double,
+              let keyboardAnimationCurve = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? Int,
+              let keyboardCurve = UIView.AnimationCurve(rawValue: keyboardAnimationCurve) else {
+            return
+        }
+        if let minStop = bottomSheet.minStop {
+            let animator = UIViewPropertyAnimator(duration: keyboardAnimationDuration, curve: keyboardCurve)
+            bottomSheet.move(to: minStop, animator: animator)
+        }
     }
     
     @objc

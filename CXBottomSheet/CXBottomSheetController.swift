@@ -9,7 +9,7 @@ import SnapKit
 import UIKit
 
 public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
-
+    
     // MARK: - Public properties
     
     public var isVisible: Bool {
@@ -24,15 +24,15 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
             scrollContext.isBottomSheetInteractionEnabled = newValue
         }
     }
-
+    
     public var maxStop: CXBottomSheetStop? {
         return stops.max { CXBottomSheetStop.compare(lhs: $0, rhs: $1, with: availableHeight) == .orderedAscending }
     }
-
+    
     public var minStop: CXBottomSheetStop? {
         return stops.min { CXBottomSheetStop.compare(lhs: $0, rhs: $1, with: availableHeight) == .orderedAscending }
     }
-
+    
     public private(set) var currentStop: CXBottomSheetStop = .closed
     public private(set) var stops: [CXBottomSheetStop] = []
     
@@ -44,11 +44,11 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
     }()
     
     // MARK: - Private properties
-
+    
     private let scrollContext = CXBottomSheetScrollContext()
     private let contentController: CXBottomSheetContentController
     private let style: CXBottomSheetStyle
-
+    
     // MARK: - Private lazy properties
     
     private lazy var gripBar: CXBottomSheetGripBar = {
@@ -57,13 +57,13 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
         view.isHidden = style.isGripBarHidden
         return view
     }()
-
+    
     private lazy var panGestureRecognizer: UIPanGestureRecognizer = {
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePanGestureRecognizer(_:)))
         panGestureRecognizer.delegate = self
         return panGestureRecognizer
     }()
-
+    
     private lazy var topPositionConstraint: NSLayoutConstraint = {
         view.topAnchor.constraint(equalTo: view.bottomAnchor)
     }()
@@ -73,7 +73,7 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
     private var availableHeight: CGFloat {
         delegate?.bottomSheet(availableHeightFor: self) ?? .zero
     }
-
+    
     private var currentHeight: CGFloat {
         get {
             -topPositionConstraint.constant
@@ -94,7 +94,7 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
     private var topBarHeight: CGFloat {
         gripBarHeight + navigationBarHeight
     }
-
+    
     // MARK: - Initializer
     
     public init(stops: [CXBottomSheetStop] = [],
@@ -108,35 +108,35 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
         self.stops = Self.calibrateStopsIfNeeded(from: stops, availableHeight: availableHeight)
         content?.bottomSheet = self
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     // MARK: - Life cycles
-
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
         setupSubviewsAndConstraints()
         stylize()
     }
-
+    
     // MARK: - Public methods
-
+    
     public func setupContent(_ content: CXBottomSheetContentProtocol) {
         contentController.setViewControllers([content], animated: false)
         content.bottomSheet = self
     }
-
+    
     public func pushContent(_ content: CXBottomSheetContentProtocol) {
         contentController.pushViewController(content, animated: true)
         content.bottomSheet = self
     }
-
+    
     public func makeBottomSheetStop(contentHeight: CGFloat) -> CXBottomSheetStop {
         return .fixed(contentHeight + topBarHeight)
     }
-
+    
     public func updateStops(_ stops: [CXBottomSheetStop], immediatelyMoveTo stop: CXBottomSheetStop?) {
         self.stops = Self.calibrateStopsIfNeeded(from: stops, availableHeight: availableHeight)
         guard let stop = stop else {
@@ -144,16 +144,23 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
         }
         move(to: stop, distinctMove: false)
     }
-
+    
     public func move(to stop: CXBottomSheetStop, animated: Bool) {
         guard let calibratedStop = stops.contains(stop) ? stop : maxStop else {
             return
         }
         move(to: calibratedStop, distinctMove: true, animated: animated)
     }
-
+    
+    public func move(to stop: CXBottomSheetStop, animator: UIViewPropertyAnimator) {
+        guard let calibratedStop = stops.contains(stop) ? stop : maxStop else {
+            return
+        }
+        move(to: calibratedStop, distinctMove: true, animated: true, animator: animator)
+    }
+    
     // MARK: - Private methods
-
+    
     private func stylize() {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
@@ -162,11 +169,11 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
         view.addGestureRecognizer(panGestureRecognizer)
         applyShadow(to: view)
     }
-
+    
     private func applyShadow(to view: UIView) {
         let rect = CGRect(
             x: view.frame.origin.x,
-            y: view.frame.origin.y, 
+            y: view.frame.origin.y,
             width: view.frame.width,
             height: style.internal.shadowFrameHeight)
         
@@ -175,7 +182,7 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
         view.layer.shadowColor = style.internal.shadowColor
         view.layer.shadowRadius = style.internal.shadowRadius
     }
-
+    
     private func setupSubviewsAndConstraints() {
         view.addSubview(gripBar)
         addChild(contentController)
@@ -193,8 +200,11 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
         }
         NSLayoutConstraint.activate([topPositionConstraint])
     }
-
-    private func executeStopChange(to stop: CXBottomSheetStop, isBouncingBack: Bool = false, animated: Bool = true) {
+    
+    private func executeStopChange(to stop: CXBottomSheetStop,
+                                   isBouncingBack: Bool = false,
+                                   animated: Bool = true,
+                                   animator: UIViewPropertyAnimator? = nil) {
         let finalStopHeight = stop.makeHeight(with: availableHeight)
         let shadowOpacity: Float = CXBottomSheetStop.closed.value == finalStopHeight ? 0 : 1
         let animations = { [weak self] in
@@ -206,25 +216,32 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
             self.delegate?.bottomSheet(animateAlongWith: self, fromStop: self.currentStop, toStop: stop)
             self.view.superview?.layoutIfNeeded()
         }
-        let completion = { [weak self] isFinished in
-            if isFinished {
-                self?.completeAnimation(to: stop, isBouncingBack: isBouncingBack)
-            }
+        let completion = { [weak self] in
+            self?.completeAnimation(to: stop, isBouncingBack: isBouncingBack)
         }
         
-        guard animated else {
+        if !animated {
             animations()
-            completion(true)
-            return
+            completion()
+        } else if let animator = animator {
+            animator.addAnimations(animations)
+            animator.addCompletion { _ in
+                completion()
+            }
+            animator.startAnimation()
+        } else {
+            UIView.animate(
+                withDuration: style.internal.animateDuration,
+                delay: style.internal.animateDelay,
+                usingSpringWithDamping: style.internal.springDamping,
+                initialSpringVelocity: style.internal.initialSpringVelocity,
+                animations: animations,
+                completion: { isFinished in
+                    if isFinished {
+                        completion()
+                    }
+                })
         }
-        
-        UIView.animate(
-            withDuration: style.internal.animateDuration,
-            delay: style.internal.animateDelay,
-            usingSpringWithDamping: style.internal.springDamping,
-            initialSpringVelocity: style.internal.initialSpringVelocity,
-            animations: animations,
-            completion: completion)
     }
     
     private func completeAnimation(to stop: CXBottomSheetStop, isBouncingBack: Bool) {
@@ -238,7 +255,7 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
             updateCurrentStop(to: stop)
         }
     }
-
+    
     @objc
     private func handlePanGestureRecognizer(_ gestureRecognizer: UIPanGestureRecognizer) {
         let currentYPosition = gestureRecognizer.translation(in: view).y
@@ -264,7 +281,7 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
             break
         }
     }
-
+    
     private func updateCurrentStop(to stop: CXBottomSheetStop) {
         guard currentStop != stop else {
             return
@@ -272,17 +289,17 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
         contentController.contents.forEach { $0.bottomSheet(didMove: self, fromStop: currentStop, toStop: stop) }
         currentStop = stop
     }
-
+    
     private func isValidStop(_ stop: CXBottomSheetStop) -> Bool {
         return stop == .closed || stops.contains(stop)
     }
     
-    private func move(to stop: CXBottomSheetStop, distinctMove: Bool, animated: Bool = true) {
+    private func move(to stop: CXBottomSheetStop, distinctMove: Bool, animated: Bool = true, animator: UIViewPropertyAnimator? = nil) {
         guard isValidStop(stop),
               !distinctMove || currentStop != stop else {
             return
         }
-        executeStopChange(to: stop, animated: animated)
+        executeStopChange(to: stop, animated: animated, animator: animator)
     }
     
     private static func calibrateStopsIfNeeded(from stops: [CXBottomSheetStop], availableHeight: CGFloat) -> [CXBottomSheetStop] {
@@ -312,17 +329,17 @@ extension CXBottomSheetController: UIScrollViewDelegate {
     public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         coordinator.bottomSheetCoordinator(bottomSheet: self, contentWillBeginDragging: scrollView)
     }
-
+    
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         coordinator.bottomSheetCoordinator(bottomSheet: self, currentHeight: currentHeight, contentDidScroll: scrollView)
     }
-
+    
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if !decelerate {
             scrollViewDidEndDecelerating(scrollView)
         }
     }
-
+    
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         coordinator.bottomSheetCoordinator(bottomSheet: self, contentDidEndScroll: scrollView)
     }
