@@ -67,6 +67,6 @@ extension BottomSheetExample {
         height and update the stops accordingly. 2) how to deal with available height changes to make sure bottom sheet
         will not break user experiences
         """) {
-            return BottomSheetExampleSlackInputContentViewController()
+            return BottomSheetExamplePopupMessageContentViewController()
         }
 }

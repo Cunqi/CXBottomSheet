@@ -57,7 +57,7 @@ class BottomSheetExampleIntroViewController: UITableViewController {
         let example = examples[indexPath.row]
         
         if example == .slackInputContentExample {
-            let containerViewController = BottomSheetExampleSlackInputContainerViewController(
+            let containerViewController = BottomSheetExamplePopupMessageContainerViewController(
                 content: example.contentMaker(),
                 introduction: example.introducation)
             containerViewController.title = example.name

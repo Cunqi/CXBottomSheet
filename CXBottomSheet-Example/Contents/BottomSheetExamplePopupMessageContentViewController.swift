@@ -1,5 +1,5 @@
 //
-//  BottomSheetExampleSlackInputContentViewController.swift
+//  BottomSheetExamplePopupMessageContentViewController.swift
 //  CXBottomSheet-Example
 //
 //  Created by Cunqi Xiao on 11/19/23.
@@ -9,7 +9,7 @@ import UIKit
 import CXBottomSheet
 import SnapKit
 
-class BottomSheetExampleSlackInputContentViewController: UIViewController, CXBottomSheetContentProtocol {
+class BottomSheetExamplePopupMessageContentViewController: UIViewController, CXBottomSheetContentProtocol {
     
     // MARK: - Constants
     
@@ -52,7 +52,7 @@ class BottomSheetExampleSlackInputContentViewController: UIViewController, CXBot
 
 // MARK: - UITableViewDelegate
 
-extension BottomSheetExampleSlackInputContentViewController: UITextViewDelegate {
+extension BottomSheetExamplePopupMessageContentViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         let size = textView.sizeThatFits(CGSize(width: view.bounds.width, height: .greatestFiniteMagnitude))
         let currentStop = bottomSheet?.makeBottomSheetStop(contentHeight: max(Self.minimumContentHeight, size.height), isUpperBound: false)

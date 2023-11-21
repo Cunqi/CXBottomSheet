@@ -33,8 +33,8 @@
 		C4AC391E2B0ABF6C009AF23B /* BottomSheetExampleContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC391D2B0ABF6C009AF23B /* BottomSheetExampleContainerViewController.swift */; };
 		C4AC39222B0ACD59009AF23B /* CXBottomSheetContentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC39212B0ACD59009AF23B /* CXBottomSheetContentController.swift */; };
 		C4AC39242B0AD2C5009AF23B /* CXBottomSheetGripBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC39232B0AD2C5009AF23B /* CXBottomSheetGripBar.swift */; };
-		C4AC39272B0AF4E5009AF23B /* BottomSheetExampleSlackInputContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC39262B0AF4E5009AF23B /* BottomSheetExampleSlackInputContentViewController.swift */; };
-		C4AC39292B0AF526009AF23B /* BottomSheetExampleSlackInputContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC39282B0AF526009AF23B /* BottomSheetExampleSlackInputContainerViewController.swift */; };
+		C4AC39272B0AF4E5009AF23B /* BottomSheetExamplePopupMessageContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC39262B0AF4E5009AF23B /* BottomSheetExamplePopupMessageContentViewController.swift */; };
+		C4AC39292B0AF526009AF23B /* BottomSheetExamplePopupMessageContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC39282B0AF526009AF23B /* BottomSheetExamplePopupMessageContainerViewController.swift */; };
 		C4AC392B2B0C6F32009AF23B /* CXBottomSheetCoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC392A2B0C6F32009AF23B /* CXBottomSheetCoordinatorProtocol.swift */; };
 		C4AC392D2B0CFB98009AF23B /* CXBottomSheetInteractableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC392C2B0CFB98009AF23B /* CXBottomSheetInteractableProtocol.swift */; };
 		C4AC392F2B0D0E61009AF23B /* CXBottomSheetScrollSensitiveLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC392E2B0D0E61009AF23B /* CXBottomSheetScrollSensitiveLevel.swift */; };
@@ -98,8 +98,8 @@
 		C4AC391D2B0ABF6C009AF23B /* BottomSheetExampleContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetExampleContainerViewController.swift; sourceTree = "<group>"; };
 		C4AC39212B0ACD59009AF23B /* CXBottomSheetContentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CXBottomSheetContentController.swift; sourceTree = "<group>"; };
 		C4AC39232B0AD2C5009AF23B /* CXBottomSheetGripBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CXBottomSheetGripBar.swift; sourceTree = "<group>"; };
-		C4AC39262B0AF4E5009AF23B /* BottomSheetExampleSlackInputContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetExampleSlackInputContentViewController.swift; sourceTree = "<group>"; };
-		C4AC39282B0AF526009AF23B /* BottomSheetExampleSlackInputContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetExampleSlackInputContainerViewController.swift; sourceTree = "<group>"; };
+		C4AC39262B0AF4E5009AF23B /* BottomSheetExamplePopupMessageContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetExamplePopupMessageContentViewController.swift; sourceTree = "<group>"; };
+		C4AC39282B0AF526009AF23B /* BottomSheetExamplePopupMessageContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetExamplePopupMessageContainerViewController.swift; sourceTree = "<group>"; };
 		C4AC392A2B0C6F32009AF23B /* CXBottomSheetCoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CXBottomSheetCoordinatorProtocol.swift; sourceTree = "<group>"; };
 		C4AC392C2B0CFB98009AF23B /* CXBottomSheetInteractableProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CXBottomSheetInteractableProtocol.swift; sourceTree = "<group>"; };
 		C4AC392E2B0D0E61009AF23B /* CXBottomSheetScrollSensitiveLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CXBottomSheetScrollSensitiveLevel.swift; sourceTree = "<group>"; };
@@ -182,7 +182,7 @@
 				C4AC391A2B0AB8D8009AF23B /* Models */,
 				C4AC39182B0AB885009AF23B /* BottomSheetExampleIntroViewController.swift */,
 				C4AC391D2B0ABF6C009AF23B /* BottomSheetExampleContainerViewController.swift */,
-				C4AC39282B0AF526009AF23B /* BottomSheetExampleSlackInputContainerViewController.swift */,
+				C4AC39282B0AF526009AF23B /* BottomSheetExamplePopupMessageContainerViewController.swift */,
 				C4AC38E12B072503009AF23B /* AppDelegate.swift */,
 				C4AC38EA2B072504009AF23B /* Assets.xcassets */,
 				C4AC38EC2B072504009AF23B /* LaunchScreen.storyboard */,
@@ -245,7 +245,7 @@
 			children = (
 				C4AC39142B07E2D6009AF23B /* BottomSheetExampleSimpleContentViewController.swift */,
 				C4AC39162B092505009AF23B /* BottomSheetExampleListContentViewController.swift */,
-				C4AC39262B0AF4E5009AF23B /* BottomSheetExampleSlackInputContentViewController.swift */,
+				C4AC39262B0AF4E5009AF23B /* BottomSheetExamplePopupMessageContentViewController.swift */,
 			);
 			path = Contents;
 			sourceTree = "<group>";
@@ -429,12 +429,12 @@
 			files = (
 				C4AC39172B092505009AF23B /* BottomSheetExampleListContentViewController.swift in Sources */,
 				C4AC39192B0AB885009AF23B /* BottomSheetExampleIntroViewController.swift in Sources */,
-				C4AC39272B0AF4E5009AF23B /* BottomSheetExampleSlackInputContentViewController.swift in Sources */,
+				C4AC39272B0AF4E5009AF23B /* BottomSheetExamplePopupMessageContentViewController.swift in Sources */,
 				C4AC391C2B0AB8EA009AF23B /* BottomSheetExample.swift in Sources */,
 				C4AC39152B07E2D6009AF23B /* BottomSheetExampleSimpleContentViewController.swift in Sources */,
 				C4AC391E2B0ABF6C009AF23B /* BottomSheetExampleContainerViewController.swift in Sources */,
 				C4AC38E22B072503009AF23B /* AppDelegate.swift in Sources */,
-				C4AC39292B0AF526009AF23B /* BottomSheetExampleSlackInputContainerViewController.swift in Sources */,
+				C4AC39292B0AF526009AF23B /* BottomSheetExamplePopupMessageContainerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

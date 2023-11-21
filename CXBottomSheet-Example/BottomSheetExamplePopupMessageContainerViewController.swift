@@ -1,5 +1,5 @@
 //
-//  BottomSheetExampleSlackInputContainerViewController.swift
+//  BottomSheetExamplePopupMessageContainerViewController.swift
 //  CXBottomSheet-Example
 //
 //  Created by Cunqi Xiao on 11/19/23.
@@ -8,7 +8,7 @@
 import UIKit
 import CXBottomSheet
 
-class BottomSheetExampleSlackInputContainerViewController: UIViewController {
+class BottomSheetExamplePopupMessageContainerViewController: UIViewController {
     
     // MARK: - Properties
     
@@ -116,7 +116,7 @@ class BottomSheetExampleSlackInputContainerViewController: UIViewController {
     }
 }
 
-extension BottomSheetExampleSlackInputContainerViewController: CXBottomSheetDelegate {
+extension BottomSheetExamplePopupMessageContainerViewController: CXBottomSheetDelegate {
     func bottomSheet(availableHeightFor bottomSheet: CXBottomSheet.CXBottomSheetProtocol) -> CGFloat {
         return view.bounds.height -
         (navigationController?.navigationBar.frame.height ?? 0) -
@@ -124,7 +124,7 @@ extension BottomSheetExampleSlackInputContainerViewController: CXBottomSheetDele
     }
 }
 
-extension BottomSheetExampleSlackInputContainerViewController {
+extension BottomSheetExamplePopupMessageContainerViewController {
     @objc
     private func keyboardWillShow(notification: Notification) {
         guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
