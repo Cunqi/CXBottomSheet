@@ -9,6 +9,18 @@ import UIKit
 
 final class CXBottomSheetContentController: UINavigationController {
     
+    // MARK: - Internal properties
+    
+    var contents: [CXBottomSheetContentProtocol] {
+        return viewControllers.compactMap { $0 as? CXBottomSheetContentProtocol }
+    }
+    
+    var topContent: CXBottomSheetContentProtocol? {
+        return topViewController as? CXBottomSheetContentProtocol
+    }
+    
+    // MARK: - Initializer
+    
     convenience init(with content: CXBottomSheetContentProtocol?) {
         if let content = content {
             self.init(rootViewController: content)
@@ -16,6 +28,8 @@ final class CXBottomSheetContentController: UINavigationController {
             self.init()
         }
     }
+    
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()

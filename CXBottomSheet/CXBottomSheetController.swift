@@ -70,10 +70,6 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
     
     // MARK: - Private computed properties
     
-    private var contents: [CXBottomSheetContentProtocol] {
-        contentController.viewControllers.compactMap { $0 as? CXBottomSheetContentProtocol }
-    }
-    
     private var availableHeight: CGFloat {
         delegate?.bottomSheet(availableHeightFor: self) ?? .zero
     }
@@ -273,7 +269,7 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
         guard currentStop != stop else {
             return
         }
-        contents.forEach { $0.bottomSheet(didMove: self, fromStop: currentStop, toStop: stop) }
+        contentController.contents.forEach { $0.bottomSheet(didMove: self, fromStop: currentStop, toStop: stop) }
         currentStop = stop
     }
 
