@@ -60,13 +60,22 @@ extension BottomSheetExample {
         BottomSheetExampleListContentViewController()
     }
     
-    static let slackInputContentExample = BottomSheetExample(
-        name: "Slack input",
+    static let popupMessageExample = BottomSheetExample(
+        name: "Popup message",
         introduction: """
         This demo shows two main features, 1) how to update bottom sheet height in real time, this demo calculate text
         height and update the stops accordingly. 2) how to deal with available height changes to make sure bottom sheet
         will not break user experiences
         """) {
             return BottomSheetExamplePopupMessageContentViewController()
+        }
+    
+    static let slackMessageExample = BottomSheetExample(
+        name: "Slack message",
+        introduction: """
+        This demo is similar to `Popup message` example, but this demo mainly focus on setting up initial content and interact
+        with bottom sheet without using some hiddenTextView hack. it also shows how to interact with keyboard hide/show
+        """) {
+            return BottomSheetExampleSlackMessageContentViewController()
         }
 }

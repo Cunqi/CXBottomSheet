@@ -18,7 +18,8 @@ class BottomSheetExampleIntroViewController: UITableViewController {
     private let examples: [BottomSheetExample] = [
         .simpleContentExample,
         .listContentExample,
-        .slackInputContentExample
+        .popupMessageExample,
+        .slackMessageExample
     ]
     
     // MARK: - Lifecycles
@@ -56,20 +57,25 @@ class BottomSheetExampleIntroViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let example = examples[indexPath.row]
         
-        if example == .slackInputContentExample {
+        if example == .popupMessageExample {
             let containerViewController = BottomSheetExamplePopupMessageContainerViewController(
                 content: example.contentMaker(),
                 introduction: example.introducation)
             containerViewController.title = example.name
             navigationController?.pushViewController(containerViewController, animated: true)
-            return
+        } else if example == .slackMessageExample {
+            let containerViewController = BottomSheetExampleSlackMessageContainerViewController(
+                content: example.contentMaker(),
+                introduction: example.introducation)
+            containerViewController.title = example.name
+            navigationController?.pushViewController(containerViewController, animated: true)
+        } else {
+            let containerViewController = BottomSheetExampleContainerViewController(
+                content: example.contentMaker(),
+                introduction: example.introducation)
+            containerViewController.title = example.name
+            navigationController?.pushViewController(containerViewController, animated: true)
         }
-        
-        let containerViewController = BottomSheetExampleContainerViewController(
-            content: example.contentMaker(), 
-            introduction: example.introducation)
-        containerViewController.title = example.name
-        navigationController?.pushViewController(containerViewController, animated: true)
     }
     
     // MARK: - Private methods
