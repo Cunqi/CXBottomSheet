@@ -36,7 +36,10 @@ class BottomSheetExampleMapContainerViewController: UIViewController {
     }()
     
     
-    private lazy var bottomSheet = CXBottomSheetController(stops: stops, content: content, delegate: self)
+    private lazy var bottomSheet = CXBottomSheetController(
+        content: content,
+        stopContext: CXBottomSheetStopContext(stops: stops, stop: stops.first),
+        delegate: self)
     
     private let stops: [CXBottomSheetStop] = [.fixed(120), .percentage(0.5), .fullyExpanded]
 

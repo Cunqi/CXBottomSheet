@@ -13,6 +13,13 @@ class BottomSheetExampleStackFirstContentViewController: UIViewController, CXBot
     
     var bottomSheet: CXBottomSheetProtocol?
     
+    var stopContext: CXBottomSheetStopContext? = {
+        let stops: [CXBottomSheetStop] = [.percentage(0.15), .percentage(0.45), .fullyExpanded]
+        return CXBottomSheetStopContext(
+            stops: stops,
+            stop: stops.first)
+    }()
+    
     // MARK: - Private properties
     
     private lazy var button: UIButton = {
@@ -45,9 +52,9 @@ class BottomSheetExampleStackFirstContentViewController: UIViewController, CXBot
     
     @objc
     private func didTapButton(_ sender: UIButton) {
-        let stops: [CXBottomSheetStop] = [.percentage(0.5), .fullyExpanded]
         let secondContent = BottomSheetExampleStackSecondContentViewController()
-        bottomSheet?.pushContent(secondContent, stops: stops, immediatelyMoveTo: stops.first)
+        secondContent.saveStopContext(stopContext: bottomSheet?.stopContext)
+        bottomSheet?.pushContent(secondContent, immediatelyInvalidate: true)
     }
 }
 

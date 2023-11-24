@@ -38,5 +38,11 @@ final class CXBottomSheetContentController: UINavigationController {
         view.translatesAutoresizingMaskIntoConstraints = false
         isNavigationBarHidden = true
     }
+ 
+    // MARK: - Internal methods
     
+    @discardableResult
+    func popContent() -> CXBottomSheetContentProtocol? {
+        return popViewController(animated: false) as? CXBottomSheetContentProtocol
+    }
 }

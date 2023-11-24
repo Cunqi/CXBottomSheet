@@ -45,6 +45,7 @@
 		C4AC393A2B1070C7009AF23B /* BottomSheetExampleStackFirstContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC39392B1070C7009AF23B /* BottomSheetExampleStackFirstContentViewController.swift */; };
 		C4AC393C2B1071B1009AF23B /* BottomSheetExampleStackContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC393B2B1071B1009AF23B /* BottomSheetExampleStackContainerViewController.swift */; };
 		C4AC393E2B1118F5009AF23B /* BottomSheetExampleStackSecondContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC393D2B1118F5009AF23B /* BottomSheetExampleStackSecondContentViewController.swift */; };
+		C4AC39422B111B1A009AF23B /* CXBottomSheetStopContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AC39412B111B1A009AF23B /* CXBottomSheetStopContext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -117,6 +118,7 @@
 		C4AC39392B1070C7009AF23B /* BottomSheetExampleStackFirstContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetExampleStackFirstContentViewController.swift; sourceTree = "<group>"; };
 		C4AC393B2B1071B1009AF23B /* BottomSheetExampleStackContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetExampleStackContainerViewController.swift; sourceTree = "<group>"; };
 		C4AC393D2B1118F5009AF23B /* BottomSheetExampleStackSecondContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetExampleStackSecondContentViewController.swift; sourceTree = "<group>"; };
+		C4AC39412B111B1A009AF23B /* CXBottomSheetStopContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CXBottomSheetStopContext.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -223,6 +225,7 @@
 				C4AC38FD2B073270009AF23B /* CXBottomSheetScrollContext.swift */,
 				C4AC39212B0ACD59009AF23B /* CXBottomSheetContentController.swift */,
 				C4AC39232B0AD2C5009AF23B /* CXBottomSheetGripBar.swift */,
+				C4AC39412B111B1A009AF23B /* CXBottomSheetStopContext.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -431,6 +434,7 @@
 				C4AC39222B0ACD59009AF23B /* CXBottomSheetContentController.swift in Sources */,
 				C4AC39242B0AD2C5009AF23B /* CXBottomSheetGripBar.swift in Sources */,
 				C4AC38F72B072870009AF23B /* CXBottomSheetProtocol.swift in Sources */,
+				C4AC39422B111B1A009AF23B /* CXBottomSheetStopContext.swift in Sources */,
 				C4AC39082B07B2E2009AF23B /* CXBottomSheetStyle.swift in Sources */,
 				C4AC38FB2B072A5E009AF23B /* CXBottomSheetContentProtocol.swift in Sources */,
 			);

@@ -21,14 +21,7 @@ class BottomSheetExampleStackContainerViewController: UIViewController {
         return label
     }()
     
-    private lazy var bottomSheet: CXBottomSheetController = {
-        let stops: [CXBottomSheetStop] = [.percentage(0.15), .percentage(0.45), .fullyExpanded]
-        let bottomSheet = CXBottomSheetController(
-            stops: stops,
-            content: content,
-            delegate: self)
-        return bottomSheet
-    }()
+    private lazy var bottomSheet: CXBottomSheetController = CXBottomSheetController(content: content, delegate: self)
     
     private lazy var monitorWindow: UIView = {
         let view = UIView()

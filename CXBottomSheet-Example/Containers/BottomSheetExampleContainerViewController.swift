@@ -24,8 +24,8 @@ class BottomSheetExampleContainerViewController: UIViewController {
     private lazy var bottomSheet: CXBottomSheetController = {
         let stops: [CXBottomSheetStop] = [.percentage(0.15), .percentage(0.45), .fullyExpanded]
         let bottomSheet = CXBottomSheetController(
-            stops: stops,
             content: content,
+            stopContext: CXBottomSheetStopContext(stops: stops),
             delegate: self)
         return bottomSheet
     }()
@@ -49,6 +49,7 @@ class BottomSheetExampleContainerViewController: UIViewController {
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         view.backgroundColor = .systemBackground
         
         setupViewsAndLayoutConstraints()

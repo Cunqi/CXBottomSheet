@@ -24,6 +24,10 @@ public protocol CXBottomSheetInteractableProtocol: AnyObject {
     
     /// Ask the delegate to handle bottom sheet bounce stop change, the bottom sheet real stop is not changed
     /// but the bounce action can still be useful to trigger some interactions (e.g. dismiss keyboard)
+    ///
+    /// One special case is the bottom sheet only contains one stop, in this case, technically, both `didBounceBack:toMaxStop:`
+    /// and `didBounceBack:toMinStop` should work, but in order to avoid duplicate, for this case only `didBounceBack:toMaxStop`
+    /// will be triggered
     /// - Parameters:
     ///   - bottomSheet: bottom sheet which sends out the bounce change
     ///   - stop: bottom sheet max stop
