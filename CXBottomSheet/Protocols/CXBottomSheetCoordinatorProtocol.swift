@@ -80,13 +80,11 @@ public class CXBottomSheetDefaultCoordinator: NSObject, CXBottomSheetCoordinator
         if scrollContext.lastContentYOffset > scrollView.contentOffset.y {
             // Scroll down
             if scrollView.contentOffset.y <= 0 {
-                scrollView.contentOffset.y = 0
                 scrollContext.isBottomSheetInteractionEnabled = true
             }
         } else if scrollContext.lastContentYOffset < scrollView.contentOffset.y {
             // scroll up
             if currentHeight < (scrollContext.maxHeight ?? 0) {
-                scrollView.contentOffset.y = 0
                 scrollContext.isBottomSheetInteractionEnabled = true
             } else {
                 scrollContext.isBottomSheetInteractionEnabled = false
