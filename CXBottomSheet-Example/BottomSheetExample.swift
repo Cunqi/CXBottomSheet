@@ -87,4 +87,12 @@ extension BottomSheetExample {
         """) {
             return BottomSheetExampleMapContentViewController()
         }
+    
+    static let stackExample = BottomSheetExample(
+        name: "Stack Example",
+        introduction: """
+        This demo shows how to stack two contents into same bottom sheet
+        """) {
+            return BottomSheetExampleStackFirstContentViewController()
+        }
 }

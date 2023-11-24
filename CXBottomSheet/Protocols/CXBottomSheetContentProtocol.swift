@@ -13,9 +13,14 @@ import UIKit
 /// (e.g expand, collpase or hide the bottom sheet)
 public protocol CXBottomSheetContentProtocol: UIViewController, CXBottomSheetInteractableProtocol {
 
+    // MARK: - Public properties
     
     /// instance of bottom sheet, use this property to inteact with bottom sheetm
     /// it is `CXBottomSheetProtocol`'s responsibility to setup the reference
     var bottomSheet: CXBottomSheetProtocol? { get set }
+    
+    // MARK: - Public methods
+    
+    // TBD
 }
 

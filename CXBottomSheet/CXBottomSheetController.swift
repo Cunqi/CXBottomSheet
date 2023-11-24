@@ -142,20 +142,42 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
     }
     
     public func pushContent(_ content: CXBottomSheetContentProtocol) {
-        contentController.pushViewController(content, animated: true)
+        contentController.pushViewController(content, animated: false)
         content.bottomSheet = self
     }
     
+    public func pushContent(_ content: CXBottomSheetContentProtocol, stops: [CXBottomSheetStop], immediatelyMoveTo stop: CXBottomSheetStop?) {
+        pushContent(content)
+        updateStops(stops, immediatelyMoveTo: stop)
+    }
+    
     public func makeBottomSheetStop(contentHeight: CGFloat, isUpperBound: Bool) -> CXBottomSheetStop {
-        return .fixed(contentHeight + topBarHeight, isUpperBound: isUpperBound)
+        makeBottomSheetStop(contentHeight: contentHeight, circutBreaker: nil, isUpperBound: isUpperBound)
+    }
+    
+    public func makeBottomSheetStop(contentHeight: CGFloat, circutBreaker stop: CXBottomSheetStop?, isUpperBound: Bool) -> CXBottomSheetStop {
+        let fixedHeightStop = CXBottomSheetStop.fixed(contentHeight + topBarHeight)
+        guard let circutBreakerStop = stop else {
+            return fixedHeightStop
+        }
+        return fixedHeightStop.makeHeight(with: availableHeight) <= circutBreakerStop.makeHeight(with: availableHeight) ? fixedHeightStop : circutBreakerStop
     }
     
     public func updateStops(_ stops: [CXBottomSheetStop], immediatelyMoveTo stop: CXBottomSheetStop?) {
+        updateStops(stops, moveTo: stop, immediately: true)
+    }
+    
+    public func updateStops(_ stops: [CXBottomSheetStop], moveTo stop: CXBottomSheetStop?, immediately: Bool) {
         self.stops = Self.calibrateStopsIfNeeded(from: stops, availableHeight: availableHeight)
         guard let stop = stop else {
             return
         }
-        move(to: stop, distinctMove: false)
+        
+        if immediately {
+            move(to: stop, distinctMove: false)
+        } else {
+            updateCurrentStop(to: stop)
+        }
     }
     
     public func move(to stop: CXBottomSheetStop, animated: Bool) {
@@ -166,6 +188,13 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
     public func move(to stop: CXBottomSheetStop, animator: UIViewPropertyAnimator) {
         let calibratedStop = stops.contains(stop) ? stop : maxStop
         move(to: calibratedStop, distinctMove: true, animated: true, animator: animator)
+    }
+    
+    public func invalidate(animated: Bool) {
+        guard isVisible else {
+            return
+        }
+        move(to: currentStop, distinctMove: false, animated: animated)
     }
     
     // MARK: - Private methods

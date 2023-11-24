@@ -55,31 +55,64 @@ public protocol CXBottomSheetProtocol: UIViewController, UIScrollViewDelegate {
     /// Directly setup content to bottom sheet regardless of current bottom sheet hierarchy
     /// - Parameter content: root content of bottom sheet
     func setupContent(_ rootContent: CXBottomSheetContentProtocol)
-
+    
     /// push content to bottom sheet into current bottom sheet content stack
-    /// - Parameter content: content that we want to push in current bottom sheet hierarchy
+    /// - Parameters:
+    ///   - content: content that we want to push in current bottom sheet hierarchy
     func pushContent(_ content: CXBottomSheetContentProtocol)
     
+    /// push content to bottom sheet into current bottom sheet content stack
+    /// - Parameters:
+    ///   - content: content that we want to push in current bottom sheet hierarchy
+    ///   - stops: All stops that we want the bottom sheet to support
+    ///   - stop: expect stop we want the bottom sheet to move to after `stops` setup
+    func pushContent(_ content: CXBottomSheetContentProtocol,
+                     stops: [CXBottomSheetStop],
+                     immediatelyMoveTo stop: CXBottomSheetStop?)
+    
     /// Craete a `fixed` stop with extra bottom sheet space included (e.g. grip view from bottom sheet)
-    /// - Parameter contentHeight: height of content
-    /// - Parameter isUpperBound: if the stop is upper bound stop
+    /// - Parameters:
+    ///   - contentHeight: height of content
+    ///   - isUpperBound: if the stop is upper bound stop
     /// - Returns: adjusted stop contains extra height for bottom sheet
     func makeBottomSheetStop(contentHeight: CGFloat, isUpperBound: Bool) -> CXBottomSheetStop
+    
+    /// Craete a `fixed` stop with extra bottom sheet space included (e.g. grip view from bottom sheet)
+    /// - Parameters:
+    ///   - contentHeight: height of content
+    ///   - stop: A circut break stop can help to prevent the content exceeds maximum size of bottom sheet
+    ///   - isUpperBound: if the stop is upper bound stop
+    /// - Returns: adjusted stop contains extra height for bottom sheet
+    func makeBottomSheetStop(contentHeight: CGFloat, circutBreaker stop: CXBottomSheetStop?, isUpperBound: Bool) -> CXBottomSheetStop
+    
+    /// /// Update bottom sheet stops then optionally move to a given stop immediately
+    /// - Parameters:
+    ///   - stops: All stops that we want the bottom sheet to support
+    ///   - stop: expect stop we want the bottom sheet to move to after `stops` setup
+    func updateStops(_ stops: [CXBottomSheetStop], immediatelyMoveTo stop: CXBottomSheetStop?)
     
     /// Update bottom sheet stops then optionally move to a given stop immediately
     /// - Parameters:
     ///   - stops: All stops that we want the bottom sheet to support
     ///   - stop: expect stop we want the bottom sheet to move to after `stops` setup
-    func updateStops(_ stops: [CXBottomSheetStop], immediatelyMoveTo stop: CXBottomSheetStop?)
+    ///   - immediately: should immediately move the bottom sheet to given sotp or not
+    func updateStops(_ stops: [CXBottomSheetStop], moveTo stop: CXBottomSheetStop?, immediately: Bool)
 
     /// Move bottom sheet to a given stop
-    /// - Parameter stop: A stop we want the bottom sheet to move to
-    /// - Parameter animated: Enable animation for bottom sheet movement
+    /// - Parameters:
+    ///   - stop: A stop we want the bottom sheet to move to
+    ///   - animated: Enable animation for bottom sheet movement
     func move(to stop: CXBottomSheetStop, animated: Bool)
     
     /// Move bottom sheet to a given stop
-    /// - Parameter stop: A stop we want the bottom sheet to move to
-    /// - Parameter animator: Create a custom animator to execute the bottom sheet movement
+    /// - Parameters:
+    ///   - stop: A stop we want the bottom sheet to move to
+    ///   - animator: Create a custom animator to execute the bottom sheet movement
     func move(to stop: CXBottomSheetStop, animator: UIViewPropertyAnimator)
+    
+    /// Invalidate the bottom sheet without change any stop configuration, this is usefull when
+    /// available height changed
+    /// - Parameter animated: Enable animation for bottom sheet invalidation
+    func invalidate(animated: Bool)
 }
 
