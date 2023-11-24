@@ -27,18 +27,14 @@ public protocol CXBottomSheetProtocol: UIViewController, UIScrollViewDelegate {
     /// The stop which currently has lowest height
     var minStop: CXBottomSheetStop { get }
     
-    /// If bottom sheet is currently visible, a bottom sheet is considered
-    /// visible only if `currentStop` is not `closed`
-    var isVisible: Bool { get }
-    
     /// Bottom sheet can be considered as closed only if `currentStop` is `closed`
-    var isClosed: Bool { get }
+    var isHidden: Bool { get }
     
     /// If bottom sheet stops at the `maxStop`
-    var reachedMaxStop: Bool { get }
+    var hasReachedMaxStop: Bool { get }
     
     /// If bottom sheet stops at the `minStop`
-    var reachedMinStop: Bool { get }
+    var hasReachedMinStop: Bool { get }
     
     /// Flag if bottom sheet is able to response any user interactions
     var isUserInteractionEnabled: Bool { get set }
@@ -49,6 +45,9 @@ public protocol CXBottomSheetProtocol: UIViewController, UIScrollViewDelegate {
     
     /// Delegate of handling bottom sheet display and behaviors
     var delegate: CXBottomSheetDelegate? { get }
+    
+    /// Current bottom sheet stop context
+    var stopContext: CXBottomSheetStopContext { get }
 
     // MARK: - Public methods
     
@@ -56,19 +55,15 @@ public protocol CXBottomSheetProtocol: UIViewController, UIScrollViewDelegate {
     /// - Parameter content: root content of bottom sheet
     func setupContent(_ rootContent: CXBottomSheetContentProtocol)
     
-    /// push content to bottom sheet into current bottom sheet content stack
+    /// Push content to bottom sheet into current bottom sheet content stack
     /// - Parameters:
     ///   - content: content that we want to push in current bottom sheet hierarchy
-    func pushContent(_ content: CXBottomSheetContentProtocol)
+    ///   - immediatelyInvalidate: should invalidate current bottom sheet or not
+    func pushContent(_ content: CXBottomSheetContentProtocol, immediatelyInvalidate: Bool)
     
-    /// push content to bottom sheet into current bottom sheet content stack
-    /// - Parameters:
-    ///   - content: content that we want to push in current bottom sheet hierarchy
-    ///   - stops: All stops that we want the bottom sheet to support
-    ///   - stop: expect stop we want the bottom sheet to move to after `stops` setup
-    func pushContent(_ content: CXBottomSheetContentProtocol,
-                     stops: [CXBottomSheetStop],
-                     immediatelyMoveTo stop: CXBottomSheetStop?)
+    /// Pop content to previous content from current bottom sheet content stack
+    /// - Parameter immediatelyInvalidate: should invalidate current bottom sheet or not
+    func popContent(immediatelyInvalidate: Bool)
     
     /// Craete a `fixed` stop with extra bottom sheet space included (e.g. grip view from bottom sheet)
     /// - Parameters:

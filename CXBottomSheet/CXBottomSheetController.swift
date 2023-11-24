@@ -12,20 +12,32 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
     
     // MARK: - Public properties
     
-    public var isVisible: Bool {
-        !isClosed
+    public var isHidden: Bool {
+        stopContext.isHidden
     }
     
-    public var isClosed: Bool {
-        currentStop == .closed
+    public var hasReachedMaxStop: Bool {
+        stopContext.isReachedMaxStop
     }
     
-    public var reachedMaxStop: Bool {
-        currentStop == maxStop
+    public var hasReachedMinStop: Bool {
+        stopContext.isReachedMinStop
     }
     
-    public var reachedMinStop: Bool {
-        currentStop == minStop
+    public var maxStop: CXBottomSheetStop {
+        return stopContext.maxStop
+    }
+    
+    public var minStop: CXBottomSheetStop {
+        return stopContext.minStop
+    }
+    
+    public var stops: [CXBottomSheetStop] {
+        stopContext.stops
+    }
+    
+    public var currentStop: CXBottomSheetStop {
+        stopContext.stop
     }
     
     public var isUserInteractionEnabled: Bool {
@@ -37,16 +49,7 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
         }
     }
     
-    public var maxStop: CXBottomSheetStop {
-        return stops.max { CXBottomSheetStop.compare(lhs: $0, rhs: $1, with: availableHeight) == .orderedAscending } ?? currentStop
-    }
-    
-    public var minStop: CXBottomSheetStop {
-        return stops.min { CXBottomSheetStop.compare(lhs: $0, rhs: $1, with: availableHeight) == .orderedAscending } ?? currentStop
-    }
-    
-    public private(set) var currentStop: CXBottomSheetStop = .closed
-    public private(set) var stops: [CXBottomSheetStop] = []
+    public private(set) var stopContext: CXBottomSheetStopContext
     
     public weak var delegate: CXBottomSheetDelegate?
     
@@ -109,16 +112,34 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
     
     // MARK: - Initializer
     
-    public init(stops: [CXBottomSheetStop] = [],
-                content: CXBottomSheetContentProtocol? = nil,
-                style: CXBottomSheetStyle = CXBottomSheetDefaultStyle(),
+    public convenience init(style: CXBottomSheetStyle = CXBottomSheetDefaultStyle(),
+                            stopContext: CXBottomSheetStopContext = .default,
+                            delegate: CXBottomSheetDelegate) {
+        self.init(content: nil, style: style, stopContext: stopContext, delegate: delegate)
+    }
+    
+    public convenience init(content: CXBottomSheetContentProtocol?,
+                            style: CXBottomSheetStyle = CXBottomSheetDefaultStyle(),
+                            delegate: CXBottomSheetDelegate) {
+        self.init(content: content, style: style, stopContext: content?.stopContext ?? .default, delegate: delegate)
+    }
+    
+    public convenience init(content: CXBottomSheetContentProtocol?,
+                            stopContext: CXBottomSheetStopContext,
+                            delegate: CXBottomSheetDelegate) {
+        self.init(content: content, style: CXBottomSheetDefaultStyle(), stopContext: stopContext, delegate: delegate)
+    }
+    
+    public init(content: CXBottomSheetContentProtocol?,
+                style: CXBottomSheetStyle,
+                stopContext: CXBottomSheetStopContext,
                 delegate: CXBottomSheetDelegate) {
         self.style = style
         self.scrollContext = CXBottomSheetScrollContext(scrollSensitiveLevel: style.scrollSensitiveLevel)
         self.delegate = delegate
         self.contentController = CXBottomSheetContentController(with: content)
+        self.stopContext = stopContext
         super.init(nibName: nil, bundle: nil)
-        self.stops = Self.calibrateStopsIfNeeded(from: stops, availableHeight: availableHeight)
         content?.bottomSheet = self
     }
     
@@ -139,16 +160,27 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
     public func setupContent(_ content: CXBottomSheetContentProtocol) {
         contentController.setViewControllers([content], animated: false)
         content.bottomSheet = self
+        stopContext = content.stopContext ?? stopContext
     }
     
-    public func pushContent(_ content: CXBottomSheetContentProtocol) {
+    public func pushContent(_ content: CXBottomSheetContentProtocol, immediatelyInvalidate: Bool) {
         contentController.pushViewController(content, animated: false)
         content.bottomSheet = self
+        
+        if let stopContext = content.stopContext {
+            updateStops(stopContext.stops, moveTo: stopContext.stop, immediately: immediatelyInvalidate)
+        } else if immediatelyInvalidate {
+            invalidate(animated: true)
+        }
     }
     
-    public func pushContent(_ content: CXBottomSheetContentProtocol, stops: [CXBottomSheetStop], immediatelyMoveTo stop: CXBottomSheetStop?) {
-        pushContent(content)
-        updateStops(stops, immediatelyMoveTo: stop)
+    public func popContent(immediatelyInvalidate: Bool) {
+        defer { contentController.popContent() }
+        if let previousStopContext = contentController.topContent?.loadStopContext() {
+            updateStops(previousStopContext.stops, moveTo: previousStopContext.stop, immediately: immediatelyInvalidate)
+        } else {
+            invalidate(animated: true)
+        }
     }
     
     public func makeBottomSheetStop(contentHeight: CGFloat, isUpperBound: Bool) -> CXBottomSheetStop {
@@ -168,7 +200,7 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
     }
     
     public func updateStops(_ stops: [CXBottomSheetStop], moveTo stop: CXBottomSheetStop?, immediately: Bool) {
-        self.stops = Self.calibrateStopsIfNeeded(from: stops, availableHeight: availableHeight)
+        stopContext.makeSnapshot(updatedStops: stops, with: availableHeight)
         guard let stop = stop else {
             return
         }
@@ -181,19 +213,18 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
     }
     
     public func move(to stop: CXBottomSheetStop, animated: Bool) {
-        let calibratedStop = stops.contains(stop) ? stop : maxStop
-        move(to: calibratedStop, distinctMove: true, animated: animated)
+        move(to: stopContext.calibrate(stop: stop), distinctMove: true, animated: animated)
     }
     
     public func move(to stop: CXBottomSheetStop, animator: UIViewPropertyAnimator) {
-        let calibratedStop = stops.contains(stop) ? stop : maxStop
-        move(to: calibratedStop, distinctMove: true, animated: true, animator: animator)
+        move(to: stopContext.calibrate(stop: stop), distinctMove: true, animated: true, animator: animator)
     }
     
     public func invalidate(animated: Bool) {
-        guard isVisible else {
+        guard !isHidden else {
             return
         }
+        stopContext.makeSnapshot(with: availableHeight)
         move(to: currentStop, distinctMove: false, animated: animated)
     }
     
@@ -285,10 +316,10 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
     private func completeAnimation(to stop: CXBottomSheetStop, isBouncingBack: Bool) {
         if !isBouncingBack {
             updateCurrentStop(to: stop)
-        } else if reachedMaxStop && isBouncingBack {
+        } else if currentStop == stop, hasReachedMaxStop, isBouncingBack {
             delegate?.bottomSheet(didBounceBack: self, toMaxStop: currentStop)
             contentController.topContent?.bottomSheet(didBounceBack: self, toMaxStop: currentStop)
-        } else if reachedMinStop && isBouncingBack {
+        } else if currentStop == stop, hasReachedMinStop, isBouncingBack {
             delegate?.bottomSheet(didBounceBack: self, toMinStop: currentStop)
             contentController.topContent?.bottomSheet(didBounceBack: self, toMinStop: currentStop)
         } else {
@@ -323,33 +354,17 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
     }
     
     private func updateCurrentStop(to stop: CXBottomSheetStop) {
-        guard currentStop != stop else {
+        guard let invalidatedStop = stopContext.invalidate(stop: stop) else {
             return
         }
-        let previousStop = currentStop
-        currentStop = stop
-        contentController.topContent?.bottomSheet(didMove: self, fromStop: previousStop, toStop: currentStop)
-    }
-    
-    private func isValidStop(_ stop: CXBottomSheetStop) -> Bool {
-        return stop == .closed || stops.contains(stop)
+        contentController.topContent?.bottomSheet(didMove: self, fromStop: invalidatedStop, toStop: stop)
     }
     
     private func move(to stop: CXBottomSheetStop, distinctMove: Bool, animated: Bool = true, animator: UIViewPropertyAnimator? = nil) {
-        guard isValidStop(stop),
-              !distinctMove || currentStop != stop else {
+        guard stopContext.canMove(to: stop, distinct: distinctMove) else {
             return
         }
         executeStopChange(to: stop, animated: animated, animator: animator)
-    }
-    
-    private static func calibrateStopsIfNeeded(from stops: [CXBottomSheetStop], availableHeight: CGFloat) -> [CXBottomSheetStop] {
-        guard let upperBound = stops.last(where: { $0.isUpperBound }) else {
-            return stops
-        }
-        let upperBoundHeight = upperBound.makeHeight(with: availableHeight)
-        let calibratedStops = stops.filter { $0.makeHeight(with: availableHeight) <= upperBoundHeight }
-        return calibratedStops
     }
 }
 

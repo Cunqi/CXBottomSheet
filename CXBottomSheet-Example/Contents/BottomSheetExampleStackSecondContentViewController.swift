@@ -15,20 +15,32 @@ class BottomSheetExampleStackSecondContentViewController: UIViewController, CXBo
     
     private static let minimumContentHeight: CGFloat = 48.0
     
+    // MARK: - Internal properties
+    
     var bottomSheet: CXBottomSheet.CXBottomSheetProtocol?
+    
+    var stopContext: CXBottomSheetStopContext? {
+        let stops: [CXBottomSheetStop] = [.percentage(0.5)]
+        return CXBottomSheetStopContext(stops: stops, stop: stops.first)
+    }
     
     // MARK: - Private properties
     
     private lazy var textView: UITextView = {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .body)
-        textView.delegate = self
         return textView
     }()
     
     private lazy var barItem: UIBarButtonItem = {
-        return UIBarButtonItem(title: "Test", style: .plain, target: self, action: #selector(didTapBarButtonItem))
+        return UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapBarButtonItem))
     }()
+    
+    private var previousStopContext: CXBottomSheetStopContext? {
+        didSet {
+            print(previousStopContext)
+        }
+    }
     
     // MARK: - Lifecycle
     
@@ -54,34 +66,25 @@ class BottomSheetExampleStackSecondContentViewController: UIViewController, CXBo
     // MARK: - Internal methods
     
     func bottomSheet(didMove bottomSheet: CXBottomSheet.CXBottomSheetProtocol, fromStop: CXBottomSheet.CXBottomSheetStop, toStop: CXBottomSheet.CXBottomSheetStop) {
-        textView.isScrollEnabled = bottomSheet.reachedMaxStop
+        textView.isScrollEnabled = bottomSheet.hasReachedMaxStop
+    }
+    
+    func bottomSheet(didBounceBack bottomSheet: CXBottomSheetProtocol, toMinStop stop: CXBottomSheetStop) {
+        textView.resignFirstResponder()
+    }
+    
+    func saveStopContext(stopContext: CXBottomSheetStopContext?) {
+        previousStopContext = stopContext
+    }
+    
+    func loadStopContext() -> CXBottomSheetStopContext? {
+        return previousStopContext
     }
     
     // MARK: - Private methods
     
     @objc
     private func didTapBarButtonItem() {
-        let stops: [CXBottomSheetStop] = [.percentage(0.15), .percentage(0.45), .fullyExpanded]
-        navigationController?.popViewController(animated: false)
-        bottomSheet?.updateStops(stops, moveTo: .percentage(0.15), immediately: false)
+        bottomSheet?.popContent(immediatelyInvalidate: false)
     }
 }
-
-// MARK: - UITableViewDelegate
-
-extension BottomSheetExampleStackSecondContentViewController: UITextViewDelegate {
-    func textViewDidChange(_ textView: UITextView) {
-        let size = textView.sizeThatFits(CGSize(width: view.bounds.width, height: .greatestFiniteMagnitude))
-        let currentStop = bottomSheet?.makeBottomSheetStop(
-            contentHeight: max(Self.minimumContentHeight, size.height),
-            circutBreaker: nil,
-            isUpperBound: false)
-        let stops = [currentStop, .percentage(0.5, isUpperBound: true)].compactMap { $0 }
-        let isExpanded = bottomSheet?.reachedMaxStop ?? false
-        bottomSheet?.updateStops(stops, moveTo: nil, immediately: true)
-        if let currentStop = currentStop, !isExpanded {
-            bottomSheet?.move(to: currentStop, animated: true)  // Filter out duplicates
-        }
-    }
-}
-
