@@ -314,12 +314,15 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
     }
     
     private func completeAnimation(to stop: CXBottomSheetStop, isBouncingBack: Bool) {
+        let stopNotUpdated = currentStop == stop
+        let isScrollingUp = scrollContext.scrollDirection == .up
+        let isScrollingDown = scrollContext.scrollDirection == .down
         if !isBouncingBack {
             updateCurrentStop(to: stop)
-        } else if currentStop == stop, hasReachedMaxStop, isBouncingBack {
+        } else if stopNotUpdated, hasReachedMaxStop, isBouncingBack, isScrollingUp {
             delegate?.bottomSheet(didBounceBack: self, toMaxStop: currentStop)
             contentController.topContent?.bottomSheet(didBounceBack: self, toMaxStop: currentStop)
-        } else if currentStop == stop, hasReachedMinStop, isBouncingBack {
+        } else if stopNotUpdated, hasReachedMinStop, isBouncingBack, isScrollingDown {
             delegate?.bottomSheet(didBounceBack: self, toMinStop: currentStop)
             contentController.topContent?.bottomSheet(didBounceBack: self, toMinStop: currentStop)
         } else {
@@ -336,7 +339,7 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
                 startYPosition: 0,
                 currentHeight: currentHeight,
                 availableHeight: availableHeight,
-                stops: stops)
+                stopContext: stopContext)
         case .changed:
             guard scrollContext.isBottomSheetInteractionEnabled else {
                 scrollContext.updateStartYPosition(with: currentYPosition)
@@ -346,7 +349,7 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
             currentHeight = scrollContext.makeFinalPanPosition()
         case .ended:
             let isBouncingBack = scrollContext.isBouncingBack(with: currentHeight)
-            let targetStop = scrollContext.fetchClosetStop(with: currentHeight) ?? currentStop
+            let targetStop = scrollContext.fetchClosetStop(with: currentHeight)
             executeStopChange(to: targetStop, isBouncingBack: isBouncingBack)
         default:
             break

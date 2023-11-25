@@ -69,6 +69,10 @@ class BottomSheetExampleStackSecondContentViewController: UIViewController, CXBo
         textView.isScrollEnabled = bottomSheet.hasReachedMaxStop
     }
     
+    func bottomSheet(didBounceBack bottomSheet: CXBottomSheetProtocol, toMaxStop stop: CXBottomSheetStop) {
+        textView.becomeFirstResponder()
+    }
+    
     func bottomSheet(didBounceBack bottomSheet: CXBottomSheetProtocol, toMinStop stop: CXBottomSheetStop) {
         textView.resignFirstResponder()
     }

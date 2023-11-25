@@ -12,11 +12,17 @@ import Foundation
 /// 1. It helps to handle pan position calculation and help to determine the proper stop after panning ends
 /// 2. It helps to coodinate scrolling between bottom sheet and bottom sheet content (if a content is scrollable)
 class CXBottomSheetScrollContext {
+    
+    enum ScrollDirection: Int {
+        case up
+        case down
+        case none
+    }
 
     // MARK: - Constants
     
     /// Bounce factor was used to mimic a bounce animation
-    private static let bounceFactor = 0.02
+    private static let bounceFactor = 0.06
 
     // MARK: - Properties
     
@@ -30,14 +36,23 @@ class CXBottomSheetScrollContext {
     var isBottomSheetInteractionEnabled = true
 
     /// Maximum height we can reach in current panning / scrolling
-    var maxHeight: CGFloat? {
-        return stops.last?.makeHeight(with: availableHeight)
+    var maxHeight: CGFloat {
+        stopContext.maxStop.makeHeight(with: availableHeight)
     }
 
     /// Minimum height we can reach in current panning / scrolling
-    var minHeight: CGFloat? {
-        return stops.first?.makeHeight(with: availableHeight)
+    var minHeight: CGFloat {
+        stopContext.minStop.makeHeight(with: availableHeight)
     }
+    
+    var scrollDirection: ScrollDirection {
+        if pannedDelta == 0 {
+            return .none
+        }
+        return pannedDelta > 0 ? .up : .down
+    }
+    
+    
     
     // MARK: - Private properties
 
@@ -47,9 +62,9 @@ class CXBottomSheetScrollContext {
         return Self.bounceFactor * pannedDelta
     }
 
-    /// Sorted stops while panning / scrolling, this will be used to find the right stop
+    /// Current stop context snapshot, this will be used to find the right stop
     /// after panning / scrolling
-    private var stops: [CXBottomSheetStop] = []
+    private var stopContext: CXBottomSheetStopContext = .default
 
     /// At the begnning of panning / scrolling, an available height should be finalized,
     /// this height will be used to calculate pan position as well as determing final stop
@@ -70,10 +85,6 @@ class CXBottomSheetScrollContext {
     /// negative value represents panning down
     private var pannedDelta: CGFloat {
         return startYPosition - yPosition
-    }
-    
-    private var isPanningUp: Bool {
-        return pannedDelta >= 0
     }
     
     private let scrollSensitiveLevel: CXBottomSheetScrollSensitiveLevel
@@ -103,28 +114,28 @@ class CXBottomSheetScrollContext {
     ///   - startYPosition: Start Y position
     ///   - currentHeight: Current bottom sheet height
     ///   - availableHeight: Available height that the bottom sheet can scroll
-    ///   - stops: All stops the current bottom sheet supports
+    ///   - stopContext: Current bottom sheet stop context
     func makeSnapshot(startYPosition: CGFloat,
                       currentHeight: CGFloat,
                       availableHeight: CGFloat,
-                      stops: [CXBottomSheetStop]) {
+                      stopContext: CXBottomSheetStopContext) {
         self.startYPosition = startYPosition
         self.currentHeight = currentHeight
         self.availableHeight = availableHeight
-        self.stops = stops
+        self.stopContext = stopContext
     }
     
     /// Find the stop that has the minimum delta value with given height
     /// - Parameter targetHeight: height to find the right stop
     /// - Returns: the most closet stop if available
-    func fetchClosetStop(with targetHeight: CGFloat) -> CXBottomSheetStop? {
-        guard stops.count > 1 else {
-            return stops.first
+    func fetchClosetStop(with targetHeight: CGFloat) -> CXBottomSheetStop {
+        guard stopContext.stops.count > 1 else {
+            return stopContext.stops.first ?? stopContext.stop
         }
         
-        for index in 0 ..< (stops.count - 1) {
-            let stop = stops[index]
-            let nextStop = stops[index + 1]
+        for index in 0 ..< (stopContext.stops.count - 1) {
+            let stop = stopContext.stops[index]
+            let nextStop = stopContext.stops[index + 1]
             let stopHeight = stop.makeHeight(with: availableHeight)
             let nextStopHeight = nextStop.makeHeight(with: availableHeight)
             let deltaThreshold = (nextStopHeight - stopHeight) * scrollSensitiveLevel
@@ -133,15 +144,15 @@ class CXBottomSheetScrollContext {
                 continue
             }
             
-            if isPanningUp {
+            if scrollDirection == .up {
                 let heightThreshold = stopHeight + deltaThreshold
                 return targetHeight >= heightThreshold ? nextStop : stop
-            } else {
+            } else if scrollDirection == .down {
                 let heightThreshold = nextStopHeight - deltaThreshold
                 return targetHeight <= heightThreshold ? stop : nextStop
             }
         }
-        return stops.last
+        return stopContext.stops.last ?? stopContext.stop
     }
 
     /// Calculate and return the final pan positon when the panning action ends, a bounce animation might be applied if
@@ -149,17 +160,16 @@ class CXBottomSheetScrollContext {
     /// - Returns: final height after panning
     func makeFinalPanPosition() -> CGFloat {
         let finalHeight = currentHeight + pannedDelta
-        if let maxHeight = maxHeight, finalHeight >= maxHeight {
+        if finalHeight >= maxHeight {
             return maxHeight + bounceOffset
-        } else if let minHeight = minHeight, finalHeight <= minHeight {
+        } else if finalHeight <= minHeight {
             return minHeight + bounceOffset
-        } else {
-            return finalHeight
         }
+        return finalHeight
     }
     
     func isBouncingBack(with height: CGFloat) -> Bool {
-        return height > (maxHeight ?? height) || height < (minHeight ?? height)
+        return height > maxHeight || height < minHeight
     }
 
     func updateYPosition(with yPosition: CGFloat) {
