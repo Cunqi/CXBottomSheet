@@ -21,7 +21,11 @@ class BottomSheetExampleStackContainerViewController: UIViewController {
         return label
     }()
     
-    private lazy var bottomSheet: CXBottomSheetController = CXBottomSheetController(content: content, delegate: self)
+    private lazy var bottomSheet: CXBottomSheetController = {
+        let bottomSheet = CXBottomSheetController(content: content, delegate: self)
+        bottomSheet.coordinator = BottomSheetCoordinator(scrollContext: .init(scrollSensitiveLevel: .ultra))
+        return bottomSheet
+    }()
     
     private lazy var monitorWindow: UIView = {
         let view = UIView()
@@ -129,3 +133,10 @@ extension BottomSheetExampleStackContainerViewController {
     }
 }
 
+extension BottomSheetExampleStackContainerViewController {
+    class BottomSheetCoordinator: CXBottomSheetDefaultCoordinator {
+        override func bottomSheetCoordinator(bottomSheet: CXBottomSheetProtocol, shouldResponseToGestureEvent view: UIView?) -> Bool {
+            return !(view is UITextView)
+        }
+    }
+}

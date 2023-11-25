@@ -35,7 +35,7 @@ class BottomSheetExampleStackFirstContentViewController: UIViewController, CXBot
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .secondarySystemGroupedBackground
         
         view.addSubview(button)
         button.snp.makeConstraints { make in

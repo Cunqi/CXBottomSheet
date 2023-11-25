@@ -22,6 +22,10 @@ public protocol CXBottomSheetCoordinatorProtocol: AnyObject {
     
     // MARK: - Public methods
     
+    var scrollContext: CXBottomSheetScrollContext { get }
+    
+    // MARK: - Public methods
+    
     /// This methods can help bottom sheet to figure out if the given view can response to
     /// the pan gesture on bottom sheet, this is the most important step to check if the
     /// event should be passed into content or not, if yes, the pan gesture event should be
@@ -53,21 +57,21 @@ public protocol CXBottomSheetCoordinatorProtocol: AnyObject {
     func bottomSheetCoordinator(bottomSheet: CXBottomSheetProtocol, contentDidEndScroll scrollView: UIScrollView)
 }
 
-public class CXBottomSheetDefaultCoordinator: NSObject, CXBottomSheetCoordinatorProtocol {
+open class CXBottomSheetDefaultCoordinator: NSObject, CXBottomSheetCoordinatorProtocol {
     
     // MARK: - Private properties
     
-    private let scrollContext: CXBottomSheetScrollContext
+    public let scrollContext: CXBottomSheetScrollContext
     
     // MARK: - Initializer
     
-    init(scrollContext: CXBottomSheetScrollContext) {
+    public init(scrollContext: CXBottomSheetScrollContext) {
         self.scrollContext = scrollContext
     }
     
     // MARK: - Public methods
     
-    public func bottomSheetCoordinator(bottomSheet: CXBottomSheetProtocol, shouldResponseToGestureEvent view: UIView?) -> Bool {
+    open func bottomSheetCoordinator(bottomSheet: CXBottomSheetProtocol, shouldResponseToGestureEvent view: UIView?) -> Bool {
         return view is UIScrollView
     }
     
@@ -84,7 +88,7 @@ public class CXBottomSheetDefaultCoordinator: NSObject, CXBottomSheetCoordinator
             }
         } else if scrollContext.lastContentYOffset < scrollView.contentOffset.y {
             // scroll up
-            if currentHeight < (scrollContext.maxHeight ?? 0) {
+            if currentHeight < scrollContext.maxHeight {
                 scrollContext.isBottomSheetInteractionEnabled = true
             } else {
                 scrollContext.isBottomSheetInteractionEnabled = false

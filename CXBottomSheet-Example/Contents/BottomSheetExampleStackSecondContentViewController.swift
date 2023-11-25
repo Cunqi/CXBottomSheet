@@ -29,6 +29,7 @@ class BottomSheetExampleStackSecondContentViewController: UIViewController, CXBo
     private lazy var textView: UITextView = {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .body)
+        textView.backgroundColor = .clear
         return textView
     }()
     
@@ -36,21 +37,17 @@ class BottomSheetExampleStackSecondContentViewController: UIViewController, CXBo
         return UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapBarButtonItem))
     }()
     
-    private var previousStopContext: CXBottomSheetStopContext? {
-        didSet {
-            print(previousStopContext)
-        }
-    }
+    private var previousStopContext: CXBottomSheetStopContext?
     
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .secondarySystemGroupedBackground
         view.addSubview(textView)
         textView.snp.makeConstraints { make in
-            make.edges.equalTo(view)
+            make.edges.equalTo(view).inset(UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16))
         }
         
         navigationController?.isNavigationBarHidden = false

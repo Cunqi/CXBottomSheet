@@ -11,7 +11,7 @@ import Foundation
 /// responsibility for `CXBottomSheetScrollContext`:
 /// 1. It helps to handle pan position calculation and help to determine the proper stop after panning ends
 /// 2. It helps to coodinate scrolling between bottom sheet and bottom sheet content (if a content is scrollable)
-class CXBottomSheetScrollContext {
+public class CXBottomSheetScrollContext {
     
     enum ScrollDirection: Int {
         case up
@@ -91,7 +91,7 @@ class CXBottomSheetScrollContext {
     
     // MARK: - Initializer
     
-    init(scrollSensitiveLevel: CXBottomSheetScrollSensitiveLevel) {
+    public init(scrollSensitiveLevel: CXBottomSheetScrollSensitiveLevel) {
         self.scrollSensitiveLevel = scrollSensitiveLevel
     }
 

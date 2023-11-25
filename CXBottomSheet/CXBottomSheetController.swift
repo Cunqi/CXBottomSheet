@@ -53,16 +53,17 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
     
     public weak var delegate: CXBottomSheetDelegate?
     
-    public lazy var coordinator: CXBottomSheetCoordinatorProtocol = {
-        let coordinator = CXBottomSheetDefaultCoordinator(scrollContext: scrollContext)
-        return coordinator
-    }()
+    public var coordinator: CXBottomSheetCoordinatorProtocol {
+        didSet {
+            scrollContext = coordinator.scrollContext
+        }
+    }
     
     // MARK: - Private properties
     
-    private let scrollContext: CXBottomSheetScrollContext
     private let contentController: CXBottomSheetContentController
     private let style: CXBottomSheetStyle
+    private var scrollContext: CXBottomSheetScrollContext
     
     private var sizeChangeObservation: NSKeyValueObservation?
     private var previousSize: CGSize = .zero
@@ -142,6 +143,7 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
         self.delegate = delegate
         self.contentController = CXBottomSheetContentController(with: content)
         self.stopContext = stopContext
+        self.coordinator = CXBottomSheetDefaultCoordinator(scrollContext: scrollContext)
         super.init(nibName: nil, bundle: nil)
         content?.bottomSheet = self
     }
