@@ -37,6 +37,7 @@ class CXBottomSheetGripBar: UIView {
     }
     
     private func setupViewsAndLayoutConstraints(with style: CXBottomSheetInternalStyle) {
+        backgroundColor = .clear
         addSubview(gripView)
         
         gripView.snp.makeConstraints { make in

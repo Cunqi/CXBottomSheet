@@ -237,46 +237,6 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
     
     // MARK: - Private methods
     
-    private func stylize() {
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        view.layer.cornerRadius = style.cornerRadius
-        view.backgroundColor = style.backgroundColor
-        view.addGestureRecognizer(panGestureRecognizer)
-        applyShadow(to: view)
-    }
-    
-    private func applyShadow(to view: UIView) {
-        let rect = CGRect(
-            x: view.frame.origin.x,
-            y: view.frame.origin.y,
-            width: view.frame.width,
-            height: style.internal.shadowFrameHeight)
-        
-        view.layer.shadowPath = UIBezierPath(roundedRect: rect, cornerRadius: style.internal.shadowRadius).cgPath
-        view.layer.shadowOffset = style.internal.shadowOffset
-        view.layer.shadowColor = style.internal.shadowColor
-        view.layer.shadowRadius = style.internal.shadowRadius
-    }
-    
-    private func setupSubviewsAndConstraints() {
-        view.addSubview(gripBar)
-        addChild(contentController)
-        view.addSubview(contentController.view)
-        contentController.didMove(toParent: self)
-        
-        gripBar.snp.makeConstraints { make in
-            make.top.leading.trailing.equalTo(view)
-            make.height.equalTo(view).priority(.high)
-            make.height.lessThanOrEqualTo(gripBarHeight).priority(.required)
-        }
-        contentController.view.snp.makeConstraints { make in
-            make.top.equalTo(gripBar.snp.bottom)
-            make.leading.trailing.bottom.equalTo(view)
-        }
-        NSLayoutConstraint.activate([topPositionConstraint])
-    }
-    
     private func executeStopChange(to stop: CXBottomSheetStop,
                                    isBouncingBack: Bool = false,
                                    animated: Bool = true,
@@ -428,4 +388,66 @@ extension CXBottomSheetController: CXBottomSheetSizeObserverProtocol {
     public func stopObservingSizeChange() {
         sizeChangeObservation?.invalidate()
     }
+}
+
+// MARK: - UI modification methods
+
+extension CXBottomSheetController {
+    
+    // MARK: - Properties
+    
+    private var isDarkMode: Bool {
+        return traitCollection.userInterfaceStyle == .dark
+    }
+    
+    // MARK: - Override methods
+    
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        let shadowColor = isDarkMode ? nil : style.internal.shadowColor
+        view.layer.shadowColor = shadowColor
+    }
+    
+    // MARK: - Private methods
+    
+    private func setupSubviewsAndConstraints() {
+        view.addSubview(gripBar)
+        addChild(contentController)
+        view.addSubview(contentController.view)
+        contentController.didMove(toParent: self)
+        
+        gripBar.snp.makeConstraints { make in
+            make.top.leading.trailing.equalTo(view)
+            make.height.equalTo(view).priority(.high)
+            make.height.lessThanOrEqualTo(gripBarHeight).priority(.required)
+        }
+        contentController.view.snp.makeConstraints { make in
+            make.top.equalTo(gripBar.snp.bottom)
+            make.leading.trailing.bottom.equalTo(view)
+        }
+        NSLayoutConstraint.activate([topPositionConstraint])
+    }
+    
+    private func stylize() {
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        view.layer.cornerRadius = style.cornerRadius
+        view.backgroundColor = style.backgroundColor
+        view.addGestureRecognizer(panGestureRecognizer)
+        applyShadow(to: view)
+    }
+    
+    private func applyShadow(to view: UIView) {
+        let rect = CGRect(
+            x: view.frame.origin.x,
+            y: view.frame.origin.y,
+            width: view.frame.width,
+            height: style.internal.shadowFrameHeight)
+        let shadowColor = isDarkMode ? nil : style.internal.shadowColor
+        
+        view.layer.shadowPath = UIBezierPath(roundedRect: rect, cornerRadius: style.internal.shadowRadius).cgPath
+        view.layer.shadowOffset = style.internal.shadowOffset
+        view.layer.shadowColor = shadowColor
+        view.layer.shadowRadius = style.internal.shadowRadius
+    }
+    
 }

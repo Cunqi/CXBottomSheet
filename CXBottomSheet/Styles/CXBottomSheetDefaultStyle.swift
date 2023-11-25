@@ -69,7 +69,7 @@ public extension CXBottomSheetDefaultStyle {
         
         public private(set) var isShadowEnabled: Bool = true
         
-        public private(set) var backgroundColor: UIColor = .systemBackground
+        public private(set) var backgroundColor: UIColor = .secondarySystemGroupedBackground
         
         public private(set) var cornerRadius: CGFloat = 16.0
         
