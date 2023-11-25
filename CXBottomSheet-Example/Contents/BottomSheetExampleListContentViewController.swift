@@ -15,7 +15,7 @@ class BottomSheetExampleListContentViewController: UIViewController, CXBottomShe
     
     // MARK: - Private properties
     
-    private let stops: [CXBottomSheetStop] = [.percentage(0.15), .fixed(250), .fullyExpanded]
+    private let stops: [CXBottomSheetStop] = [.percentage(0.15), .fixed(250), .expanded]
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
@@ -42,8 +42,8 @@ class BottomSheetExampleListContentViewController: UIViewController, CXBottomShe
     // MARK: - Internal methods
     
     func bottomSheet(didMove bottomSheet: CXBottomSheetProtocol, fromStop: CXBottomSheetStop, toStop: CXBottomSheetStop) {
-        tableView.isScrollEnabled = toStop == .fullyExpanded
-        if fromStop == .fullyExpanded {
+        tableView.isScrollEnabled = toStop == .expanded
+        if fromStop == .expanded {
             tableView.setContentOffset(.zero, animated: true)
         }
     }

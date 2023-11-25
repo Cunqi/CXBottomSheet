@@ -41,7 +41,7 @@ public class CXBottomSheetStop {
     }
     
     public static func percentage(_ value: CGFloat, isUpperBound: Bool = false) -> CXBottomSheetStop {
-        return CXBottomSheetStop(type: .percentage, value: value, isUpperBound: isUpperBound)
+        return CXBottomSheetStop(type: .percentage, value: max(0, min(value, 1)), isUpperBound: isUpperBound)
     }
     
     private init(type: CXBottomSheetStopType, value: CGFloat, isUpperBound: Bool) {
@@ -78,16 +78,16 @@ public class CXBottomSheetStop {
     private static func compareHeight(lhs: CGFloat, rhs: CGFloat) -> ComparisonResult {
         if lhs == rhs {
             return .orderedSame
-        } else if lhs < rhs {
-            return .orderedAscending
         }
-        return .orderedDescending
+        return lhs < rhs ? .orderedAscending : .orderedDescending
     }
 }
 
 extension CXBottomSheetStop: Equatable {
     public static func == (lhs: CXBottomSheetStop, rhs: CXBottomSheetStop) -> Bool {
-        return lhs.type == rhs.type && lhs.value == rhs.value
+        return lhs.type == rhs.type 
+        && lhs.value == rhs.value 
+        && lhs.isUpperBound == rhs.isUpperBound
     }
 }
 
@@ -97,5 +97,5 @@ public extension CXBottomSheetStop {
 
     static let closed: CXBottomSheetStop = .fixed(0)
     
-    static let fullyExpanded: CXBottomSheetStop = .percentage(0.8, isUpperBound: true)
+    static let expanded: CXBottomSheetStop = .percentage(0.8, isUpperBound: true)
 }

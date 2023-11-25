@@ -120,7 +120,7 @@ extension BottomSheetExampleSlackMessageContentViewController: UITextViewDelegat
     func textViewDidChange(_ textView: UITextView) {
         let size = textView.sizeThatFits(CGSize(width: view.bounds.width, height: .greatestFiniteMagnitude))
         let currentStop = bottomSheet?.makeBottomSheetStop(contentHeight: max(Self.minimumContentHeight, size.height), isUpperBound: false)
-        let stops = [currentStop, .fullyExpanded].compactMap { $0 }
+        let stops = [currentStop, .expanded].compactMap { $0 }
         let isExpanded = bottomSheet?.hasReachedMaxStop ?? false
         bottomSheet?.updateStops(stops, immediatelyMoveTo: nil)
         if let currentStop = currentStop, !isExpanded {

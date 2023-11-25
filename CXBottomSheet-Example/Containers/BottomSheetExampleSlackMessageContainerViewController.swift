@@ -51,7 +51,7 @@ class BottomSheetExampleSlackMessageContainerViewController: UIViewController {
         
         setupViewsAndLayoutConstraints()
         let initialStop = bottomSheet.makeBottomSheetStop(contentHeight: 48.0, isUpperBound: false)
-        bottomSheet.updateStops([initialStop, .fullyExpanded], immediatelyMoveTo: initialStop)
+        bottomSheet.updateStops([initialStop, .expanded], immediatelyMoveTo: initialStop)
         
         NotificationCenter.default.addObserver(
             self,

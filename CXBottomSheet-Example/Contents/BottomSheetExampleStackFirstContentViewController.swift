@@ -14,7 +14,7 @@ class BottomSheetExampleStackFirstContentViewController: UIViewController, CXBot
     var bottomSheet: CXBottomSheetProtocol?
     
     var stopContext: CXBottomSheetStopContext? = {
-        let stops: [CXBottomSheetStop] = [.percentage(0.15), .percentage(0.45), .fullyExpanded]
+        let stops: [CXBottomSheetStop] = [.percentage(0.15), .percentage(0.45), .expanded]
         return CXBottomSheetStopContext(
             stops: stops,
             stop: stops.first)
