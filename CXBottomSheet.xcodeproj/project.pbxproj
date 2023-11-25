@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C45639DC2B11BD37004A8EE1 /* CXBottomSheetSizeObserverProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45639DB2B11BD37004A8EE1 /* CXBottomSheetSizeObserverProtocol.swift */; };
 		C4A7DBBD2B0722E5001E4A90 /* CXBottomSheet.docc in Sources */ = {isa = PBXBuildFile; fileRef = C4A7DBBC2B0722E5001E4A90 /* CXBottomSheet.docc */; };
 		C4A7DBC32B0722E5001E4A90 /* CXBottomSheet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4A7DBB82B0722E5001E4A90 /* CXBottomSheet.framework */; };
 		C4A7DBC82B0722E5001E4A90 /* CXBottomSheetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A7DBC72B0722E5001E4A90 /* CXBottomSheetTests.swift */; };
@@ -80,6 +81,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C45639DB2B11BD37004A8EE1 /* CXBottomSheetSizeObserverProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CXBottomSheetSizeObserverProtocol.swift; sourceTree = "<group>"; };
 		C4A7DBB82B0722E5001E4A90 /* CXBottomSheet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CXBottomSheet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4A7DBBB2B0722E5001E4A90 /* CXBottomSheet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CXBottomSheet.h; sourceTree = "<group>"; };
 		C4A7DBBC2B0722E5001E4A90 /* CXBottomSheet.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = CXBottomSheet.docc; sourceTree = "<group>"; };
@@ -214,6 +216,7 @@
 				C4AC39052B073DEB009AF23B /* CXBottomSheetDelegate.swift */,
 				C4AC392A2B0C6F32009AF23B /* CXBottomSheetCoordinatorProtocol.swift */,
 				C4AC392C2B0CFB98009AF23B /* CXBottomSheetInteractableProtocol.swift */,
+				C45639DB2B11BD37004A8EE1 /* CXBottomSheetSizeObserverProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -427,6 +430,7 @@
 				C4A7DBBD2B0722E5001E4A90 /* CXBottomSheet.docc in Sources */,
 				C4AC39062B073DEB009AF23B /* CXBottomSheetDelegate.swift in Sources */,
 				C4AC38F92B072928009AF23B /* CXBottomSheetStop.swift in Sources */,
+				C45639DC2B11BD37004A8EE1 /* CXBottomSheetSizeObserverProtocol.swift in Sources */,
 				C4AC39002B073A79009AF23B /* CXBottomSheetController.swift in Sources */,
 				C4AC390D2B07CF17009AF23B /* CXBottomSheetInternalStyle.swift in Sources */,
 				C4AC390A2B07C7BC009AF23B /* CXBottomSheetDefaultStyle.swift in Sources */,

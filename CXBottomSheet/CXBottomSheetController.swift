@@ -64,6 +64,9 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
     private let contentController: CXBottomSheetContentController
     private let style: CXBottomSheetStyle
     
+    private var sizeChangeObservation: NSKeyValueObservation?
+    private var previousSize: CGSize = .zero
+    
     // MARK: - Private lazy properties
     
     private lazy var gripBar: CXBottomSheetGripBar = {
@@ -145,6 +148,10 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        stopObservingSizeChange()
     }
     
     // MARK: - Life cycles
@@ -404,3 +411,21 @@ extension CXBottomSheetController: UIScrollViewDelegate {
     }
 }
 
+extension CXBottomSheetController: CXBottomSheetSizeObserverProtocol {
+    public func startObservingSizeChange(on view: UIView) {
+        guard sizeChangeObservation == nil else {
+            return
+        }
+        sizeChangeObservation = view.observe(\.bounds, changeHandler: { [weak self] view, _ in
+            guard let self = self, self.previousSize != view.bounds.size else {
+                return
+            }
+            self.previousSize = view.bounds.size
+            self.invalidate(animated: true)
+        })
+    }
+    
+    public func stopObservingSizeChange() {
+        sizeChangeObservation?.invalidate()
+    }
+}

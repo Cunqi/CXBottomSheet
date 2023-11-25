@@ -37,9 +37,6 @@ class BottomSheetExampleStackContainerViewController: UIViewController {
     
     private var keyboardHeight: CGFloat = 0
     
-    private var boundsObserver: NSKeyValueObservation?
-    private var previousSize: CGSize = .zero
-    
     // MARK: - Initializer
     
     init(content: CXBottomSheetContentProtocol, introduction: String?) {
@@ -72,19 +69,11 @@ class BottomSheetExampleStackContainerViewController: UIViewController {
             name: UIResponder.keyboardWillHideNotification,
             object: nil)
         
-        boundsObserver = monitorWindow.observe(\.bounds, changeHandler: { [weak self] view, _ in
-            guard let self = self,
-                  self.previousSize != view.bounds.size else {
-                return
-            }
-            print("bounds \(view.bounds)")
-            self.previousSize = view.bounds.size
-            self.bottomSheet.invalidate(animated: true)
-        })
+        bottomSheet.startObservingSizeChange(on: monitorWindow)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        boundsObserver?.invalidate()
+        bottomSheet.stopObservingSizeChange()
     }
     
     // MARK: - Private methods
