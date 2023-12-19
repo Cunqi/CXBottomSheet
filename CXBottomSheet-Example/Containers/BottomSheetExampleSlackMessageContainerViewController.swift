@@ -21,10 +21,7 @@ class BottomSheetExampleSlackMessageContainerViewController: UIViewController {
         return label
     }()
     
-    private lazy var bottomSheet: CXBottomSheetController = {
-        let bottomSheet = CXBottomSheetController(content: content, delegate: self)
-        return bottomSheet
-    }()
+    private lazy var bottomSheet = CXBottomSheetController(content: content)
 
     private let content: CXBottomSheetContentProtocol
     
@@ -50,8 +47,8 @@ class BottomSheetExampleSlackMessageContainerViewController: UIViewController {
         view.backgroundColor = .systemBackground
         
         setupViewsAndLayoutConstraints()
-        let initialStop = bottomSheet.makeBottomSheetStop(contentHeight: 48.0, isUpperBound: false)
-        bottomSheet.updateStops([initialStop, .expanded], immediatelyMoveTo: initialStop)
+        let initialStop = bottomSheet.makeStop(contentHeight: 48.0, isUpperBound: false)
+//        bottomSheet.updateStops([initialStop, .expanded], immediatelyMoveTo: initialStop)
         
         NotificationCenter.default.addObserver(
             self,

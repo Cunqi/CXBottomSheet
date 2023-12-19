@@ -21,14 +21,7 @@ class BottomSheetExampleContainerViewController: UIViewController {
         return label
     }()
     
-    private lazy var bottomSheet: CXBottomSheetController = {
-        let stops: [CXBottomSheetStop] = [.percentage(0.15), .percentage(0.45), .expanded]
-        let bottomSheet = CXBottomSheetController(
-            content: content,
-            stopContext: CXBottomSheetStopContext(stops: stops),
-            delegate: self)
-        return bottomSheet
-    }()
+    private lazy var bottomSheet = CXBottomSheetController(content: content)
     
     private let content: CXBottomSheetContentProtocol
     
@@ -59,7 +52,7 @@ class BottomSheetExampleContainerViewController: UIViewController {
     // MARK: - Private methods
     
     private func setupViewsAndLayoutConstraints() {
-        [introductionLabel, bottomSheet.view].forEach { view.addSubview($0) }
+        [introductionLabel, bottomSheet.container].forEach { view.addSubview($0) }
         addChild(bottomSheet)
         bottomSheet.didMove(toParent: self)
         
@@ -68,15 +61,8 @@ class BottomSheetExampleContainerViewController: UIViewController {
             make.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide)
         }
         
-        bottomSheet.view.snp.makeConstraints { make in
-            make.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
+        bottomSheet.container.snp.makeConstraints { make in
+            make.edges.equalTo(view.safeAreaLayoutGuide)
         }
     }
 }
-
-extension BottomSheetExampleContainerViewController: CXBottomSheetDelegate {
-    func bottomSheet(availableHeightFor bottomSheet: CXBottomSheet.CXBottomSheetProtocol) -> CGFloat {
-        return view.bounds.height
-    }
-}
-

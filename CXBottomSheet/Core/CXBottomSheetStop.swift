@@ -7,95 +7,71 @@
 
 import Foundation
 
-/// Provides two type of bottom sheet stop
-public enum CXBottomSheetStopType: Int {
-    
-    /// Define the stop position with percentage calculation, (e.g. 0.9 * availableHeight)
-    case percentage = 0
-
-    /// Define the stop position with a given absolute value (e.g 200)
-    case fixed
-}
-
-
-/// Use to define the stop position for bottom sheet interaction
+/// Describe the stop infromation that a bottom sheet stop should contains
+/// it helps the bottom sheet to decide where to stop and the final height
+/// when stop changed
 public class CXBottomSheetStop {
     
-    // MARK: - Properties
+    // MARK: - Public properties
     
-    /// Represent if stop is upper-bound stop, if yes, means any stop which
-    /// has larger hight will be ignored, this flag is useful when you update
-    /// bottom sheet heigh in rael time, ideally, there should always be only
-    /// one upper bound, therefor, it is consumer's responsibility to make sure
-    /// the singleton of upper bound
-    public let isUpperBound: Bool
-    
+    /// the expected bottom sheet type info
     public let type: CXBottomSheetStopType
     
-    public let value: CGFloat
+    /// Indicate if current stop is an upper bound, if it is an upper bound, all stops which has larger hight
+    /// will be filtered out from the `stops` list
+    public let isUpperBound: Bool
     
-    // MARK: - Initializer
+    /// The real bottom sheet height value based on run-time available height
+    public let height: CGFloat
+    
+    // MARK: - Initializers
+    
+    private init(type: CXBottomSheetStopType, isUpperBound: Bool, height: CGFloat = 0) {
+        self.type = type
+        self.isUpperBound = isUpperBound
+        self.height = height
+    }
+    
+    // MARK: Public methods
+    
+    public func measured(with height: CGFloat) -> CXBottomSheetStop {
+        CXBottomSheetStop(
+            type: type,
+            isUpperBound: isUpperBound,
+            height: type.makeHeight(with: height))
+    }
+    
+    // MARK: - Public convenient initializers
     
     public static func fixed(_ value: CGFloat, isUpperBound: Bool = false) -> CXBottomSheetStop {
-        return CXBottomSheetStop(type: .fixed, value: value, isUpperBound: isUpperBound)
+        CXBottomSheetStop(type: .fixed(value: value),
+                          isUpperBound: isUpperBound)
     }
     
     public static func percentage(_ value: CGFloat, isUpperBound: Bool = false) -> CXBottomSheetStop {
-        return CXBottomSheetStop(type: .percentage, value: max(0, min(value, 1)), isUpperBound: isUpperBound)
-    }
-    
-    private init(type: CXBottomSheetStopType, value: CGFloat, isUpperBound: Bool) {
-        self.type = type
-        self.value = value
-        self.isUpperBound = isUpperBound
-    }
-    
-    // MARK: - Public methods
-    
-    public static func compare(lhs: CXBottomSheetStop, rhs: CXBottomSheetStop, with height: CGFloat) -> ComparisonResult {
-        if lhs.isUpperBound != rhs.isUpperBound {
-            return lhs.isUpperBound ? .orderedDescending : .orderedAscending
-        } else {
-            return compareHeight(lhs: lhs.makeHeight(with: height), rhs: rhs.makeHeight(with: height))
-        }
-    }
-    
-    public static func minStop(lhs: CXBottomSheetStop, rhs: CXBottomSheetStop, height: CGFloat) -> CXBottomSheetStop {
-        return compareHeight(lhs: lhs.makeHeight(with: height), rhs: rhs.makeHeight(with: height)) == .orderedAscending ? lhs : rhs
-    }
-    
-    public func makeHeight(with availableHeight: CGFloat) -> CGFloat {
-        switch type {
-        case .fixed:
-            return min(value, availableHeight)
-        case .percentage:
-            return value * availableHeight
-        }
-    }
-    
-    // MARK: - Private methods
-    
-    private static func compareHeight(lhs: CGFloat, rhs: CGFloat) -> ComparisonResult {
-        if lhs == rhs {
-            return .orderedSame
-        }
-        return lhs < rhs ? .orderedAscending : .orderedDescending
+        CXBottomSheetStop(type: .percentage(value: max(0, min(value, 1.0))),
+                          isUpperBound: isUpperBound)
     }
 }
 
-extension CXBottomSheetStop: Equatable {
+// MARK: - Comparable
+
+extension CXBottomSheetStop: Comparable {
     public static func == (lhs: CXBottomSheetStop, rhs: CXBottomSheetStop) -> Bool {
-        return lhs.type == rhs.type 
-        && lhs.value == rhs.value 
-        && lhs.isUpperBound == rhs.isUpperBound
+        lhs.height == rhs.height
+    }
+    
+    public static func < (lhs: CXBottomSheetStop, rhs: CXBottomSheetStop) -> Bool {
+        lhs.height < rhs.height
     }
 }
 
-public extension CXBottomSheetStop {
+// MARK: - Public convenience properties
 
-    // MARK: - Constants
-
-    static let closed: CXBottomSheetStop = .fixed(0)
+extension CXBottomSheetStop {
+    public static let closed = CXBottomSheetStop.fixed(0)
     
-    static let expanded: CXBottomSheetStop = .percentage(0.8, isUpperBound: true)
+    public static let half = CXBottomSheetStop.percentage(0.5)
+    
+    public static let full = CXBottomSheetStop.percentage(1.0, isUpperBound: true)
 }

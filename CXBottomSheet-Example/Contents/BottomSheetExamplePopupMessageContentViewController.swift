@@ -46,7 +46,7 @@ class BottomSheetExamplePopupMessageContentViewController: UIViewController, CXB
     // MARK: - Internal methods
     
     func bottomSheet(didMove bottomSheet: CXBottomSheet.CXBottomSheetProtocol, fromStop: CXBottomSheet.CXBottomSheetStop, toStop: CXBottomSheet.CXBottomSheetStop) {
-        textView.isScrollEnabled = bottomSheet.hasReachedMaxStop
+        textView.isScrollEnabled = bottomSheet.hasReachedVisibleMaxStop
     }
 }
 
@@ -54,13 +54,5 @@ class BottomSheetExamplePopupMessageContentViewController: UIViewController, CXB
 
 extension BottomSheetExamplePopupMessageContentViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        let size = textView.sizeThatFits(CGSize(width: view.bounds.width, height: .greatestFiniteMagnitude))
-        let currentStop = bottomSheet?.makeBottomSheetStop(contentHeight: max(Self.minimumContentHeight, size.height), isUpperBound: false)
-        let stops = [currentStop, .percentage(0.5, isUpperBound: true)].compactMap { $0 }
-        let isExpanded = bottomSheet?.hasReachedMaxStop ?? false
-        bottomSheet?.updateStops(stops, immediatelyMoveTo: nil)
-        if let currentStop = currentStop, !isExpanded {
-            bottomSheet?.move(to: currentStop, animated: true)  // Filter out duplicates
-        }
     }
 }

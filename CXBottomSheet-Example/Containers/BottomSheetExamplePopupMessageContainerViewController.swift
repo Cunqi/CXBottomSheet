@@ -29,10 +29,7 @@ class BottomSheetExamplePopupMessageContainerViewController: UIViewController {
         return button
     }()
     
-    private lazy var bottomSheet: CXBottomSheetController = {
-        let bottomSheet = CXBottomSheetController(delegate: self)
-        return bottomSheet
-    }()
+    private lazy var bottomSheet = CXBottomSheetController(content: content)
     
     private lazy var hiddenTextField: UITextField = {
         let textField = UITextField()
@@ -82,7 +79,7 @@ class BottomSheetExamplePopupMessageContainerViewController: UIViewController {
     // MARK: - Private methods
     
     private func setupViewsAndLayoutConstraints() {
-        [introductionLabel, actionButton, bottomSheet.view, hiddenTextField].forEach { view.addSubview($0) }
+        [introductionLabel, actionButton, bottomSheet.container, hiddenTextField].forEach { view.addSubview($0) }
         addChild(bottomSheet)
         bottomSheet.didMove(toParent: self)
         
@@ -96,7 +93,7 @@ class BottomSheetExamplePopupMessageContainerViewController: UIViewController {
             make.centerX.equalTo(view)
         }
         
-        bottomSheet.view.snp.makeConstraints { make in
+        bottomSheet.container.snp.makeConstraints { make in
             make.leading.trailing.equalTo(view.safeAreaLayoutGuide)
             make.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
         }
@@ -109,9 +106,9 @@ class BottomSheetExamplePopupMessageContainerViewController: UIViewController {
     
     @objc
     private func didTapActionButton() {
-        let initialStop = bottomSheet.makeBottomSheetStop(contentHeight: 48.0, isUpperBound: false)
+        let initialStop = bottomSheet.makeStop(contentHeight: 48.0, isUpperBound: false)
         bottomSheet.setupContent(content)
-        bottomSheet.updateStops([initialStop, .percentage(0.5, isUpperBound: true)], immediatelyMoveTo: nil)
+//        bottomSheet.updateStops([initialStop, .percentage(0.5, isUpperBound: true)], immediatelyMoveTo: nil)
         hiddenTextField.becomeFirstResponder()
     }
 }

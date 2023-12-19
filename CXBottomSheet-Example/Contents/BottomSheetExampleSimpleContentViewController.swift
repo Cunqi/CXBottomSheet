@@ -13,6 +13,10 @@ class BottomSheetExampleSimpleContentViewController: UIViewController, CXBottomS
     
     var bottomSheet: CXBottomSheetProtocol?
     
+    var stopContext: CXBottomSheetStopContext? {
+        CXBottomSheetStopContext(stops: [.percentage(0.15), .half, .full], stop: .half)
+    }
+    
     // MARK: - Private properties
     
     private lazy var label: UILabel = {
@@ -37,10 +41,7 @@ class BottomSheetExampleSimpleContentViewController: UIViewController, CXBottomS
     }
     
     func bottomSheet(didMove bottomSheet: CXBottomSheetProtocol, fromStop: CXBottomSheetStop, toStop: CXBottomSheetStop) {
-        guard let availableHeight = bottomSheet.delegate?.bottomSheet(availableHeightFor: bottomSheet) else {
-            return
-        }
-        label.text = String.init(format: "Current height: %.2f", arguments: [toStop.makeHeight(with: availableHeight)])
+        label.text = "ContainerView \(bottomSheet.container.bounds.size)"
     }
     
 }

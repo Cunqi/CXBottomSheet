@@ -11,7 +11,7 @@ import UIKit
 /// Any pages which want to be rendered on bottom sheet should implement this protocol,
 /// by implementing this protocol, you are able to interact with the bottom sheet
 /// (e.g expand, collpase or hide the bottom sheet)
-public protocol CXBottomSheetContentProtocol: UIViewController, CXBottomSheetInteractableProtocol {
+public protocol CXBottomSheetContentProtocol: UIViewController, CXBottomSheetTransitionDelegate {
 
     // MARK: - Public properties
     

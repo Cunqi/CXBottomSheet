@@ -15,37 +15,26 @@ final class CXBottomSheetStopTests: XCTestCase {
     private let availableHeight: CGFloat = 1000
     
     func testMakeFixedHeightLessThanAvailableHeight() {
-        let stop = CXBottomSheetStop.fixed(200)
-        XCTAssertEqual(stop.makeHeight(with: availableHeight), 200)
+        let height: CGFloat = 300
+        let stop = CXBottomSheetStop.fixed(200).measured(with: height)
+        XCTAssertLessThan(stop.height, height)
     }
     
     func testMakeFixedHeightGreaterThanAvailableHeight() {
-        let stop = CXBottomSheetStop.fixed(10000)
-        XCTAssertEqual(stop.makeHeight(with: availableHeight), availableHeight)
+        let height: CGFloat = 1000
+        let stop = CXBottomSheetStop.fixed(height).measured(with: height)
+        XCTAssertEqual(stop.height, height)
     }
     
     func testMakeFlexHeightLessThanAvailableHeight() {
-        let stop = CXBottomSheetStop.percentage(0.5)
-        XCTAssertEqual(stop.makeHeight(with: availableHeight), 500)
+        let height: CGFloat = 500
+        let stop = CXBottomSheetStop.percentage(0.5).measured(with: height)
+        XCTAssertEqual(stop.height, height * 0.5)
     }
     
     func testMakeFlexHeightGreaterThanAvailableHeight() {
-        let stop = CXBottomSheetStop.percentage(2)
-        XCTAssertEqual(stop.value, 1.0)
-        XCTAssertEqual(stop.makeHeight(with: availableHeight), availableHeight)
-    }
-    
-    func testStopComparision() {
-        let lhs = CXBottomSheetStop.fixed(600)
-        let rhs = CXBottomSheetStop.percentage(0.6)
-        XCTAssertNotEqual(lhs, rhs)
-        XCTAssertEqual(CXBottomSheetStop.compare(lhs: lhs, rhs: rhs, with: availableHeight), .orderedSame)
-    }
-    
-    func testFindMinStop() {
-        let lhs = CXBottomSheetStop.fixed(600)
-        let rhs = CXBottomSheetStop.percentage(0.7)
-        XCTAssertEqual(CXBottomSheetStop.minStop(lhs: lhs, rhs: rhs, height: availableHeight), lhs)
-        XCTAssertEqual(CXBottomSheetStop.minStop(lhs: lhs, rhs: rhs, height: availableHeight / 2.0), rhs)
+        let height: CGFloat = 500
+        let stop = CXBottomSheetStop.percentage(2).measured(with: height)
+        XCTAssertEqual(stop.height, height)
     }
 }

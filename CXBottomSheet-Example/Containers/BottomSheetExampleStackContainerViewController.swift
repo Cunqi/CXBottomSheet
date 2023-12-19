@@ -22,7 +22,7 @@ class BottomSheetExampleStackContainerViewController: UIViewController {
     }()
     
     private lazy var bottomSheet: CXBottomSheetController = {
-        let bottomSheet = CXBottomSheetController(content: content, delegate: self)
+        let bottomSheet = CXBottomSheetController(content: content)
         bottomSheet.coordinator = BottomSheetCoordinator(scrollContext: .init(scrollSensitiveLevel: .ultra))
         return bottomSheet
     }()
@@ -72,12 +72,6 @@ class BottomSheetExampleStackContainerViewController: UIViewController {
             selector: #selector(keyboardWillHide(notification:)),
             name: UIResponder.keyboardWillHideNotification,
             object: nil)
-        
-        bottomSheet.startObservingSizeChange(on: monitorWindow)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        bottomSheet.stopObservingSizeChange()
     }
     
     // MARK: - Private methods

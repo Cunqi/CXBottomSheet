@@ -7,20 +7,21 @@
 
 import Foundation
 
-public protocol CXBottomSheetInteractableProtocol: AnyObject {
+public protocol CXBottomSheetTransitionDelegate: AnyObject {
+    
+    /// Ask delegate to handle bottom sheet will move to stop
+    /// - Parameters:
+    ///   - bottomSheet: bottom sheet which sends out the stop change
+    ///   - fromStop: the previous bottom sheet stop
+    ///   - toStop: the current bottom sheet stop
+    func bottomSheet(willMove bottomSheet: CXBottomSheetProtocol, fromStop: CXBottomSheetStop, toStop: CXBottomSheetStop)
+    
     /// Ask delegate to handle bottom sheet stop change
     /// - Parameters:
     ///   - bottomSheet: bottom sheet which sends out the stop change
     ///   - fromStop: the previous bottom sheet stop
     ///   - toStop: the current bottom sheet stop
     func bottomSheet(didMove bottomSheet: CXBottomSheetProtocol, fromStop: CXBottomSheetStop, toStop: CXBottomSheetStop)
-    
-    /// Ask delegate to handle any UI updates along with bottom sheet animation
-    /// - Parameters:
-    ///   - bottomSheet: bottom sheet which is animating
-    ///   - fromStop: the previous bottom sheet stop
-    ///   - toStop: the current bottom sheet stop
-    func bottomSheet(animateAlongWith bottomSheet: CXBottomSheetProtocol, fromStop: CXBottomSheetStop, toStop: CXBottomSheetStop)
     
     /// Ask the delegate to handle bottom sheet bounce stop change, the bottom sheet real stop is not changed
     /// but the bounce action can still be useful to trigger some interactions (e.g. dismiss keyboard)
@@ -39,8 +40,10 @@ public protocol CXBottomSheetInteractableProtocol: AnyObject {
 
 // MARK: - Optional methods
 
-public extension CXBottomSheetInteractableProtocol {
-    func bottomSheet(animateAlongWith bottomSheet: CXBottomSheetProtocol, fromStop: CXBottomSheetStop, toStop: CXBottomSheetStop) {}
+public extension CXBottomSheetTransitionDelegate {
+    func bottomSheet(willMove bottomSheet: CXBottomSheetProtocol, fromStop: CXBottomSheetStop, toStop: CXBottomSheetStop) {}
+    
+    func bottomSheet(didMove bottomSheet: CXBottomSheetProtocol, fromStop: CXBottomSheetStop, toStop: CXBottomSheetStop) {}
     
     func bottomSheet(didBounceBack bottomSheet: CXBottomSheetProtocol, toMaxStop stop: CXBottomSheetStop) {}
     

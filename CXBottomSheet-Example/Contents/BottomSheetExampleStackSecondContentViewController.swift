@@ -63,7 +63,7 @@ class BottomSheetExampleStackSecondContentViewController: UIViewController, CXBo
     // MARK: - Internal methods
     
     func bottomSheet(didMove bottomSheet: CXBottomSheet.CXBottomSheetProtocol, fromStop: CXBottomSheet.CXBottomSheetStop, toStop: CXBottomSheet.CXBottomSheetStop) {
-        textView.isScrollEnabled = bottomSheet.hasReachedMaxStop
+        textView.isScrollEnabled = bottomSheet.hasReachedVisibleMaxStop
     }
     
     func bottomSheet(didBounceBack bottomSheet: CXBottomSheetProtocol, toMaxStop stop: CXBottomSheetStop) {
