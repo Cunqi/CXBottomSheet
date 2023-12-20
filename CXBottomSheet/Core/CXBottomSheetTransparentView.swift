@@ -9,9 +9,7 @@ import UIKit
 
 class CXBottomSheetTransparentView: UIView {
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        guard let event else {
-            return nil
-        }
-        return event.allTouches?.first?.view == self ? nil : super.hitTest(point, with: event)
+        let view = super.hitTest(point, with: event)
+        return view == self ? nil : view
     }
 }

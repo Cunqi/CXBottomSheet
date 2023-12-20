@@ -58,7 +58,7 @@ public class CXBottomSheetStop {
 
 extension CXBottomSheetStop: Comparable {
     public static func == (lhs: CXBottomSheetStop, rhs: CXBottomSheetStop) -> Bool {
-        lhs.height == rhs.height
+        lhs.isUpperBound == rhs.isUpperBound && lhs.type == rhs.type
     }
     
     public static func < (lhs: CXBottomSheetStop, rhs: CXBottomSheetStop) -> Bool {
@@ -73,5 +73,15 @@ extension CXBottomSheetStop {
     
     public static let half = CXBottomSheetStop.percentage(0.5)
     
-    public static let full = CXBottomSheetStop.percentage(0.8, isUpperBound: true)
+    public static let full = CXBottomSheetStop.percentage(1.0, isUpperBound: true)
+}
+
+// MARK: - NSCopying
+
+extension CXBottomSheetStop: NSCopying {
+    
+    public func copy(with zone: NSZone? = nil) -> Any {
+        return CXBottomSheetStop(type: type, isUpperBound: isUpperBound, height: height)
+    }
+    
 }

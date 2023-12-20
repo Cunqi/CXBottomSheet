@@ -46,7 +46,6 @@ class BottomSheetExampleContainerViewController: UIViewController {
         view.backgroundColor = .systemBackground
         
         setupViewsAndLayoutConstraints()
-        bottomSheet.move(to: bottomSheet.minStop, animated: false)
     }
     
     // MARK: - Private methods

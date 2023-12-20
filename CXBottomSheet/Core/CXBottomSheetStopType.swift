@@ -27,3 +27,18 @@ public enum CXBottomSheetStopType {
         }
     }
 }
+
+extension CXBottomSheetStopType: Equatable {
+    public static func == (lhs: CXBottomSheetStopType, rhs: CXBottomSheetStopType) -> Bool {
+        switch (lhs, rhs) {
+        case (.percentage(let lhsValue), .percentage(let rhsValue)):
+            return lhsValue == rhsValue
+        case (.fixed(let lhsValue), .fixed(let rhsValue)):
+            return lhsValue == rhsValue
+        case (.percentage, _):
+            return false
+        case (.fixed, _):
+            return false
+        }
+    }
+}

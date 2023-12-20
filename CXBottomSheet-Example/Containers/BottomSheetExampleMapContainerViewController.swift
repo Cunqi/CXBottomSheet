@@ -37,8 +37,6 @@ class BottomSheetExampleMapContainerViewController: UIViewController {
     
     
     private lazy var bottomSheet = CXBottomSheetController(content: content)
-    
-    private let stops: [CXBottomSheetStop] = [.fixed(120), .half, .full]
 
     private let content: CXBottomSheetContentProtocol
     
@@ -59,20 +57,20 @@ class BottomSheetExampleMapContainerViewController: UIViewController {
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
-        [mapView, bottomSheet.view, backButton].forEach { view.addSubview($0) }
+        [mapView, bottomSheet.container, backButton].forEach { view.addSubview($0) }
         
         mapView.snp.makeConstraints { make in
             make.edges.equalTo(view)
         }
-        bottomSheet.view.snp.makeConstraints { make in
-            make.leading.trailing.bottom.equalTo(view)
+        bottomSheet.container.snp.makeConstraints { make in
+            make.edges.equalTo(view)
         }
         
         backButton.snp.makeConstraints { make in
             make.size.equalTo(Self.buttonSize)
             make.top.leading.equalTo(view.safeAreaLayoutGuide).inset(UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 0))
         }
-        bottomSheet.move(to: bottomSheet.minStop, animated: false)
+        
         stylize()
     }
     
@@ -86,13 +84,5 @@ class BottomSheetExampleMapContainerViewController: UIViewController {
     @objc
     private func didTapBackButton(_ sender: AnyObject) {
         navigationController?.popViewController(animated: true)
-    }
-}
-
-// MARK: - CXBottomSheetDelegate
-
-extension BottomSheetExampleMapContainerViewController: CXBottomSheetDelegate {
-    func bottomSheet(availableHeightFor bottomSheet: CXBottomSheetProtocol) -> CGFloat {
-        return view.bounds.height
     }
 }

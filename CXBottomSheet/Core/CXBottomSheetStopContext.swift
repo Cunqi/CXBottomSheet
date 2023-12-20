@@ -47,9 +47,8 @@ public class CXBottomSheetStopContext {
     
     // MARK: - Internal methods
     
-    func makeSnapshot(stops: [CXBottomSheetStop], stop: CXBottomSheetStop?, height: CGFloat) {
+    func makeSnapshot(stops: [CXBottomSheetStop], height: CGFloat) {
         self.stops = stops
-        self.stop = stop ?? self.stop
         calibrate(with: height)
     }
     
@@ -57,7 +56,6 @@ public class CXBottomSheetStopContext {
     /// with the calculated run-time height
     /// - Parameter height: height for measuring bottomn sheet stops
     func calibrate(with height: CGFloat) {
-        stop = stop.measured(with: height)
         stops = stops.map { $0.measured(with: height) }.sorted()
         // Filter out invalid stops if needed as we might have 
         if let upperBoundIndex = stops.firstIndex(where: { $0.isUpperBound == true }) {
@@ -73,7 +71,9 @@ public class CXBottomSheetStopContext {
         guard self.stop != stop else {
             return nil
         }
-        defer { self.stop = stop }
+        defer {
+            self.stop = stop
+        }
         return self.stop
     }
     
@@ -97,5 +97,17 @@ public class CXBottomSheetStopContext {
 public extension CXBottomSheetStopContext {
     static var `default`: CXBottomSheetStopContext {
         CXBottomSheetStopContext(stops: [.closed])
+    }
+}
+
+// MARK: - NSCopying
+
+extension CXBottomSheetStopContext: NSCopying {
+    var asCopy: CXBottomSheetStopContext {
+        return copy() as? CXBottomSheetStopContext ?? self
+    }
+    
+    public func copy(with zone: NSZone? = nil) -> Any {
+        return CXBottomSheetStopContext(stops: stops, stop: stop)
     }
 }

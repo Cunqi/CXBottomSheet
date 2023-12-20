@@ -9,24 +9,47 @@ import UIKit
 import CXBottomSheet
 import SnapKit
 
-class BottomSheetExampleSlackMessageContentViewController: UIViewController, CXBottomSheetContentProtocol {
+class BottomSheetExampleSlackMessageContentViewController: CXBottomSheetBaseContent {
     
     // MARK: - Constants
     
-    private static let minimumContentHeight: CGFloat = 48.0
+    private static let textViewInsets = UIEdgeInsets(top: 8.0, left: 16.0, bottom: 8.0, right: 16.0)
+    private static let minContentHeight = 48.0 + textViewInsets.vertical
+    
     private static let placeholderTextColor: UIColor = .placeholderText
     private static let placeholderText = "Message to yourself for fun!"
     
-    var bottomSheet: CXBottomSheet.CXBottomSheetProtocol?
+    // MARK: - Internal properties
+    
+    override var stopContext: CXBottomSheetStopContext? {
+        guard let stop = bottomSheet?.makeStop(contentHeight: Self.minContentHeight, isUpperBound: true) else {
+            return nil
+        }
+        return CXBottomSheetStopContext(stops: [stop], stop: stop)
+    }
     
     // MARK: - Private properties
     
     private lazy var textView: UITextView = {
         let textView = UITextView()
+        textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = .preferredFont(forTextStyle: .body)
         textView.delegate = self
+        textView.textContainerInset = .zero
         return textView
     }()
+    
+    private lazy var placeholderLabel: UILabel = {
+        let label = UILabel()
+        label.text = Self.placeholderText
+        label.textColor = Self.placeholderTextColor
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private var hasText: Bool {
+        return !textView.text.isEmpty
+    }
     
     // MARK: - Lifecycle
     
@@ -34,9 +57,6 @@ class BottomSheetExampleSlackMessageContentViewController: UIViewController, CXB
         super.viewDidLoad()
         
         setupViewsAndLayoutConstraints()
-        
-        textView.text = Self.placeholderText
-        textView.textColor = Self.placeholderTextColor
     }
     
     // MARK: - Internal methods
@@ -53,71 +73,38 @@ class BottomSheetExampleSlackMessageContentViewController: UIViewController, CXB
     
     private func setupViewsAndLayoutConstraints() {
         view.backgroundColor = .systemBackground
-        view.addSubview(textView)
+        [textView, placeholderLabel].forEach { view.addSubview($0) }
         
         textView.snp.makeConstraints { make in
-            make.edges.equalTo(view).inset(8)
+            make.width.height.lessThanOrEqualTo(view).priority(.required)
+            make.edges.equalTo(view).inset(Self.textViewInsets).priority(.high)
         }
+        
+        placeholderLabel.snp.makeConstraints { make in
+            make.top.equalTo(textView)
+            make.leading.equalTo(textView).inset(textView.textContainer.lineFragmentPadding)
+        }
+    }
+    
+    private func updatePlaceholderLabelVisibility() {
+        placeholderLabel.isHidden = hasText
     }
 }
 
 // MARK: - UITableViewDelegate
 
 extension BottomSheetExampleSlackMessageContentViewController: UITextViewDelegate {
-    
-    // placeholder text implementation: https://stackoverflow.com/a/27652289 <-- Contains some bugs, but it is not my part
-    // to fix this
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        
-        // Combine the textView text and the replacement text to
-        // create the updated text string
-        let currentText: String = textView.text
-        let updatedText = (currentText as NSString).replacingCharacters(in: range, with: text)
-        
-        // If updated text view will be empty, add the placeholder
-        // and set the cursor to the beginning of the text view
-        if updatedText.isEmpty {
-            
-            textView.text = Self.placeholderText
-            textView.textColor = Self.placeholderTextColor
-            
-            textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
-        }
-        
-        // Else if the text view's placeholder is showing and the
-        // length of the replacement string is greater than 0, set
-        // the text color to black then set its text to the
-        // replacement string
-        else if textView.textColor == Self.placeholderTextColor && !text.isEmpty && text != currentText {
-            textView.textColor = .label
-            textView.text = text
-        }
-        
-        // For every other case, the text should change with the usual
-        // behavior...
-        else {
-            return true
-        }
-        
-        // ...otherwise return false since the updates have already
-        // been made
-        return false
-    }
-    
-    func textViewDidChangeSelection(_ textView: UITextView) {
-        if textView.textColor == Self.placeholderTextColor {
-            textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
-        }
-    }
-    
-    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-        if textView.textColor == Self.placeholderTextColor {
-            textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
-        }
-        return true
-    }
-    
     func textViewDidChange(_ textView: UITextView) {
+        updatePlaceholderLabelVisibility()
+        
+        let textSize = textView.sizeThatFits(CGSize(width: view.bounds.width - Self.textViewInsets.horizontal, height: .infinity))
+        let updatedContentHeight = max(textSize.height + Self.textViewInsets.vertical, Self.minContentHeight)
+        guard let updatedStop = bottomSheet?.makeStop(
+            contentHeight: updatedContentHeight,
+            circutBreaker: .half,
+            isUpperBound: true) else {
+            return
+        }
+        bottomSheet?.updateStopContext(stops: [updatedStop], stop: updatedStop, animated: true)
     }
 }
-

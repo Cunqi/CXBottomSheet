@@ -9,14 +9,12 @@ import UIKit
 import CXBottomSheet
 import SnapKit
 
-class BottomSheetExampleListContentViewController: UIViewController, CXBottomSheetContentProtocol {
+class BottomSheetExampleListContentViewController: CXBottomSheetBaseContent {
     
-    var stopContext: CXBottomSheetStopContext? {
-        let stops: [CXBottomSheetStop] = [.percentage(0.15), .fixed(250), .full]
-        return CXBottomSheetStopContext(stops: stops, stop: stops.first)
+    override var stopContext: CXBottomSheetStopContext? {
+        let stops: [CXBottomSheetStop] = [.percentage(0.15), .half, .full]
+        return CXBottomSheetStopContext(stops: stops, stop: .half)
     }
-    
-    var bottomSheet: CXBottomSheetProtocol?
     
     // MARK: - Private properties
     

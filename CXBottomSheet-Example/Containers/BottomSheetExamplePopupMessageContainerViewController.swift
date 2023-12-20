@@ -29,19 +29,11 @@ class BottomSheetExamplePopupMessageContainerViewController: UIViewController {
         return button
     }()
     
-    private lazy var bottomSheet = CXBottomSheetController(content: content)
-    
-    private lazy var hiddenTextField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        return textField
-    }()
+    private lazy var bottomSheet = CXBottomSheetController(content: nil)
     
     private let content: CXBottomSheetContentProtocol
     
     private let introduction: String?
-    
-    private var keyboardHeight: CGFloat = 0
     
     // MARK: - Initializer
     
@@ -59,27 +51,13 @@ class BottomSheetExamplePopupMessageContainerViewController: UIViewController {
     
     override func viewDidLoad() {
         view.backgroundColor = .systemBackground
-        
         setupViewsAndLayoutConstraints()
-        bottomSheet.move(to: bottomSheet.minStop, animated: false)
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillShow(notification:)),
-            name: UIResponder.keyboardWillShowNotification,
-            object: nil)
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillHide(notification:)),
-            name: UIResponder.keyboardWillHideNotification,
-            object: nil)
     }
     
     // MARK: - Private methods
     
     private func setupViewsAndLayoutConstraints() {
-        [introductionLabel, actionButton, bottomSheet.container, hiddenTextField].forEach { view.addSubview($0) }
+        [introductionLabel, actionButton, bottomSheet.container].forEach { view.addSubview($0) }
         addChild(bottomSheet)
         bottomSheet.didMove(toParent: self)
         
@@ -94,54 +72,13 @@ class BottomSheetExamplePopupMessageContainerViewController: UIViewController {
         }
         
         bottomSheet.container.snp.makeConstraints { make in
-            make.leading.trailing.equalTo(view.safeAreaLayoutGuide)
-            make.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
-        }
-        
-        hiddenTextField.snp.makeConstraints { make in
-            make.size.equalTo(CGSize(width: 1, height: 1))
-            make.leading.top.equalTo(view)
+            make.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalTo(view.keyboardLayoutGuide.snp.top).offset(-8.0)
         }
     }
     
     @objc
     private func didTapActionButton() {
-        let initialStop = bottomSheet.makeStop(contentHeight: 48.0, isUpperBound: false)
-        bottomSheet.setupContent(content)
-//        bottomSheet.updateStops([initialStop, .percentage(0.5, isUpperBound: true)], immediatelyMoveTo: nil)
-        hiddenTextField.becomeFirstResponder()
+        bottomSheet.pushContent(content, animated: true)
     }
 }
-
-extension BottomSheetExamplePopupMessageContainerViewController: CXBottomSheetDelegate {
-    func bottomSheet(availableHeightFor bottomSheet: CXBottomSheet.CXBottomSheetProtocol) -> CGFloat {
-        return view.bounds.height -
-        (navigationController?.navigationBar.frame.height ?? 0) -
-        keyboardHeight
-    }
-}
-
-extension BottomSheetExamplePopupMessageContainerViewController {
-    @objc
-    private func keyboardWillShow(notification: Notification) {
-        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
-            return
-        }
-        keyboardHeight = keyboardFrame.cgRectValue.height
-        
-        guard let keyboardAnimationDuration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double,
-              let keyboardAnimationCurve = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? Int,
-              let keyboardCurve = UIView.AnimationCurve(rawValue: keyboardAnimationCurve) else {
-            return
-        }
-        let animator = UIViewPropertyAnimator(duration: keyboardAnimationDuration, curve: keyboardCurve)
-        bottomSheet.move(to: bottomSheet.minStop, animator: animator)
-    }
-    
-    @objc
-    private func keyboardWillHide(notification: Notification) {
-        keyboardHeight = 0
-    }
-    
-}
-
