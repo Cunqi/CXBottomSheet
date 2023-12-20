@@ -73,5 +73,5 @@ extension CXBottomSheetStop {
     
     public static let half = CXBottomSheetStop.percentage(0.5)
     
-    public static let full = CXBottomSheetStop.percentage(1.0, isUpperBound: true)
+    public static let full = CXBottomSheetStop.percentage(0.8, isUpperBound: true)
 }
