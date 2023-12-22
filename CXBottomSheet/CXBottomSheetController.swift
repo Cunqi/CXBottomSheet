@@ -63,8 +63,8 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
     
     // MARK: - Private properties
     
-    private let contentController: CXBottomSheetContentController
     private let style: CXBottomSheetStyle
+    private let contentController: CXBottomSheetContentController
     private var scrollContext: CXBottomSheetScrollContext
     private var stopContext: CXBottomSheetStopContext = .default
     
@@ -255,7 +255,6 @@ public class CXBottomSheetController: UIViewController, CXBottomSheetProtocol {
             return
         }
         let scrollDirection = scrollContext.scrollDirection
-        
         if hasReachedVisibleMaxStop, scrollDirection == .up {
             delegate?.bottomSheet(didBounceBack: self, toMaxStop: currentStop)
             contentController.topContent?.bottomSheet(didBounceBack: self, toMaxStop: currentStop)
