@@ -9,16 +9,14 @@ import UIKit
 import CXBottomSheet
 import SnapKit
 
-class BottomSheetExampleStackFirstContentViewController: UIViewController, CXBottomSheetContentProtocol {
+class BottomSheetExampleStackFirstContentViewController: CXBottomSheetBaseContent {
     
-    var bottomSheet: CXBottomSheetProtocol?
-    
-    var stopContext: CXBottomSheetStopContext? = {
-        let stops: [CXBottomSheetStop] = [.percentage(0.15), .percentage(0.45), .expanded]
+    override var stopContext: CXBottomSheetStopContext? {
+        let stops: [CXBottomSheetStop] = [.percentage(0.15), .percentage(0.45), .full]
         return CXBottomSheetStopContext(
             stops: stops,
             stop: stops.first)
-    }()
+    }
     
     // MARK: - Private properties
     
@@ -53,8 +51,7 @@ class BottomSheetExampleStackFirstContentViewController: UIViewController, CXBot
     @objc
     private func didTapButton(_ sender: UIButton) {
         let secondContent = BottomSheetExampleStackSecondContentViewController()
-        secondContent.saveStopContext(stopContext: bottomSheet?.stopContext)
-        bottomSheet?.pushContent(secondContent, immediatelyInvalidate: true)
+        bottomSheet?.pushContent(secondContent, animated: true)
     }
 }
 

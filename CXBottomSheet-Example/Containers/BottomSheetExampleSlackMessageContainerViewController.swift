@@ -21,10 +21,7 @@ class BottomSheetExampleSlackMessageContainerViewController: UIViewController {
         return label
     }()
     
-    private lazy var bottomSheet: CXBottomSheetController = {
-        let bottomSheet = CXBottomSheetController(content: content, delegate: self)
-        return bottomSheet
-    }()
+    private lazy var bottomSheet = CXBottomSheetController(content: content)
 
     private let content: CXBottomSheetContentProtocol
     
@@ -50,8 +47,6 @@ class BottomSheetExampleSlackMessageContainerViewController: UIViewController {
         view.backgroundColor = .systemBackground
         
         setupViewsAndLayoutConstraints()
-        let initialStop = bottomSheet.makeBottomSheetStop(contentHeight: 48.0, isUpperBound: false)
-        bottomSheet.updateStops([initialStop, .expanded], immediatelyMoveTo: initialStop)
         
         NotificationCenter.default.addObserver(
             self,
@@ -69,7 +64,7 @@ class BottomSheetExampleSlackMessageContainerViewController: UIViewController {
     // MARK: - Private methods
     
     private func setupViewsAndLayoutConstraints() {
-        [introductionLabel, bottomSheet.view].forEach { view.addSubview($0) }
+        [introductionLabel, bottomSheet.container].forEach { view.addSubview($0) }
         addChild(bottomSheet)
         bottomSheet.didMove(toParent: self)
         
@@ -78,8 +73,8 @@ class BottomSheetExampleSlackMessageContainerViewController: UIViewController {
             make.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide)
         }
         
-        bottomSheet.view.snp.makeConstraints { make in
-            make.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+        bottomSheet.container.snp.makeConstraints { make in
+            make.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
             make.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
         }
     }

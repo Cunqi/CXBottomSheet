@@ -9,13 +9,14 @@ import UIKit
 import CXBottomSheet
 import SnapKit
 
-class BottomSheetExampleListContentViewController: UIViewController, CXBottomSheetContentProtocol {
+class BottomSheetExampleListContentViewController: CXBottomSheetBaseContent {
     
-    var bottomSheet: CXBottomSheetProtocol?
+    override var stopContext: CXBottomSheetStopContext? {
+        let stops: [CXBottomSheetStop] = [.percentage(0.15), .half, .full]
+        return CXBottomSheetStopContext(stops: stops, stop: .half)
+    }
     
     // MARK: - Private properties
-    
-    private let stops: [CXBottomSheetStop] = [.percentage(0.15), .fixed(250), .expanded]
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
@@ -34,16 +35,11 @@ class BottomSheetExampleListContentViewController: UIViewController, CXBottomShe
         setupViewsAndLayoutConstraints()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        bottomSheet?.updateStops(stops, immediatelyMoveTo: stops.first)
-    }
-    
     // MARK: - Internal methods
     
     func bottomSheet(didMove bottomSheet: CXBottomSheetProtocol, fromStop: CXBottomSheetStop, toStop: CXBottomSheetStop) {
-        tableView.isScrollEnabled = toStop == .expanded
-        if fromStop == .expanded {
+        tableView.isScrollEnabled = toStop == .full
+        if fromStop == .full {
             tableView.setContentOffset(.zero, animated: true)
         }
     }

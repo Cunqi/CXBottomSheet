@@ -9,7 +9,7 @@ import UIKit
 import CXBottomSheet
 import SnapKit
 
-class BottomSheetExampleStackSecondContentViewController: UIViewController, CXBottomSheetContentProtocol {
+class BottomSheetExampleStackSecondContentViewController: CXBottomSheetBaseContent {
     
     // MARK: - Constants
     
@@ -17,11 +17,8 @@ class BottomSheetExampleStackSecondContentViewController: UIViewController, CXBo
     
     // MARK: - Internal properties
     
-    var bottomSheet: CXBottomSheet.CXBottomSheetProtocol?
-    
-    var stopContext: CXBottomSheetStopContext? {
-        let stops: [CXBottomSheetStop] = [.percentage(0.5)]
-        return CXBottomSheetStopContext(stops: stops, stop: stops.first)
+    override var stopContext: CXBottomSheetStopContext? {
+        return CXBottomSheetStopContext(stops: [.half], stop: .half)
     }
     
     // MARK: - Private properties
@@ -36,8 +33,6 @@ class BottomSheetExampleStackSecondContentViewController: UIViewController, CXBo
     private lazy var barItem: UIBarButtonItem = {
         return UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapBarButtonItem))
     }()
-    
-    private var previousStopContext: CXBottomSheetStopContext?
     
     // MARK: - Lifecycle
     
@@ -63,7 +58,7 @@ class BottomSheetExampleStackSecondContentViewController: UIViewController, CXBo
     // MARK: - Internal methods
     
     func bottomSheet(didMove bottomSheet: CXBottomSheet.CXBottomSheetProtocol, fromStop: CXBottomSheet.CXBottomSheetStop, toStop: CXBottomSheet.CXBottomSheetStop) {
-        textView.isScrollEnabled = bottomSheet.hasReachedMaxStop
+        textView.isScrollEnabled = bottomSheet.hasReachedVisibleMaxStop
     }
     
     func bottomSheet(didBounceBack bottomSheet: CXBottomSheetProtocol, toMaxStop stop: CXBottomSheetStop) {
@@ -74,18 +69,10 @@ class BottomSheetExampleStackSecondContentViewController: UIViewController, CXBo
         textView.resignFirstResponder()
     }
     
-    func saveStopContext(stopContext: CXBottomSheetStopContext?) {
-        previousStopContext = stopContext
-    }
-    
-    func loadStopContext() -> CXBottomSheetStopContext? {
-        return previousStopContext
-    }
-    
     // MARK: - Private methods
     
     @objc
     private func didTapBarButtonItem() {
-        bottomSheet?.popContent(immediatelyInvalidate: false)
+        bottomSheet?.popContent(animated: false)
     }
 }

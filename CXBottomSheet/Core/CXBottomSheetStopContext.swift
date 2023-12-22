@@ -7,20 +7,12 @@
 
 import Foundation
 
-public struct CXBottomSheetStopContext {
+public class CXBottomSheetStopContext {
     
     // MARK: - Public properties
     
     public var isHidden: Bool {
         stop == .closed
-    }
-    
-    public var isReachedMaxStop: Bool {
-        !isHidden && stop == maxStop
-    }
-    
-    public var isReachedMinStop: Bool {
-        !isHidden && stop == minStop
     }
     
     public var maxStop: CXBottomSheetStop {
@@ -29,6 +21,18 @@ public struct CXBottomSheetStopContext {
     
     public var minStop: CXBottomSheetStop {
         stops.first ?? stop
+    }
+    
+    /// Please consider to combine `hasReachedMaxStop` with `isHidden` to make sure bottom sheet reaches the visible
+    /// max stop
+    public var hasReachedMaxStop: Bool {
+        maxStop == stop
+    }
+    
+    /// Please consider to combine `hasReachedMinStop` with `isHidden` to make sure bottom sheet reaches the visible
+    /// min stop
+    public var hasReachedMinStop: Bool {
+        minStop == stop
     }
 
     public private(set) var stop: CXBottomSheetStop
@@ -43,25 +47,44 @@ public struct CXBottomSheetStopContext {
     
     // MARK: - Internal methods
     
-    mutating func makeSnapshot(updatedStops: [CXBottomSheetStop]? = nil, with availableHeight: CGFloat) {
-        stops = Self.calibrateAndSort(stops: updatedStops ?? stops, availableHeight: availableHeight)
+    func makeSnapshot(stops: [CXBottomSheetStop], height: CGFloat) {
+        self.stops = stops
+        calibrate(with: height)
     }
     
-    mutating func invalidate(stop: CXBottomSheetStop) -> CXBottomSheetStop? {
+    /// Calibrate current stop context with provided height, all stops in the context will be measured and sorted
+    /// with the calculated run-time height
+    /// - Parameter height: height for measuring bottomn sheet stops
+    func calibrate(with height: CGFloat) {
+        stops = stops.map { $0.measured(with: height) }.sorted()
+        // Filter out invalid stops if needed as we might have 
+        if let upperBoundIndex = stops.firstIndex(where: { $0.isUpperBound == true }) {
+            stops = Array(stops[0 ... upperBoundIndex])
+        }
+    }
+    
+    /// Invalidate current stop with a new stop, if the stops are same, then the operation will be ignored,
+    /// otherwise, the invalidated stop will be populated
+    /// - Parameter stop: new bottom sheet stop for current
+    /// - Returns: the invalidated bottom sheet
+    func invalidate(with stop: CXBottomSheetStop) -> CXBottomSheetStop? {
         guard self.stop != stop else {
             return nil
         }
-        let invalidatedStop = stop
-        self.stop = stop
-        return invalidatedStop
+        defer {
+            self.stop = stop
+        }
+        return self.stop
     }
     
-    func canMove(to stop: CXBottomSheetStop, distinct: Bool) -> Bool {
-        return isValidate(stop: stop) && (distinct || isCurrent(stop: stop))
-    }
-    
-    func calibrate(stop: CXBottomSheetStop) -> CXBottomSheetStop {
-        return stops.contains(stop) ? stop : maxStop
+    /// Check if bottom sheet can move to given stop, a bottom sheet stop is considered valid
+    /// for moving only 1. it is in the stop context `stops`, or it is `closed`
+    /// - Parameters:
+    ///   - stop: A stop that bottom sheet wants to move to
+    ///   - distinct: if it is a distinct move, then the check of comparing given stop with current stop can be waived
+    /// - Returns: if it is valid to move to given stop
+    func canMove(to stop: CXBottomSheetStop, distinct: Bool = true) -> Bool {
+        return isValidate(stop: stop) && (!distinct || (self.stop != stop))
     }
     
     // MARK: - Private methods
@@ -69,27 +92,22 @@ public struct CXBottomSheetStopContext {
     private func isValidate(stop: CXBottomSheetStop) -> Bool {
         return stop == .closed || stops.contains(stop)
     }
-    
-    private func isCurrent(stop: CXBottomSheetStop) -> Bool {
-        return stop == stop
-    }
-    
-    private static func calibrateAndSort(stops: [CXBottomSheetStop], availableHeight: CGFloat) -> [CXBottomSheetStop] {
-        guard let upperBound = stops.last(where: { $0.isUpperBound }) else {
-            return sort(stops: stops, with: availableHeight)
-        }
-        let upperBoundHeight = upperBound.makeHeight(with: availableHeight)
-        let calibratedStops = stops.filter { $0.makeHeight(with: availableHeight) <= upperBoundHeight }
-        return sort(stops: calibratedStops, with: availableHeight)
-    }
-    
-    private static func sort(stops: [CXBottomSheetStop], with availableHeight: CGFloat) -> [CXBottomSheetStop] {
-        return stops.sorted { CXBottomSheetStop.compare(lhs: $0, rhs: $1, with: availableHeight) == .orderedAscending }
-    }
 }
 
 public extension CXBottomSheetStopContext {
     static var `default`: CXBottomSheetStopContext {
         CXBottomSheetStopContext(stops: [.closed])
+    }
+}
+
+// MARK: - NSCopying
+
+extension CXBottomSheetStopContext: NSCopying {
+    var asCopy: CXBottomSheetStopContext {
+        return copy() as? CXBottomSheetStopContext ?? self
+    }
+    
+    public func copy(with zone: NSZone? = nil) -> Any {
+        return CXBottomSheetStopContext(stops: stops, stop: stop)
     }
 }

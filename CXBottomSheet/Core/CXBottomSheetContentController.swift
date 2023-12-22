@@ -21,8 +21,8 @@ final class CXBottomSheetContentController: UINavigationController {
     
     // MARK: - Initializer
     
-    convenience init(with content: CXBottomSheetContentProtocol?) {
-        if let content = content {
+    convenience init(with content: CXBottomSheetContentProtocol? = nil) {
+        if let content {
             self.init(rootViewController: content)
         } else {
             self.init()

@@ -9,9 +9,11 @@ import UIKit
 import CXBottomSheet
 import SnapKit
 
-class BottomSheetExampleSimpleContentViewController: UIViewController, CXBottomSheetContentProtocol {
+class BottomSheetExampleSimpleContentViewController: CXBottomSheetBaseContent {
     
-    var bottomSheet: CXBottomSheetProtocol?
+    override var stopContext: CXBottomSheetStopContext? {
+        CXBottomSheetStopContext(stops: [.percentage(0.15), .half, .full], stop: .half)
+    }
     
     // MARK: - Private properties
     
@@ -19,7 +21,7 @@ class BottomSheetExampleSimpleContentViewController: UIViewController, CXBottomS
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .headline)
-        label.numberOfLines = 1
+        label.numberOfLines = 0
         return label
     }()
     
@@ -33,14 +35,12 @@ class BottomSheetExampleSimpleContentViewController: UIViewController, CXBottomS
         view.addSubview(label)
         label.snp.makeConstraints { make in
             make.center.equalTo(view)
+            make.leading.greaterThanOrEqualTo(view.snp.leading)
+            make.trailing.lessThanOrEqualTo(view.snp.trailing)
         }
     }
     
     func bottomSheet(didMove bottomSheet: CXBottomSheetProtocol, fromStop: CXBottomSheetStop, toStop: CXBottomSheetStop) {
-        guard let availableHeight = bottomSheet.delegate?.bottomSheet(availableHeightFor: bottomSheet) else {
-            return
-        }
-        label.text = String.init(format: "Current height: %.2f", arguments: [toStop.makeHeight(with: availableHeight)])
+        label.text = "Did move \nFrom stop: \(fromStop.type) \nTo stop: \(toStop.type)"
     }
-    
 }

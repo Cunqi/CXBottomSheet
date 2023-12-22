@@ -9,21 +9,20 @@ import UIKit
 import CXBottomSheet
 import SnapKit
 
-class BottomSheetExampleMapContentViewController: UIViewController, CXBottomSheetContentProtocol {
+class BottomSheetExampleMapContentViewController: CXBottomSheetBaseContent {
     
-    var bottomSheet: CXBottomSheetProtocol?
+    // MARK: - Internal properties
     
-    // MARK: - Private properties
+    override var stopContext: CXBottomSheetStopContext? {
+        let stops: [CXBottomSheetStop] = [.closed, .percentage(0.15), .half, .full]
+        return CXBottomSheetStopContext(stops: stops, stop: .half)
+    }
     
     // MARK: - Lifecycles
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = .secondarySystemGroupedBackground
-    }
-    
-    func bottomSheet(didMove bottomSheet: CXBottomSheetProtocol, fromStop: CXBottomSheetStop, toStop: CXBottomSheetStop) {
     }
     
 }

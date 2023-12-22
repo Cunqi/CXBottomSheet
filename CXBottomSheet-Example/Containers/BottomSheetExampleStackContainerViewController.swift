@@ -22,17 +22,9 @@ class BottomSheetExampleStackContainerViewController: UIViewController {
     }()
     
     private lazy var bottomSheet: CXBottomSheetController = {
-        let bottomSheet = CXBottomSheetController(content: content, delegate: self)
+        let bottomSheet = CXBottomSheetController(content: content)
         bottomSheet.coordinator = BottomSheetCoordinator(scrollContext: .init(scrollSensitiveLevel: .ultra))
         return bottomSheet
-    }()
-    
-    private lazy var monitorWindow: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .clear
-        view.isUserInteractionEnabled = false
-        return view
     }()
     
     private let content: CXBottomSheetContentProtocol
@@ -59,31 +51,18 @@ class BottomSheetExampleStackContainerViewController: UIViewController {
         view.backgroundColor = .systemBackground
         
         setupViewsAndLayoutConstraints()
-        bottomSheet.move(to: bottomSheet.minStop, animated: false)
         
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyboardWillShow(notification:)),
             name: UIResponder.keyboardWillShowNotification,
             object: nil)
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillHide(notification:)),
-            name: UIResponder.keyboardWillHideNotification,
-            object: nil)
-        
-        bottomSheet.startObservingSizeChange(on: monitorWindow)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        bottomSheet.stopObservingSizeChange()
     }
     
     // MARK: - Private methods
     
     private func setupViewsAndLayoutConstraints() {
-        [introductionLabel, bottomSheet.view, monitorWindow].forEach { view.addSubview($0) }
+        [introductionLabel, bottomSheet.container].forEach { view.addSubview($0) }
         addChild(bottomSheet)
         bottomSheet.didMove(toParent: self)
         
@@ -92,21 +71,10 @@ class BottomSheetExampleStackContainerViewController: UIViewController {
             make.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide)
         }
         
-        monitorWindow.snp.makeConstraints { make in
+        bottomSheet.container.snp.makeConstraints { make in
             make.leading.trailing.top.equalTo(view.safeAreaLayoutGuide)
             make.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
         }
-        
-        bottomSheet.view.snp.makeConstraints { make in
-            make.leading.trailing.equalTo(view.safeAreaLayoutGuide)
-            make.bottom.equalTo(monitorWindow)
-        }
-    }
-}
-
-extension BottomSheetExampleStackContainerViewController: CXBottomSheetDelegate {
-    func bottomSheet(availableHeightFor bottomSheet: CXBottomSheet.CXBottomSheetProtocol) -> CGFloat {
-        return monitorWindow.bounds.height
     }
 }
 
@@ -116,7 +84,6 @@ extension BottomSheetExampleStackContainerViewController {
         guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
             return
         }
-        keyboardHeight = keyboardFrame.cgRectValue.height
         
         guard let keyboardAnimationDuration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double,
               let keyboardAnimationCurve = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? Int,
@@ -125,11 +92,6 @@ extension BottomSheetExampleStackContainerViewController {
         }
         let animator = UIViewPropertyAnimator(duration: keyboardAnimationDuration, curve: keyboardCurve)
         bottomSheet.move(to: bottomSheet.minStop, animator: animator)
-    }
-    
-    @objc
-    private func keyboardWillHide(notification: Notification) {
-        keyboardHeight = 0
     }
 }
 
